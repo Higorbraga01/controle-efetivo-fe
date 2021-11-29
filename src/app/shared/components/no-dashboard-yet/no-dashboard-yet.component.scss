@@ -1,0 +1,33 @@
+:host {
+  .wrapper {
+    display: flex;
+    width: 100vw;
+    height: calc(100vh - 11rem);
+    margin-bottom: -5.5rem;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 35%;
+    }
+
+    .text-wrapper {
+      max-width: 40rem;
+
+      h2,
+      p {
+        margin-left: 4rem;
+        font-weight: bold;
+        font-size: 4rem;
+        text-transform: uppercase;
+        color: var(--grey);
+      }
+
+      h2 {
+        font-size: 6rem;
+        color: var(--light-grey);
+        margin-bottom: 1rem;
+      }
+    }
+  }
+}

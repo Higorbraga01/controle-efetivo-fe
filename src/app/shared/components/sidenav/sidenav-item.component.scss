@@ -1,0 +1,25 @@
+.c-sidenav-item {
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 0.857rem;
+  background: rgba(196, 196, 196, 0.2);
+  border-radius: 4px;
+  transition: all 150ms ease-in-out;
+  user-select: none;
+
+  &:hover {
+    background: rgba(196, 196, 196, 0.5);
+  }
+
+  &--disabled {
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .c-sidenav-item__anchor {
+    width: 100%;
+    text-align: center;
+  }
+}

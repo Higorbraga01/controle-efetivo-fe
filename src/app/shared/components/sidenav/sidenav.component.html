@@ -1,0 +1,38 @@
+<aside
+  [ngClass]="{
+    'l-sidenav-wrapper': true,
+    'l-sidenav-wrapper--show': !_isHidden
+  }"
+  class="l-sidenav-wrapper"
+  shrdClickOutside
+  (clickOutside)="_isHidden = true"
+>
+  <div class="l-sidenav p-3">
+    <button class="l-sidenav__btn" (click)="toggleNav()">
+      <div class="flex justify-content-end"><i class="pi pi-chevron-right"></i>
+      </div>
+    </button>
+    <nav>
+      <ul>
+        <shrd-sidenav-item (click)="toggleNav()" href="#">
+          Botão 01
+        </shrd-sidenav-item>
+        <shrd-sidenav-item (click)="toggleNav()" href="#">
+          Botão 02
+        </shrd-sidenav-item>
+        <shrd-sidenav-item (click)="toggleNav()" href="#">
+          Botão 03
+        </shrd-sidenav-item>
+        <shrd-sidenav-item (click)="toggleNav()" href="#">
+          Botão 04
+        </shrd-sidenav-item>
+        <shrd-sidenav-item (click)="toggleNav()" href="#">
+          Botão 05
+        </shrd-sidenav-item>
+        <!-- <shrd-sidenav-item (click)="toggleNav()" href="#" [routerLink]="['/pag06']">
+          Botão 06
+        </shrd-sidenav-item> -->
+      </ul>
+    </nav>
+  </div>
+</aside>

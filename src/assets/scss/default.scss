@@ -1,0 +1,85 @@
+@charset "UTF-8";
+
+@import './colors.scss';
+@import './fonts.scss';
+@import './prime.scss';
+
+$default-background-color: #fafafa !default;
+
+@mixin setup-styles($background: $default-background-color) {
+  html {
+    // Colors
+    --primary: #{$primary};
+    --secondary: #{$secondary};
+    --tertiary: #{$tertiary};
+    --white: #{$white};
+    --black: #{$black};
+    --grey: #{$grey};
+    --light-grey: #{$light-grey};
+    --lighter-grey: #{$lighter-grey};
+    --border-grey: #{$border-grey};
+    --error: #{$error};
+    --success: #{$success};
+    --alert: #{$alert};
+    --info: #{$info};
+
+    // Spacing
+    --gutter: #{$gutter};
+    --spacer: #{$spacer};
+
+    // In most web browsers, 16px is the default font-size value
+    // So, 'font-size: 87.5%' is eq to 'font-size: 14px', but respecting the user navigator font-size scale
+    // Now, '1rem' is eq to '14px'
+    font-size: 87.5%;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100vw;
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Cabin';
+      font-size: 1rem; // Let's define the default font-size to 14px
+      color: $black;
+      width: 100vw;
+
+      background-color: $background;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    &,
+    * {
+      box-sizing: border-box;
+    }
+
+    label {
+      font-size: 0.85714rem;
+      color: var(--grey);
+    }
+
+    input {
+      width: 100%;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin: 0;
+      padding: 0;
+    }
+
+    h3 {
+      font-size: 1.285715rem;
+    }
+  }
+}
+
+@include setup-styles();

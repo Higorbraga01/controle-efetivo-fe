@@ -1,0 +1,39 @@
+:host {
+  display: block;
+  height: calc(100vh - 2 * 5.5rem);
+
+  > div:last-child {
+    height: 100%;
+  }
+
+  .c-not-allowed-page {
+    .c-not-allowed-page__e-img {
+      width: 31.7rem;
+      margin-bottom: 4.6rem;
+      margin-top: -3rem;
+    }
+
+    .c-text-wrapper {
+      max-width: 64rem;
+
+      h2 {
+        font-weight: bold;
+        font-size: 5rem;
+        text-transform: uppercase;
+        color: var(--light-grey);
+        text-align: center;
+        line-height: 7.3rem;
+        margin-bottom: 2.1rem;
+      }
+
+      p {
+        font-weight: bold;
+        font-size: 3rem;
+        text-transform: uppercase;
+        color: var(--grey);
+        text-align: center;
+        line-height: 4.9rem;
+      }
+    }
+  }
+}

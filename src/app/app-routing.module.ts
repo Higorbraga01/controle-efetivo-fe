@@ -8,13 +8,20 @@ import { NotAllowedComponent } from './shared/components/not-allowed/not-allowed
 const routes: Routes = [
   {
     path: '',
-    //Keycloak
-    //canActivate: [AuthGuard],
-    //canActivateChild: [AuthGuard],
+    // canActivate: [AuthGuard],
+    // canActivateChild: [AuthGuard],
     loadChildren: () =>
       import('./dashboard/dashboard.module').then(
         (m) => m.DashboardModule
       ),
+  },
+  {
+    path: 'gerenciamento',
+    // canActivate: [AuthGuard],
+    // canActivateChild: [AuthGuard],
+    loadChildren: () =>
+      import('./modules/gerenciamento-efetivo/gerenciamento-efetivo.module')
+        .then((m) => m.GerenciamentoEfetivoModule)
   },
 
   { path: '403', component: NotAllowedComponent },
@@ -28,6 +35,7 @@ const routes: Routes = [
     },
   },
   { path: '404', component: NotFoundComponent },
+
 ];
 
 @NgModule({

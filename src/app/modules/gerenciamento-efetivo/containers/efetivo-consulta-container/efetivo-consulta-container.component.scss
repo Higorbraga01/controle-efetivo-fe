@@ -1,0 +1,77 @@
+.tag {
+  font-size: 0.857143rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  background: var(--light-grey);
+  color: var(--black);
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+}
+
+.emptyTableMessage {
+  font-weight: bold;
+  opacity: 50%;
+}
+
+:host {
+  display: block;
+
+  section.l-finor-consulta-container {
+    header {
+      overflow: hidden;
+
+      div.l-finor-consulta-container__header {
+        background-color: var(--lighter-grey);
+        border-bottom: 1px solid var(--light-grey);
+        width: 100%;
+
+        .l-finor-consulta-container__title-wrapper {
+          h2.l-finor-consulta-container__title {
+            font-weight: 600;
+            font-size: 2rem;
+            text-transform: uppercase;
+            margin: 0;
+            padding-left: 60px;
+          }
+          min-height: 4.5rem;
+        }
+      }
+    }
+
+    section.l-finor-consulta-container__body {
+      position: relative;
+
+      &::before {
+        content: " ";
+        position: absolute;
+        display: block;
+        top: var(--gutter);
+        left: 0;
+        width: 100%;
+        height: 38px;
+        background-color: var(--lighter-grey);
+        border-bottom: 1px solid var(--light-grey);
+      }
+
+      .l-finor-consulta-container__tab-header {
+        .l-finor-consulta-container__tab-header-title,
+        .l-finor-consulta-container__tab-header-step {
+          display: block;
+        }
+
+        .l-finor-consulta-container__tab-header-step {
+          display: block;
+          font-size: 0.857143rem;
+          line-height: 0.857143rem;
+
+          height: 1.29rem;
+          width: 1.29rem;
+
+          background: var(--primary);
+          border-radius: 50%;
+          color: var(--white);
+        }
+      }
+    }
+  }
+}

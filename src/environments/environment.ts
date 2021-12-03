@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  BASE_API_URL:  'http://localhost:8080/',
+  BASE_API_URL:  'http://localhost:8080/api',
   KEYCLOAK_URL: 'http://localhost:8190/auth',
   KEYCLOAK_REALM: 'FAB',
   KEYCLOAK_CLIENT_ID: 'controle-efetivo-fe',

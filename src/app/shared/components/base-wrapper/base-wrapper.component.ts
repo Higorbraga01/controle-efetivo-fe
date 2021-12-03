@@ -91,45 +91,45 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
    * with 5 minutes left to expire
    */
   refreshTokenTime(): void {
-    if (
-      !this.tokenDuration ||
-      Math.round(this.tokenDuration.asMinutes()) <= 35
-    ) {
-      this.keycloak.updateToken(-1).then((refreshed) => {
-        if (refreshed) {
-          const kc = this.keycloak.getKeycloakInstance();
+    // if (
+    //   !this.tokenDuration ||
+    //   Math.round(this.tokenDuration.asMinutes()) <= 35
+    // ) {
+    //   this.keycloak.updateToken(-1).then((refreshed) => {
+    //     if (refreshed) {
+    //       const kc = this.keycloak.getKeycloakInstance();
 
-          moment.locale('pt-br');
-          const currentTime = moment().unix();
+    //       moment.locale('pt-br');
+    //       const currentTime = moment().unix();
 
-          const diffTime = kc.tokenParsed.exp + kc.timeSkew - currentTime;
-          const interval = 1000;
+    //       const diffTime = kc.tokenParsed.exp + kc.timeSkew - currentTime;
+    //       const interval = 1000;
 
-          this.tokenDuration = moment.duration(diffTime, 's');
+    //       this.tokenDuration = moment.duration(diffTime, 's');
 
-          if (diffTime > 0) {
-            if (this._sessionInterval) {
-              clearInterval(this._sessionInterval);
-            }
+    //       if (diffTime > 0) {
+    //         if (this._sessionInterval) {
+    //           clearInterval(this._sessionInterval);
+    //         }
 
-            this._sessionInterval = setInterval(() => {
-              if (this.keycloak.isTokenExpired()) {
-                this.handleLogout();
-              }
+    //         this._sessionInterval = setInterval(() => {
+    //           if (this.keycloak.isTokenExpired()) {
+    //             this.handleLogout();
+    //           }
 
-              this.tokenDuration = moment.duration(
-                this.tokenDuration.asMilliseconds() - interval,
-                'ms'
-              );
-            }, interval);
-          }
-        }
-      });
-    }
+    //           this.tokenDuration = moment.duration(
+    //             this.tokenDuration.asMilliseconds() - interval,
+    //             'ms'
+    //           );
+    //         }, interval);
+    //       }
+    //     }
+    //   });
+    // }
   }
 
   @HostListener('document:click')
   handleOutsideClick(el: HTMLElement) {
-    this.refreshTokenTime();
+    // this.refreshTokenTime();
   }
 }

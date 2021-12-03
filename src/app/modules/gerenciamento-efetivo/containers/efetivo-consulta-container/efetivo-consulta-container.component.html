@@ -1,0 +1,208 @@
+<section class="l-finor-consulta-container">
+  <header>
+    <div class="l-finor-consulta-container__header">
+      <div class="l-main-grid">
+        <div class="col-12 xl-10 xl-offset-1">
+          <p-breadcrumb
+            [model]="_breadcrumbItems"
+            [home]="_home"
+            styleClass="mt-3"
+            (onItemClick)="handleBreadcrumbClick($event)"
+          ></p-breadcrumb>
+        </div>
+      <div class="
+          l-finor-consulta-container__title-wrapper
+          col-12 xl-10 xl-offset-1 flex
+        "
+      >
+        <h2 class="l-finor-consulta-container__title ml-3">
+          Listagem Efetivo
+        </h2>
+      </div>
+    </div>
+  </div>
+  </header>
+  <div class="l-main-grid">
+    <p-card styleClass="mt-3 p-reset">
+      <p-toolbar styleClass="mb-2">
+        <form [formGroup]="form">
+          <div class="p-toolbar-group-left">
+            <div class="mr-5">
+              <p-autoComplete
+                field="label"
+                [suggestions]="pessoas"
+                (onClear)="searchPessoas({})"
+                emptyMessage="Pessoa não encontrado"
+                (completeMethod)="searchPessoas($event)"
+                [dropdown]="true"
+                formControlName="pessoa"
+                [minLength]="3"
+                [placeholder]="'Filtrar por Pessoa'"
+                pTooltip="Digite o CPF ou nome"
+              >
+                <ng-template let-pessoas pTemplate="item">
+                  <div class="dropdown-item-container">
+                    <span style="font-weight: bolder; font-size: 1.2rem">{{
+                      pessoas.label
+                    }}</span>
+                    <br />
+                    <span style="font-size: 1rem">{{ pessoas.title }}</span>
+                  </div>
+                </ng-template>
+              </p-autoComplete>
+            </div>
+          </div>
+        </form>
+        <div class="p-toolbar-group-right">
+          <button
+            style="margin-right: 0.5rem"
+            pRipple
+            pButton
+            class="p-button-sm"
+            label="LIMPAR"
+            icon="pi pi-replay"
+            (click)="onClear()"
+          ></button>
+          <button
+            style="margin-right: 0.5rem"
+            pRipple
+            pButton
+            class="p-button-sm"
+            label="FILTRAR"
+            icon="pi pi-filter"
+            (click)="listHabilitacoesCadastradas({ first: 0, rows: 10 })"
+          ></button>
+          <button
+            [routerLink]="'cadastro'"
+            pButton
+            pRipple
+            class="p-button-sm"
+            label="CADASTRAR HABILITAÇÃO"
+            icon="pi pi-plus"
+          ></button>
+        </div>
+      </p-toolbar>
+
+      <p-table
+        #tablepessoaInstrutores
+        [value]="pessoasList"
+        (onLazyLoad)="listHabilitacoesCadastradas($event)"
+        [lazy]="true"
+        [rowHover]="true"
+        [showCurrentPageReport]="true"
+        [paginator]="true"
+        [loading]="loadingData"
+        [showLoader]="false"
+        [rows]="5"
+        [totalRecords]="totalRecords"
+        [rowsPerPageOptions]="[5, 10, 20, 30]"
+        currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} registros"
+        styleClass="p-datatable-gridlines p-datatable-striped  p-datatable-sm-custom"
+      >
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td [attr.colspan]="8">Nenhum dado encontrado</td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="p-text-center">Curso</th>
+            <th class="p-text-center">Instrutor</th>
+            <th class="p-text-center" pSortableColumn="dtInicio">
+              Data início
+              <p-sortIcon field="dtInicio"></p-sortIcon>
+            </th>
+            <th class="p-text-center" pSortableColumn="dtTermino">
+              Data Termino
+              <p-sortIcon field="dtTermino"></p-sortIcon>
+            </th>
+            <th class="p-text-center" pSortableColumn="qualificacao">
+              Qualificação
+              <p-sortIcon field="qualificacao"></p-sortIcon>
+            </th>
+            <th class="p-text-center" pSortableColumn="disciplinas">
+              Disciplinas
+              <p-sortIcon field="disciplinas"></p-sortIcon>
+            </th>
+            <th class="p-text-center" pSortableColumn="status">
+              Status
+              <p-sortIcon field="status"></p-sortIcon>
+            </th>
+            <th class="p-text-center">Ações</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-pessoa>
+          <tr>
+            <td class="p-text-center">
+              {{ pessoa?.nomePessoa }} ({{ pessoa?.nomeGuerra }})
+            </td>
+            <td class="p-text-center">
+              {{ pessoa?.graduacao }}
+              {{ pessoa?.quadro }}
+              {{ pessoa?.numeroCpf }}
+              ({{ pessoa?.numeroSaram }})
+            </td>
+            <td class="p-text-center">
+              {{ pessoa?.dataPraca | date: "dd/MM/yyyy" }}
+            </td>
+            <td class="p-text-center">
+              {{
+                pessoa.dataNascimento
+                  ? (pessoa?.dataNascimento | date: "dd/MM/yyyy")
+                  : "-"
+              }}
+            </td>
+            <td class="p-text-center">
+              {{ pessoa?.cargoSetor ? pessoa?.cargoSetor : "-" }}
+            </td>
+            <td class="p-text-center">
+              {{ pessoa?.nomeSetor ? pessoa?.nomeSetor : "-" }}
+            </td>
+            <td class="p-text-center">
+              {{ pessoa.nomeDivisao }}
+            </td>
+            <td class="p-text-center">
+              <div class="flex p-jc-center align-items-center">
+                <p-splitButton
+                  label="Ações"
+                  [model]="menuItems"
+                  (onDropdownClick)="onDropdownClick($event, pessoa)"
+                >
+                </p-splitButton>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="loadingbody">
+          <tr *ngFor="let row of fakeArrayRows">
+            <td *ngFor="let col of fakeArrayColumns">
+              <p-skeleton> </p-skeleton>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
+<!-- 
+  <p-confirmDialog #cd header="Confirmação" icon="pi pi-exclamation-triangle">
+    <p-footer>
+      <button
+        type="button"
+        class="p-button-danger"
+        pButton
+        icon="pi pi-times"
+        label="Não"
+        (click)="cd.reject()"
+      ></button>
+      <button
+        type="button"
+        pButton
+        icon="pi pi-check"
+        label="Sim"
+        (click)="cd.accept()"
+      ></button>
+    </p-footer>
+  </p-confirmDialog> -->
+</section>

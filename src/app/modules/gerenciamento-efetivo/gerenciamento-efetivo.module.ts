@@ -29,6 +29,8 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { PickListModule } from 'primeng/picklist';
 import { DropdownModule } from 'primeng/dropdown';
 import { EfetivoCadastroContainerComponent } from './containers/efetivo-cadastro-container/efetivo-cadastro-container.component';
+import {RadioButtonModule} from 'primeng/radiobutton';
+
 
 
 @NgModule({
@@ -63,7 +65,8 @@ import { EfetivoCadastroContainerComponent } from './containers/efetivo-cadastro
     DropdownModule,
     TriStateCheckboxModule,
     TabMenuModule,
-    BreadcrumbModule
+    BreadcrumbModule,
+    RadioButtonModule
   ]
 })
 export class GerenciamentoEfetivoModule { }

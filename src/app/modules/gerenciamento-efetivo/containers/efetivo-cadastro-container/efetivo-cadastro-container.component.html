@@ -1,138 +1,213 @@
 <section class="l-finor-cadastro-container" xmlns="http://www.w3.org/1999/html">
-    <header>
-      <div class="l-finor-cadastro-container__header">
-        <div class="p-grid l-main-grid">
-          <div class="p-col-12 p-xl-10 p-xl-offset-1">
+  <header>
+    <div class="l-finor-cadastro-container__header">
+      <div class="grid l-main-grid">
+        <div class="col-12 xl-10 col-offset-1"></div>
+        <div
+          class="
+            l-finor-cadastro-container__title-wrapper
+            col-12
+            xl-10
+            col-offset-1
+            flex
+            align-items-center
+            justify-content-between
+            mb-3
+          "
+        >
+          <div>
+            <h2 class="l-finor-cadastro-container__title ml-3">
+            Pessoa -
+            </h2>
+            <h2 class="l-finor-cadastro-container__title ml-3">
+              {{ id ? "Editar " : "Criar " }}
+            </h2>
           </div>
-          <div
-            class="l-finor-cadastro-container__title-wrapper p-col-12 p-xl-10 p-xl-offset-1 p-d-flex p-ai-center p-jc-between p-mb-3">
-            <div>
-              <h2 class="l-finor-cadastro-container__title p-ml-3">
-                Área de Planejamento -
-              </h2>
-              <h2
-                class="l-finor-cadastro-container__title p-ml-3">
-                {{id ? 'Editar ' : 'Criar '}}
-              </h2>
-            </div>
-            <div>
-              <p-button
-                label="VOLTAR"
-                icon="pi pi-directions-alt"
-                [routerLink]="'/area'"
-                styleClass="p-button-outlined p-button-secondary p-mr-3"
-              ></p-button>
-  
-              <p-button
-                label="LIMPAR CAMPOS"
-                (click)="resetForms()"
-                icon="pi pi-undo"
-                styleClass="p-button-outlined p-button-secondary p-mr-3"
-              ></p-button>
-              <p-button
-                [label]="'SALVAR'"
-                icon="pi pi-save"
-                (click)="saveArea()"
-                [disabled]="form.invalid"
-              ></p-button>
-            </div>
+          <div>
+            <p-button
+              label="VOLTAR"
+              icon="pi pi-directions-alt"
+              [routerLink]="'/area'"
+              styleClass="p-button-outlined p-button-secondary mr-3"
+            ></p-button>
+
+            <p-button
+              label="LIMPAR d"
+              (click)="resetForms()"
+              icon="pi pi-undo"
+              styleClass="p-button-outlined p-button-secondary mr-3"
+            ></p-button>
+            <p-button
+              [label]="'SALVAR'"
+              icon="pi pi-save"
+              (click)="saveArea()"
+              [disabled]="form.invalid"
+            ></p-button>
           </div>
         </div>
       </div>
-    </header>
-    <div class="p-grid l-main-grid">
-      <div class="p-col-12 p-xl-10 p-xl-offset-1">
-        <p-tabView>
-          <p-tabPanel>
-            <ng-template pTemplate="header">
-              <div class="l-finor-cadastro-container__tab-header p-d-flex">
-                  <span
-                    class="l-finor-cadastro-container__tab-header-step p-mr-2 p-d-flex p-ai-center p-jc-center"
-                  >
-                    1 -
-                  </span>
-                <span class="l-finor-cadastro-container__tab-header-title">
-                    Cadastro
-                  </span>
-              </div>
-            </ng-template>
-            <div class="p-mt-3 p-mb-2">
-              <p-card>
-                <form [formGroup]="form" class="p-fluid p-formgrid p-grid">
-                  <div class="p-field p-col-6">
-                    <label>Sigla</label>
-                    <input
-                      formControlName="sigla"
-                      id='sigla'
-                      type="text" pInputText/>
-                    <small class="p-invalid" *ngIf="
-                      form.get('sigla').invalid &&
-                    form.get('sigla').touched">
-                      Digite uma sigla
-                    </small>
-                  </div>
-                  <div class="p-field p-col-6">
-                    <label>Nome</label>
-                    <input
-                      formControlName="nome"
-                      type="text"
-                      pInputText/>
-                    <small class="p-invalid" *ngIf="
-                      form.get('nome').invalid &&
-                    form.get('nome').touched">
-                      Digite um nome
-                    </small>
-                  </div>
-                  <div class="p-field p-col-4">
-                    <label>Área Pai</label>
-                    <p-autoComplete field="label" [suggestions]="area"
-                                    formControlName="area"
-                                    emptyMessage="Área não encontrada" (completeMethod)="searchArea($event)"
-                                    [dropdown]="true"
-                                    [minLength]="3" [placeholder]="'Selecione uma Área'">
-                      <ng-template let-areaPai pTemplate="item">
-                        <div class="dropdown-item-container">
-                          <span style="font-weight: bolder; font-size: 1.2rem">{{areaPai.label}}</span>
-                          <br>
-                          <span style="font-size: 1.0rem;">{{areaPai.title}}</span>
-                        </div>
-                      </ng-template>
-                    </p-autoComplete>
-                    <br>
-                  </div>
-                  <div class="p-field p-col-12">
-                    <h1>Cursos da Área :</h1>
-                    <br>
-                    <label>Filtrar Cursos</label>
-                    <p-autoComplete field="label"
-                                    (onClear)="buscarCursos($event)"
-                                    (completeMethod)="buscarCursos($event)"
-                                    [minLength]="2" [placeholder]="'Digite o nome ou código do curso'">
-                    </p-autoComplete>
-                  </div>
-                  <div class="p-field p-col-12">
-                    <p-pickList [source]="cursoList" [target]="cursoSelecionados"
-                                [showSourceControls]="false" [showTargetControls]="false"
-                                (onMoveToSource)="onMoveToSource($event)"
-                                (onMoveToTarget)="onMoveToTarget($event)"
-                                sourceHeader="Cursos" targetHeader="Cursos Selecionados"
-                               
-                                (onSourceFilter)="buscarCursos($event)"
-                                [sourceStyle]="{'height':'300px'}"
-                                [targetStyle]="{'height':'300px'}">
-                      <ng-template let-cursos pTemplate="item">
-                        <div>
-                          <div><b>{{cursos.codigo}}</b> - {{cursos.nome}} </div>
-                        </div>
-                      </ng-template>
-                    </p-pickList>
-                  </div>
-  
-                </form>
-              </p-card>
-            </div>
-          </p-tabPanel>
-        </p-tabView>
-      </div>
     </div>
-  </section>
+  </header>
+  <div class="grid l-main-grid">
+    <div class="col-12 xl-10 col-offset-1">
+      <p-tabView>
+        <p-tabPanel>
+          <ng-template pTemplate="header">
+            <div class="l-finor-cadastro-container__tab-header flex">
+              <span
+                class="
+                  l-finor-cadastro-container__tab-header-step
+                  mr-2
+                  flex
+                  align-items-center
+                  justify-content-center
+                "
+              >
+                1 -
+              </span>
+              <span class="l-finor-cadastro-container__tab-header-title">
+                Cadastro
+              </span>
+            </div>
+          </ng-template>
+          <div class="mt-3 mb-2">
+            <p-card>
+              <form [formGroup]="form" class="fluid formgrid grid">
+                <div class="p-input-filled col-6">
+                  <label >Nome completo</label>
+                  <input
+                    formControlName="nomePessoa"
+                    id="sigla"
+                    type="text"
+                    pInputText
+                  />
+                  <small
+                    class="p-invalid"
+                    *ngIf="
+                      form.get('nomePessoa').invalid && form.get('nomePessoa').touched
+                    "
+                  >
+                    Digite o nome completo
+                  </small>
+                </div>
+                <div class="p-input-filled col-6">
+                  <label>Nome de guerra</label>
+                  <input formControlName="nomeGuerra" type="text" pInputText />
+                  <small
+                    class="p-invalid"
+                    *ngIf="form.get('nomeGuerra').invalid && form.get('nomeGuerra').touched"
+                  >
+                    Digite o nome de guerra
+                  </small>
+                </div>
+                <div class="p-input-filled col-6">
+                  <label>Graduação</label>
+                  <input
+                    formControlName="graduacao"
+                    id="sigla"
+                    type="text"
+                    pInputText
+                  />
+                  <small
+                    class="p-invalid"
+                    *ngIf="
+                      form.get('nomeGuerra').invalid && form.get('nomeGuerra').touched
+                    "
+                  >
+                    Digite a graducao
+                  </small>
+                </div>
+                <div class="p-input-filled col-6">
+                  <label>Quadro</label>
+                  <input formControlName="quadro" type="text" pInputText class="p-input-filled" />
+                  <small
+                    class="p-invalid"
+                    *ngIf="form.get('quadro').invalid && form.get('quadro').touched"
+                  >
+                    Digite um quadro
+                  </small>
+                </div>
+                <div class="p-field col-6" align-itens->
+                  <label>Situação ?</label>
+                  <div class="p-0">
+                  <div class="col-3 mb-1">
+                  <p-radioButton label="Ativa" value="S" formControlName="statusReserva"></p-radioButton>
+                  </div> 
+                  <div class="col-3 mb-1">
+                  <p-radioButton label="Reserva" value="N" formControlName="statusReserva"></p-radioButton>
+                  </div>
+                </div>
+                </div>
+                <div class="col-6 flex justify-content-end p-0">
+                <div class="p-input-filled col-3">
+                  <label>Data Praça</label>
+                  <br />
+                  <p-calendar 
+                  formControlName="dataApresentacao">
+                  </p-calendar>
+                </div>
+                <div class="p-input-filled col-3">
+                  <label>Data Apresentação</label>
+                  <br />
+                  <p-calendar 
+                  formControlName="dataApresentacao">
+                  </p-calendar>
+                </div>
+                </div>
+                <div class="p-input-filled col-6">
+                  <label>Especialidade</label>
+                  <input formControlName="especialidade" type="text" pInputText />
+                  <small
+                    class="p-invalid"
+                    *ngIf="form.get('especialidade').invalid && form.get('especialidade').touched"
+                  >
+                    Digite uma especilidade
+                  </small>
+                </div>
+                <div class="col-6 flex justify-content-end p-0">
+                <div class="p-input-filled col-3">
+                  <label>Data Ultima promoção</label>
+                  <br />
+                  <p-calendar 
+                  formControlName="dataApresentacao">
+                  </p-calendar>
+                </div>
+                <div class="p-input-filled col-3">
+                  <label>Data Nascimento</label>
+                  <br />
+                  <p-calendar 
+                  formControlName="dataApresentacao">
+                  </p-calendar>
+                </div>
+                </div>
+                <div class="p-input-filled col-12 mt-2">
+                  <p-pickList
+                    [source]="cursoList"
+                    [target]="cursoSelecionados"
+                    [showSourceControls]="false"
+                    [showTargetControls]="false"
+                    (onMoveToSource)="onMoveToSource($event)"
+                    (onMoveToTarget)="onMoveToTarget($event)"
+                    sourceHeader="Cursos"
+                    targetHeader="Cursos Selecionados"
+                    (onSourceFilter)="buscarCursos($event)"
+                    [sourceStyle]="{ height: '300px' }"
+                    [targetStyle]="{ height: '300px' }"
+                  >
+                    <ng-template let-cursos pTemplate="item">
+                      <div>
+                        <div>
+                          <b>{{ cursos.codigo }}</b> - {{ cursos.nome }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-pickList>
+                </div>
+              </form>
+            </p-card>
+          </div>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+</section>

@@ -18,6 +18,7 @@ export class EfetivoCadastroContainerComponent implements OnInit {
   private subs$: Subscription[] = [];
   public form: FormGroup;
   public id: number;
+  public situacao: any[];
 
 
   constructor(
@@ -36,11 +37,22 @@ export class EfetivoCadastroContainerComponent implements OnInit {
 
   buildForm(): void {
     this.form = this.fb.group({
-      nome: this.fb.control(null, [Validators.required]),
-      sigla: this.fb.control(null, [Validators.required]),
-      area: this.fb.control(null),
-      cursos: this.fb.control([]),
+      nomePessoa: this.fb.control(null, [Validators.required]),
+      nomeGuerra: this.fb.control(null, [Validators.required]),
+      graduacao: this.fb.control(null),
+      quadro: this.fb.control(null),
+      statusReserva: this.fb.control([]),
+      especialidade: this.fb.control(null),
+      dataApresentacao: this.fb.control(null),
+      dataPraca: this.fb.control(null),
+      dataUltPromo: this.fb.control(null),
+      dataNascimento: this.fb.control(null)
     });
+
+    this.situacao = [
+      {name: 'Ativa', code: 'S'},
+      {name: 'Reserva', code: 'N'},
+  ];
 
     this.id = this.activitedRoute.snapshot.params['id'];
     // if (this.id) {
@@ -106,7 +118,7 @@ export class EfetivoCadastroContainerComponent implements OnInit {
   }
 
   saveArea(): void {
-    const {nome, sigla, area, idsCurso} = this.form.value;
+    console.log(this.form.value);
     // const data: AreaRequest = {
     //   nome,
     //   sigla,

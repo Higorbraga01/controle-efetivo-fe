@@ -35,10 +35,10 @@
                 emptyMessage="Pessoa não encontrado"
                 (completeMethod)="searchPessoas($event)"
                 [dropdown]="true"
-                formControlName="pessoa"
+                formControlName="nomePessoa"
                 [minLength]="3"
                 [placeholder]="'Filtrar por Pessoa'"
-                pTooltip="Digite o CPF ou nome"
+                pTooltip="Digite o nome"
               >
                 <ng-template let-pessoas pTemplate="item">
                   <div class="dropdown-item-container">
@@ -86,7 +86,6 @@
       <p-table
         #tablepessoaInstrutores
         [value]="pessoasList"
-        (onLazyLoad)="listHabilitacoesCadastradas($event)"
         [lazy]="true"
         [rowHover]="true"
         [showCurrentPageReport]="true"

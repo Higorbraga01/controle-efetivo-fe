@@ -24,7 +24,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   public pessoas: SelectItem[];
   public cursos: SelectItem[];
   public totalRecords: number;
-  public habilitacaoSelecDropdown: any;
+  public pessoaSelecDropdown: any;
   public menuItems: MenuItem[];
   public loadingData = true;
   private readonly NUMCOLUMNS = 8;
@@ -52,13 +52,11 @@ export class EfetivoConsultaContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      pessoa: this.fb.control(null),
-      curso: this.fb.control(null),
-      vigente: this.fb.control(null)
+      nomePessoa: this.fb.control(null)
     });
 
     this.dtAtual = new Date();
-    this.pessoaService.getAll().pipe().subscribe(res => this.pessoasList = res.content);
+    this.pessoaService.getAllSearch().pipe().subscribe(res => this.pessoasList = res.content);
 
     this._breadcrumbItems = [
       { label: 'Gerenciamento Efetivo', disabled: false },
@@ -78,20 +76,17 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     
     const page = { page: (event.first / event.rows) };
     const size = { size: event.rows };
-    const pessoa = { pessoaId: this.form?.value?.pessoa?.value?.id };
-    const curso = { cursoId: this.form?.value?.curso?.value?.id };
-    const status = { status: this.form?.value?.vigente ? 'VIGENTE' : null };
-
+    const pessoa = { nomePessoa: this.form?.value.nomePessoa};
     let searchObject = {};
     if (event.sortField) {
       const sort = { sort: `${event.sortField},${event.sortOrder === 1 ? 'ASC' : 'DESC'}` };
-      searchObject = Object.assign({}, pessoa, curso, status, page, size, sort);
+      searchObject = Object.assign({}, pessoa, page, size, sort);
     } else {
-      searchObject = Object.assign({}, pessoa, curso, status, page, size);
+      searchObject = Object.assign({}, pessoa,page, size);
     }
 
     this.loading.start();
-    const getPessoas$ =  this.pessoaService.getAll();
+    const getPessoas$ =  this.pessoaService.getAllSearch(searchObject).pipe(share());
     const isLoading$ = of(
       timer(200).pipe(mapTo(true), takeUntil(getPessoas$)),
       getPessoas$.pipe(mapTo(false))
@@ -102,7 +97,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
         this.loadingData = result;
       }),
       getPessoas$.subscribe((res: { content: any[]; totalElements: number; }) => {
-        this.habilitacoesInstrutoresCadastradas = res.content;
+        this.pessoasList = res.content;
         this.totalRecords = res.totalElements;
         this.loading.end();
       })
@@ -145,61 +140,41 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   }
 
   searchPessoas(event: any): void {
-    // this.subs$.push(
-    //   this.pessoaService.getAll({ filtroNomeCpfNrOrdem: event.query })
-    //     .subscribe((response: { content: any[]; }) => {
-    //       this.pessoas = response.content.map((pessoas: { siglaPosto: string; nome: string; organizacao: { sigla: string; }; siglaQuadro: string; siglaEspecialidade: string; }) => ({
-    //         label: pessoas.siglaPosto + ' / ' + pessoas.nome + ' - ' + pessoas?.organizacao?.sigla,
-    //         title: pessoas.siglaQuadro + ' / ' + pessoas.siglaEspecialidade,
-    //         value: pessoas
-    //       }));
-    //     })
-    // );
-  }
-
-  searchCursos(event: any): void {
+    console.log(event.query)
     this.subs$.push(
-      // this.facade.findAllCursos({ filtroNomeOuCodigo: event.query })
-      //   .subscribe((response: { content: any[]; }) => {
-      //     this.cursos = response.content.map((cursos: { codigo: any; nome: any; }) => ({
-      //       label: cursos.codigo,
-      //       title: cursos.nome,
-      //       value: cursos
-      //     }));
-      //   })
+      this.pessoaService.getAllSearch({ nomePessoa: event.query })
+        .subscribe((response: { content: any }) => {
+          this.pessoas = response.content.map((pessoas: { nomePessoa: string}) => ({
+            label: pessoas.nomePessoa,
+            title: pessoas.nomePessoa,
+            value: pessoas.nomePessoa
+          }));
+          console.log(this.pessoas)
+        })
     );
+
   }
 
   onClear(): void {
     this.form.reset();
-    // this.listHabilitacoesCadastradas({ first: 0, rows: this.rowsCount });
+    this.listHabilitacoesCadastradas({ first: 0, rows: this.rowsCount });
   }
 
 
   createMenuItens(): MenuItem[] {
     return [
       {
-        label: 'Encerrar Habilitação', icon: 'pi pi-check',
-        command: () => this.encerrarHabilitacao(this.habilitacaoSelecDropdown?.id),
-        disabled: this.habilitacaoSelecDropdown?.status === 'ENCERRADA',
-        // visible: this.userService?.user?.roles.includes('ROLE_crud-habilitacao-instrucao')
-      },
-      {
         label: 'Editar', icon: 'pi pi-pencil',
-        routerLink: ['/habilitacao-instrutor', 'editar', this.habilitacaoSelecDropdown?.id],
+        routerLink: ['/habilitacao-instrutor', 'editar', this.pessoaSelecDropdown?.id],
         // visible: this.userService?.user?.roles.includes('ROLE_crud-habilitacao-instrucao')
       },
       {
         label: 'Detalhe Habilitação', icon: 'pi pi-info-circle',
-        routerLink: ['/habilitacao-instrutor', 'detalhar-habilitacao', this.habilitacaoSelecDropdown?.id]
-      },
-      {
-        label: 'Ficha Instrutor', icon: 'pi pi-user',
-        routerLink: ['/habilitacao-instrutor', 'ficha-instrutor', this.habilitacaoSelecDropdown?.pessoa.id]
+        routerLink: ['/habilitacao-instrutor', 'detalhar-habilitacao', this.pessoaSelecDropdown?.id]
       },
       {
         label: 'Excluir', icon: 'pi pi-trash',
-        command: () => this.delete(this.habilitacaoSelecDropdown?.id),
+        command: () => this.delete(this.pessoaSelecDropdown?.id),
         // visible: this.userService?.user?.roles.includes('ROLE_crud-habilitacao-instrucao')
       },
     ];
@@ -214,8 +189,9 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     }
   }
 
-  onDropdownClick($event: any, habilitacao: any): void {
-    this.habilitacaoSelecDropdown = habilitacao;
+  onDropdownClick($event: any, pessoa: any): void {
+    console.log(pessoa)
+    this.pessoaSelecDropdown = pessoa;
     this.menuItems = this.createMenuItens();
   }
 

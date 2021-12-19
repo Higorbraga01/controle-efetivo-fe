@@ -26,44 +26,77 @@ export interface PessoaSearch extends BaseSearch {
 }
 
 export interface Pessoa {
-  id:                    number;
-  numeroAntiguidade:     number;
-  nomePessoa:            string;
-  nomeGuerra:            string;
-  graduacao:             string;
-  quadro:                string;
-  statusReserva:         string;
-  especialidade:         string;
-  dataApresentacao:      Date;
-  dataPraca:             Date;
-  dataUltPromo:          Date;
-  dataNascimento:        Date;
-  numeroIdentidade:      string;
-  numeroCpf:             string;
-  numeroSaram:           string;
-  cargoSetor:            string;
-  nomeSetor:             string;
-  nomeDivisao:           string;
-  nomeEndereco:          string;
-  numeroTelefone:        string;
-  numeroTitulo:          string;
-  numeroTituloZona:      string;
-  numeroTituloSecao:     string;
-  numeroTituloEstado:    string;
-  numeroTituloMunicipio: string;
-  honrasMilitares:       string;
-  inAtivo:               string;
-  escolaridade:          string;
-  religiao:              string;
-  tpRh:                  string;
-  tpCor:                 string;
-  tpOlhos:               string;
-  tpCabelo:              string;
-  numeroCamisa:          number;
-  numeroCintura:         number;
-  numeroCalcado:         number;
-  numeroCobertura:       number;
-  numeroLuva:            number;
-  inspecoes:             Inspecao[];
+  id?:                     number;
+  unidade?:                Unidade;
+  nomePessoa?:             string;
+  posto?:                  Posto;
+  nomeGuerra?:             string;
+  inAtivo?:                string;
+  especialidade?:          Especialidade;
+  codigoSubEspecialidade?: number;
+  numeroIdentidade?:       string;
+  siglaOrgaoEspedidor?:    string;
+  numeroCpf?:              string;
+  numeroSaram?:            string;
+  codigoSexo?:             string;
+  quadro?:                 Quadro;
+  dataIncorporacao?:       Date;
+  dataBaixa?:              Date;
+  nomeEmail?:              string;
+  numeroTelefone?:         null;
+  dataNascimento?:         Date;
+  numeroRegistroCnh?:      null;
+  codigoCategoriaCnh?:     null;
+  dataValidadeCnh?:        null;
+  inspecoes?:              any[];
+  setores?:                Setor[];
+}
+
+export interface Especialidade {
+  id?:                    number;
+  siglaEspecialidade?:    string;
+  siglaAbreviada?:        null;
+  descricaoEspecilidade?: string;
+}
+
+export interface Posto {
+  id?:          string;
+  nomePosto?:   string;
+  numeroOrdem?: string;
+  siglaPosto?:  string;
+}
+
+export interface Quadro {
+  id?:                       string;
+  codigoPosto?:              string;
+  siglaQuadro?:              string;
+  nomeQuadro?:               string;
+  numeroQuadro?:             number;
+  siglaQuadroEspecialidade?: null;
+}
+
+export interface Setor {
+  setorId?:           SetorID;
+  siglaSetor?:        string;
+  tipoSetor?:         string;
+  nomeSetor?:         string;
+  inAtivo?:           string;
+  tipoDivisao?:       string;
+  codigoSetorSigpes?: string;
+}
+
+export interface SetorID {
+  codigoSetor?: string;
+  codigoUnidade?: string;
+}
+
+export interface Unidade {
+  id?:                   string;
+  siglaUnidade?:         string;
+  siglaUnidadeCompleta?: string;
+  nomeUnidade?:          string;
+  nomeUnidadeCompleto?:  string;
+  endereço?:             string;
+  cep?:                  string;
 }
 

@@ -56,7 +56,10 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     });
 
     this.dtAtual = new Date();
-    this.pessoaService.getAllSearch().pipe().subscribe(res => this.pessoasList = res.content);
+    this.pessoaService.getAllSearch().pipe().subscribe(res => {
+      this.pessoasList = res.content;
+      
+    });
 
     this._breadcrumbItems = [
       { label: 'Gerenciamento Efetivo', disabled: false },
@@ -70,13 +73,13 @@ export class EfetivoConsultaContainerComponent implements OnInit {
 
   
 
-  listHabilitacoesCadastradas(event: LazyLoadEvent): void {
+  updateTable(event: LazyLoadEvent): void {
     this.rowsCount = event.rows;
     this.fakeArrayRows = new Array(event.rows).fill({});
     
     const page = { page: (event.first / event.rows) };
     const size = { size: event.rows };
-    const pessoa = { nomePessoa: this.form?.value.nomePessoa};
+    const pessoa = { nomePessoa: this.form?.value?.nomePessoa?.value };
     let searchObject = {};
     if (event.sortField) {
       const sort = { sort: `${event.sortField},${event.sortOrder === 1 ? 'ASC' : 'DESC'}` };
@@ -96,7 +99,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
       isLoading$.subscribe(result => {
         this.loadingData = result;
       }),
-      getPessoas$.subscribe((res: { content: any[]; totalElements: number; }) => {
+      getPessoas$.subscribe((res: { content: Pessoa[]; totalElements: number; }) => {
         this.pessoasList = res.content;
         this.totalRecords = res.totalElements;
         this.loading.end();
@@ -140,16 +143,14 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   }
 
   searchPessoas(event: any): void {
-    console.log(event.query)
     this.subs$.push(
       this.pessoaService.getAllSearch({ nomePessoa: event.query })
         .subscribe((response: { content: any }) => {
-          this.pessoas = response.content.map((pessoas: { nomePessoa: string}) => ({
+          this.pessoas = response.content.map((pessoas: { nomePessoa: string, nomeGuerra: string}) => ({
             label: pessoas.nomePessoa,
-            title: pessoas.nomePessoa,
+            title: pessoas.nomeGuerra,
             value: pessoas.nomePessoa
           }));
-          console.log(this.pessoas)
         })
     );
 
@@ -157,7 +158,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
 
   onClear(): void {
     this.form.reset();
-    this.listHabilitacoesCadastradas({ first: 0, rows: this.rowsCount });
+    this.updateTable({ first: 0, rows: this.rowsCount });
   }
 
 
@@ -190,7 +191,6 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   }
 
   onDropdownClick($event: any, pessoa: any): void {
-    console.log(pessoa)
     this.pessoaSelecDropdown = pessoa;
     this.menuItems = this.createMenuItens();
   }
@@ -218,5 +218,4 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     //   }
     // });
   }
-
 }

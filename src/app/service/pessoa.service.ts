@@ -55,7 +55,7 @@ export class PessoaService {
     this.removeEmptyFields(search)
     const params = this.buildHttpParams(search);
     return this.http
-      .get<Pageable<Pessoa>>(`${this.endpoint}/pessoas?${ params }`,)
+      .get<Pageable<Pessoa>>(`${this.endpoint}/pessoas?${ params }&sort=posto.numeroOrdem,ASC`,)
       .pipe(take(1));
   }
 }

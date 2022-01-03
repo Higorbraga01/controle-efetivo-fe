@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/auth/public-api';
 import { EfetivoCadastroContainerComponent } from './containers/efetivo-cadastro-container/efetivo-cadastro-container.component';
 import { EfetivoConsultaContainerComponent } from './containers/efetivo-consulta-container/efetivo-consulta-container.component';
+import { GerenciamentoEfetivoConsultaContainerComponent } from './containers/gerenciamento-efetivo-consulta-container/gerenciamento-efetivo-consulta-container.component';
 
 const routes: Routes = [
   {

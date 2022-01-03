@@ -13,9 +13,9 @@
           "strict": true
         }
       },
-      "root": "base-fe-prime-flex-3",
+      "root": "controle-efetivo",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "controle",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",

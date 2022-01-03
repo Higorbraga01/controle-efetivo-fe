@@ -30,13 +30,17 @@ import { PickListModule } from 'primeng/picklist';
 import { DropdownModule } from 'primeng/dropdown';
 import { EfetivoCadastroContainerComponent } from './containers/efetivo-cadastro-container/efetivo-cadastro-container.component';
 import {RadioButtonModule} from 'primeng/radiobutton';
+import { GerenciamentoEfetivoConsultaContainerComponent } from './containers/gerenciamento-efetivo-consulta-container/gerenciamento-efetivo-consulta-container.component';
+import { EfetivoTabelaComponent } from './components/efetivo-tabela/efetivo-tabela.component';
 
 
 
 @NgModule({
   declarations: [
     EfetivoConsultaContainerComponent,
-    EfetivoCadastroContainerComponent
+    EfetivoCadastroContainerComponent,
+    GerenciamentoEfetivoConsultaContainerComponent,
+    EfetivoTabelaComponent
   ],
   imports: [
     CommonModule,

@@ -70,7 +70,7 @@
             class="p-button-sm"
             label="FILTRAR"
             icon="pi pi-filter"
-            (click)="listHabilitacoesCadastradas({ first: 0, rows: 10 })"
+            (click)="updateTable({ first: 0, rows: 10 })"
           ></button>
           <button
             [routerLink]="'cadastro'"
@@ -86,15 +86,16 @@
       <p-table
         #tablepessoaInstrutores
         [value]="pessoasList"
+        (onLazyLoad)="updateTable($event)"
         [lazy]="true"
         [rowHover]="true"
         [showCurrentPageReport]="true"
         [paginator]="true"
         [loading]="loadingData"
         [showLoader]="false"
-        [rows]="5"
+        [rows]="10"
         [totalRecords]="totalRecords"
-        [rowsPerPageOptions]="[5, 10, 20, 30]"
+        [rowsPerPageOptions]="[10, 20, 30]"
         currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} registros"
         styleClass="p-datatable-gridlines p-datatable-striped  p-datatable-sm-custom"
       >
@@ -106,15 +107,15 @@
 
         <ng-template pTemplate="header">
           <tr>
-            <th class="p-text-center">Curso</th>
+            <th class="p-text-center">Posto / Quadro / Especialidade / Nome</th>
             <th class="p-text-center">Instrutor</th>
-            <th class="p-text-center" pSortableColumn="dtInicio">
-              Data início
-              <p-sortIcon field="dtInicio"></p-sortIcon>
+            <th class="p-text-center" pSortableColumn="dataNascimento">
+              Data Nascimento
+              <p-sortIcon field="dataNascimento"></p-sortIcon>
             </th>
-            <th class="p-text-center" pSortableColumn="dtTermino">
-              Data Termino
-              <p-sortIcon field="dtTermino"></p-sortIcon>
+            <th class="p-text-center" pSortableColumn="dataIncorporacao">
+              Data Praça
+              <p-sortIcon field="dataIncorporacao"></p-sortIcon>
             </th>
             <th class="p-text-center" pSortableColumn="qualificacao">
               Qualificação
@@ -134,21 +135,29 @@
         <ng-template pTemplate="body" let-pessoa>
           <tr>
             <td class="p-text-center">
-              {{ pessoa?.nomePessoa }} ({{ pessoa?.nomeGuerra }})
+              <b> 
+              {{ pessoa?.posto?.siglaPosto }}
+              </b>
+              {{ 
+                pessoa?.quadro == null ? " ":
+                pessoa?.quadro?.siglaQuadro.includes("QSD") ?  pessoa?.quadro?.siglaQuadro+ " "+ pessoa?.especialidade?.siglaEspecialidade.substring(4,7):
+                pessoa?.especialidade?.siglaAbreviada == null ? pessoa?.quadro?.siglaQuadro:
+                pessoa?.quadro?.siglaQuadro+ " " +pessoa?.especialidade?.siglaAbreviada
+              }}
+              {{ pessoa?.nomePessoa }} 
+              ( <b>{{ pessoa?.nomeGuerra }}</b> )
             </td>
             <td class="p-text-center">
-              {{ pessoa?.graduacao }}
-              {{ pessoa?.quadro }}
               {{ pessoa?.numeroCpf }}
               ({{ pessoa?.numeroSaram }})
             </td>
             <td class="p-text-center">
-              {{ pessoa?.dataPraca | date: "dd/MM/yyyy" }}
+              {{ pessoa?.dataNascimento | date: "dd/MM/yyyy" }}
             </td>
             <td class="p-text-center">
               {{
                 pessoa.dataNascimento
-                  ? (pessoa?.dataNascimento | date: "dd/MM/yyyy")
+                  ? (pessoa?.dataIncorporacao | date: "dd/MM/yyyy")
                   : "-"
               }}
             </td>

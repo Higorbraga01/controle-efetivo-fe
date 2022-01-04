@@ -11,6 +11,7 @@ import { PessoaService } from 'src/app/service/pessoa.service';
 import { LoadingBarService } from 'src/app/shared/services/loading-bar.service';
 import { environment } from 'src/environments/environment';
 
+
 @Component({
   selector: 'app-efetivo-consulta-container',
   templateUrl: './efetivo-consulta-container.component.html',
@@ -18,7 +19,6 @@ import { environment } from 'src/environments/environment';
 })
 export class EfetivoConsultaContainerComponent implements OnInit {
 
-  public habilitacoesInstrutoresCadastradas: any[];
   public subs$: Subscription[] = [];
   public form: FormGroup;
   public pessoas: SelectItem[];
@@ -41,9 +41,9 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   _activeTabMenuItem: MenuItem;
 
   constructor(
-    // private facade: HabilitacaoInstrutorFacade,
     private loading: LoadingBarService,
     private messageService: MessageService,
+    private confirmationService: ConfirmationService,
     // public userService: UserService,
     public pessoaService: PessoaService,
     private fb: FormBuilder,
@@ -62,7 +62,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     });
 
     this._breadcrumbItems = [
-      { label: 'Gerenciamento Efetivo', disabled: false },
+      { label: 'Lista Efetivo', disabled: false },
     ];
 
     this._home = {
@@ -108,32 +108,32 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   }
 
   delete(id: number): void {
-    // this.confirmationService.confirm({
-    //   message: 'Deseja apagar a Habilitação?',
-    //   accept: () => {
-    //     this.loading.start();
-    //     this.subs$.push(
-    //       this.facade.delete(id)
-    //         .subscribe(
-    //           () => {
-    //             this.loading.end();
-    //             this.messageService.add({
-    //               severity: 'success',
-    //               summary: 'Sucesso',
-    //               detail: 'Habilitação apagada com sucesso',
-    //               life: 3000
-    //             });
-    //             this.listHabilitacoesCadastradas({ first: 0, rows: this.rowsCount });
-    //           },
-    //           (              e: any) => this.messageService.add({
-    //             severity: 'error',
-    //             summary: 'Erro',
-    //             detail: 'Erro ao apagar Habilitação',
-    //             life: 3000
-    //           })));
-    //     this.loading.end();
-    //   }
-    // });
+    this.confirmationService.confirm({
+      message: 'Deseja excluir esta pessoa?',
+      accept: () => {
+        this.loading.start();
+        this.subs$.push(
+          this.pessoaService.delete(id)
+            .subscribe(
+              () => {
+                this.loading.end();
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Sucesso',
+                  detail: 'Pessoa excluida com sucesso',
+                  life: 3000
+                });
+                this.updateTable({ first: 0, rows: this.rowsCount });
+              },
+              (_e: any) => this.messageService.add({
+                severity: 'error',
+                summary: 'Erro',
+                detail: 'Erro ao excluir pessoa',
+                life: 3000
+              })));
+        this.loading.end();
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -164,20 +164,22 @@ export class EfetivoConsultaContainerComponent implements OnInit {
 
   createMenuItens(): MenuItem[] {
     return [
+      // {
+      //   label: 'Editar', icon: 'pi pi-pencil',
+      //   routerLink: ['/habilitacao-instrutor', 'editar', this.pessoaSelecDropdown?.id],
+      //   // visible: this.userService?.user?.roles.includes('ROLE_crud-habilitacao-instrucao')
+      // },
       {
-        label: 'Editar', icon: 'pi pi-pencil',
-        routerLink: ['/habilitacao-instrutor', 'editar', this.pessoaSelecDropdown?.id],
-        // visible: this.userService?.user?.roles.includes('ROLE_crud-habilitacao-instrucao')
-      },
-      {
-        label: 'Detalhe Habilitação', icon: 'pi pi-info-circle',
+        label: 'Detalhe Pessoa', icon: 'pi pi-info-circle',
         routerLink: ['/habilitacao-instrutor', 'detalhar-habilitacao', this.pessoaSelecDropdown?.id]
       },
       {
         label: 'Excluir', icon: 'pi pi-trash',
         command: () => this.delete(this.pessoaSelecDropdown?.id),
         // visible: this.userService?.user?.roles.includes('ROLE_crud-habilitacao-instrucao')
+        disabled:false
       },
+    
     ];
   }
 
@@ -193,29 +195,5 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   onDropdownClick($event: any, pessoa: any): void {
     this.pessoaSelecDropdown = pessoa;
     this.menuItems = this.createMenuItens();
-  }
-
-  encerrarHabilitacao(id: number): void {
-    // this.confirmationService.confirm({
-    //   message: 'Deseja encerrar essa Habilitação?',
-    //   accept: () => {
-    //     this.loading.start();
-    //     this.subs$.push(
-    //       this.facade.encerrarHabilitacao(id)
-    //         .subscribe(
-    //           () => {
-    //             this.loading.end();
-    //             this.messageService.add({
-    //               severity: 'success',
-    //               summary: 'Sucesso',
-    //               detail: 'Habilitação encerrada com sucesso',
-    //               life: 3000
-    //             });
-    //             this.listHabilitacoesCadastradas({ first: 0, rows: this.rowsCount });
-    //           },
-    //         ));
-    //     this.loading.end();
-    //   }
-    // });
   }
 }

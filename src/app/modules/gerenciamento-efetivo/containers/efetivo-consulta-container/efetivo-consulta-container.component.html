@@ -2,7 +2,7 @@
   <header>
     <div class="l-finor-consulta-container__header">
       <div class="l-main-grid">
-        <div class="col-12 xl-10 xl-offset-1">
+        <div class="col-12 xl-10 xl-offset-1 mb-3">
           <p-breadcrumb
             [model]="_breadcrumbItems"
             [home]="_home"
@@ -10,15 +10,6 @@
             (onItemClick)="handleBreadcrumbClick($event)"
           ></p-breadcrumb>
         </div>
-      <div class="
-          l-finor-consulta-container__title-wrapper
-          col-12 xl-10 xl-offset-1 flex
-        "
-      >
-        <h2 class="l-finor-consulta-container__title ml-3">
-          Listagem Efetivo
-        </h2>
-      </div>
     </div>
   </div>
   </header>
@@ -77,7 +68,7 @@
             pButton
             pRipple
             class="p-button-sm"
-            label="CADASTRAR HABILITAÇÃO"
+            label="CADASTRAR PESSOA"
             icon="pi pi-plus"
           ></button>
         </div>
@@ -108,26 +99,23 @@
         <ng-template pTemplate="header">
           <tr>
             <th class="p-text-center">Posto / Quadro / Especialidade / Nome</th>
-            <th class="p-text-center">Instrutor</th>
+            <th class="p-text-center">Saram / Cpf </th>
             <th class="p-text-center" pSortableColumn="dataNascimento">
-              Data Nascimento
+              Dt Nasc
               <p-sortIcon field="dataNascimento"></p-sortIcon>
             </th>
             <th class="p-text-center" pSortableColumn="dataIncorporacao">
-              Data Praça
+              Dt Praça
               <p-sortIcon field="dataIncorporacao"></p-sortIcon>
             </th>
-            <th class="p-text-center" pSortableColumn="qualificacao">
-              Qualificação
-              <p-sortIcon field="qualificacao"></p-sortIcon>
+            <th class="p-text-center">
+              Nr Identidade
             </th>
-            <th class="p-text-center" pSortableColumn="disciplinas">
-              Disciplinas
-              <p-sortIcon field="disciplinas"></p-sortIcon>
+            <th class="p-text-center">
+              Email
             </th>
-            <th class="p-text-center" pSortableColumn="status">
-              Status
-              <p-sortIcon field="status"></p-sortIcon>
+            <th class="p-text-center">
+              Setor
             </th>
             <th class="p-text-center">Ações</th>
           </tr>
@@ -138,9 +126,10 @@
               <b> 
               {{ pessoa?.posto?.siglaPosto }}
               </b>
+              {{ pessoa?.dataBaixa != null ? "R/1" : ""}}
               {{ 
                 pessoa?.quadro == null ? " ":
-                pessoa?.quadro?.siglaQuadro.includes("QSD") ?  pessoa?.quadro?.siglaQuadro+ " "+ pessoa?.especialidade?.siglaEspecialidade.substring(4,7):
+                pessoa?.quadro?.siglaQuadro.includes("QSD") ? pessoa?.quadro?.siglaQuadro+ " "+ pessoa?.especialidade?.siglaEspecialidade.substring(4,7):
                 pessoa?.especialidade?.siglaAbreviada == null ? pessoa?.quadro?.siglaQuadro:
                 pessoa?.quadro?.siglaQuadro+ " " +pessoa?.especialidade?.siglaAbreviada
               }}
@@ -148,27 +137,29 @@
               ( <b>{{ pessoa?.nomeGuerra }}</b> )
             </td>
             <td class="p-text-center">
-              {{ pessoa?.numeroCpf }}
-              ({{ pessoa?.numeroSaram }})
+              ( <b>{{ pessoa?.numeroSaram }}</b> )
+              {{ pessoa?.numeroCpf?.substring(0,3)+"."+ pessoa?.numeroCpf?.substring(3,6)+"."+ pessoa?.numeroCpf?.substring(6,9)+"-"+ pessoa?.numeroCpf?.substring(9,11) }}
             </td>
             <td class="p-text-center">
               {{ pessoa?.dataNascimento | date: "dd/MM/yyyy" }}
             </td>
             <td class="p-text-center">
               {{
-                pessoa.dataNascimento
+                pessoa?.dataIncorporacao
                   ? (pessoa?.dataIncorporacao | date: "dd/MM/yyyy")
                   : "-"
               }}
             </td>
             <td class="p-text-center">
-              {{ pessoa?.cargoSetor ? pessoa?.cargoSetor : "-" }}
+              {{ pessoa?.numeroIdentidade ? pessoa?.numeroIdentidade+ " ( "+ pessoa?.siglaOrgaoEspedidor +" )" : "-" }}
             </td>
             <td class="p-text-center">
-              {{ pessoa?.nomeSetor ? pessoa?.nomeSetor : "-" }}
+              {{ pessoa?.nomeEmail ? pessoa?.nomeEmail : "-" }}
             </td>
             <td class="p-text-center">
-              {{ pessoa.nomeDivisao }}
+            <!-- <ng-template ngFor let-setor [ngForOf]="pessoa?.setores" let-i="index">             -->
+              {{ pessoa?.setores ? pessoa?.setores[0].siglaSetor + (pessoa?.setores?.length != 1 ? " + "+(pessoa?.setores.length - 1): "") : "-"  }}
+             <!-- </ng-template> -->
             </td>
             <td class="p-text-center">
               <div class="flex p-jc-center align-items-center">
@@ -193,7 +184,7 @@
       </p-table>
     </p-card>
   </div>
-<!-- 
+
   <p-confirmDialog #cd header="Confirmação" icon="pi pi-exclamation-triangle">
     <p-footer>
       <button
@@ -212,5 +203,5 @@
         (click)="cd.accept()"
       ></button>
     </p-footer>
-  </p-confirmDialog> -->
+  </p-confirmDialog>
 </section>

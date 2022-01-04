@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { GerenciamentoEfetivoRoutingModule } from './gerenciamento-efetivo-routing.module';
 import { EfetivoConsultaContainerComponent } from './containers/efetivo-consulta-container/efetivo-consulta-container.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -32,6 +31,7 @@ import { EfetivoCadastroContainerComponent } from './containers/efetivo-cadastro
 import {RadioButtonModule} from 'primeng/radiobutton';
 import { GerenciamentoEfetivoConsultaContainerComponent } from './containers/gerenciamento-efetivo-consulta-container/gerenciamento-efetivo-consulta-container.component';
 import { EfetivoTabelaComponent } from './components/efetivo-tabela/efetivo-tabela.component';
+import {ConfirmationService} from 'primeng/api';
 
 
 
@@ -71,6 +71,7 @@ import { EfetivoTabelaComponent } from './components/efetivo-tabela/efetivo-tabe
     TabMenuModule,
     BreadcrumbModule,
     RadioButtonModule
-  ]
+  ],
+  providers: [ConfirmationService]
 })
 export class GerenciamentoEfetivoModule { }

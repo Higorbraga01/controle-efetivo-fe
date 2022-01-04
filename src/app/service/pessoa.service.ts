@@ -55,7 +55,13 @@ export class PessoaService {
     this.removeEmptyFields(search)
     const params = this.buildHttpParams(search);
     return this.http
-      .get<Pageable<Pessoa>>(`${this.endpoint}/pessoas?${ params }&sort=posto.numeroOrdem,ASC`,)
+      .get<Pageable<Pessoa>>(`${this.endpoint}/pessoas?${ params }&sort=posto.numeroOrdem,dataIncorporacao,ASC`,)
+      .pipe(take(1));
+  }
+
+  delete(id: number): Observable<any> {
+    return this.http
+      .delete<any>(`${this.endpoint}/pessoas/${ id }`,)
       .pipe(take(1));
   }
 }

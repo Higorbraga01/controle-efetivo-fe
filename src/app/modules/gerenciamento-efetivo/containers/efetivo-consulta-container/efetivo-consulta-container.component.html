@@ -156,10 +156,11 @@
             <td class="p-text-center">
               {{ pessoa?.nomeEmail ? pessoa?.nomeEmail : "-" }}
             </td>
-            <td class="p-text-center">
-            <!-- <ng-template ngFor let-setor [ngForOf]="pessoa?.setores" let-i="index">             -->
-              {{ pessoa?.setores ? pessoa?.setores[0].siglaSetor + (pessoa?.setores?.length != 1 ? " + "+(pessoa?.setores.length - 1): "") : "-"  }}
-             <!-- </ng-template> -->
+            <td class="p-text-center" >
+            <ng-template ngFor let-setor [ngForOf]="pessoa?.setores" let-i="index">            
+             <!-- {{ setor.siglaSetor }} -->
+             </ng-template>
+             {{ pessoa?.setores?.length > 0 ? pessoa?.setores[0].siglaSetor.substring(0,3) + " ..." : "-"  }} 
             </td>
             <td class="p-text-center">
               <div class="flex p-jc-center align-items-center">

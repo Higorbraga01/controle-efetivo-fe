@@ -62,6 +62,5 @@ export class PessoaService {
   delete(id: number): Observable<any> {
     return this.http
       .delete<any>(`${this.endpoint}/pessoas/${ id }`,)
-      .pipe(take(1));
   }
 }

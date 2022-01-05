@@ -32,6 +32,7 @@ import {RadioButtonModule} from 'primeng/radiobutton';
 import { GerenciamentoEfetivoConsultaContainerComponent } from './containers/gerenciamento-efetivo-consulta-container/gerenciamento-efetivo-consulta-container.component';
 import { EfetivoTabelaComponent } from './components/efetivo-tabela/efetivo-tabela.component';
 import {ConfirmationService} from 'primeng/api';
+import {TreeModule} from 'primeng/tree';
 
 
 
@@ -70,7 +71,8 @@ import {ConfirmationService} from 'primeng/api';
     TriStateCheckboxModule,
     TabMenuModule,
     BreadcrumbModule,
-    RadioButtonModule
+    RadioButtonModule,
+    TreeModule
   ],
   providers: [ConfirmationService]
 })

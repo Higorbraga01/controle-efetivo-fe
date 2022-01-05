@@ -1,10 +1,10 @@
 import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
 import { MenuItem } from 'primeng/api/menuitem';
 import { SelectItem } from 'primeng/api/selectitem';
-import { Observable, of, Subscription, timer } from 'rxjs';
+import { of, Subscription, timer } from 'rxjs';
 import { mapTo, mergeAll, share, takeUntil } from 'rxjs/operators';
 import { Pessoa } from 'src/app/models/pessoa.model';
 import { PessoaService } from 'src/app/service/pessoa.service';
@@ -22,7 +22,6 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   public subs$: Subscription[] = [];
   public form: FormGroup;
   public pessoas: SelectItem[];
-  public cursos: SelectItem[];
   public totalRecords: number;
   public pessoaSelecDropdown: any;
   public menuItems: MenuItem[];
@@ -164,11 +163,12 @@ export class EfetivoConsultaContainerComponent implements OnInit {
 
   createMenuItens(): MenuItem[] {
     return [
-      // {
-      //   label: 'Editar', icon: 'pi pi-pencil',
-      //   routerLink: ['/habilitacao-instrutor', 'editar', this.pessoaSelecDropdown?.id],
-      //   // visible: this.userService?.user?.roles.includes('ROLE_crud-habilitacao-instrucao')
-      // },
+      {
+        label: 'Editar', icon: 'pi pi-pencil',
+        routerLink: ['/habilitacao-instrutor', 'editar', this.pessoaSelecDropdown?.id],
+        // visible: this.userService?.user?.roles.includes('ROLE_crud-habilitacao-instrucao')
+        disabled:true
+      },
       {
         label: 'Detalhe Pessoa', icon: 'pi pi-info-circle',
         routerLink: ['/habilitacao-instrutor', 'detalhar-habilitacao', this.pessoaSelecDropdown?.id]
@@ -177,7 +177,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
         label: 'Excluir', icon: 'pi pi-trash',
         command: () => this.delete(this.pessoaSelecDropdown?.id),
         // visible: this.userService?.user?.roles.includes('ROLE_crud-habilitacao-instrucao')
-        disabled:false
+        disabled:true
       },
     
     ];

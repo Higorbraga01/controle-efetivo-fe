@@ -63,4 +63,8 @@ export class PessoaService {
     return this.http
       .delete<any>(`${this.endpoint}/pessoas/${ id }`,)
   }
+  findByID(id: number): Observable<Pessoa> {
+    return this.http
+      .get<Pessoa>(`${this.endpoint}/pessoas/${ id }`,)
+  }
 }

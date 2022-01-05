@@ -171,7 +171,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
       },
       {
         label: 'Detalhe Pessoa', icon: 'pi pi-info-circle',
-        routerLink: ['/habilitacao-instrutor', 'detalhar-habilitacao', this.pessoaSelecDropdown?.id]
+        routerLink: ['/gerenciamento', 'cadastro', this.pessoaSelecDropdown?.id]
       },
       {
         label: 'Excluir', icon: 'pi pi-trash',

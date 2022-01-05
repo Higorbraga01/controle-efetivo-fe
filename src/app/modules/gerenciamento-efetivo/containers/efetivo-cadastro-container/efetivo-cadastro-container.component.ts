@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SelectItem, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { switchMap, filter, toArray } from 'rxjs/operators';
+import { Pessoa } from 'src/app/models/pessoa.model';
+import { PessoaService } from 'src/app/service/pessoa.service';
 import { LoadingBarService } from 'src/app/shared/services/loading-bar.service';
 
 @Component({
@@ -19,6 +21,7 @@ export class EfetivoCadastroContainerComponent implements OnInit {
   public form: FormGroup;
   public id: number;
   public situacao: any[];
+  public pessoa: Pessoa;
 
 
   constructor(
@@ -26,7 +29,7 @@ export class EfetivoCadastroContainerComponent implements OnInit {
               private router: Router,
               private messageService: MessageService,
               private fb: FormBuilder, 
-              // private facade: AreaFacade, 
+              private pessoaService: PessoaService,
               private activitedRoute: ActivatedRoute) {
   }
 
@@ -39,14 +42,24 @@ export class EfetivoCadastroContainerComponent implements OnInit {
     this.form = this.fb.group({
       nomePessoa: this.fb.control(null, [Validators.required]),
       nomeGuerra: this.fb.control(null, [Validators.required]),
-      graduacao: this.fb.control(null),
-      quadro: this.fb.control(null),
-      statusReserva: this.fb.control([]),
+      posto: this.fb.control(null),
       especialidade: this.fb.control(null),
-      dataApresentacao: this.fb.control(null),
-      dataPraca: this.fb.control(null),
-      dataUltPromo: this.fb.control(null),
-      dataNascimento: this.fb.control(null)
+      numeroIdentidade: this.fb.control(null),
+      siglaOrgaoEspedidor: this.fb.control(null),
+      numeroCpf: this.fb.control(null),
+      numeroSaram: this.fb.control(null),
+      codigoSexo: this.fb.control(null),
+      quadro: this.fb.control(null),
+      dataIncorporacao: this.fb.control(null),
+      dataBaixa: this.fb.control(null),
+      nomeEmail: this.fb.control(null),
+      numeroTelefone: this.fb.control(null),
+      dataNascimento: this.fb.control(null),
+      numeroRegistroCnh: this.fb.control(null),
+      codigoCategoriaCnh: this.fb.control(null),
+      dataValidadeCnh: this.fb.control(null),
+      inspecoes: this.fb.control([]),
+      setores: this.fb.control([])
     });
 
     this.situacao = [
@@ -55,28 +68,9 @@ export class EfetivoCadastroContainerComponent implements OnInit {
   ];
 
     this.id = this.activitedRoute.snapshot.params['id'];
-    // if (this.id) {
-    //   const getArea$ = this.facade.findByID(this.id);
-
-    //   this.subs$.push(
-    //     getArea$.subscribe((response) => {
-    //       const {nome, sigla, areaPai, cursos} = response;
-    //       const ids = this.cursoSelecionados.map(q => q.id);
-    //       if (cursos) {
-    //         this.cursoSelecionados = [...cursos];
-    //       }
-    //       this.cursoList = [...this.cursoList.filter(curso => !this.cursoSelecionados.map(item => item.id).includes(curso.id))];
-    //       this.form.patchValue({
-    //         nome,
-    //         sigla,
-    //         area: {label: areaPai?.sigla, title: areaPai?.nome, value: areaPai},
-    //         cursos: this.cursoSelecionados.map(cursos => {
-    //           return {idCurso: cursos.id};
-    //         })
-    //       });
-    //     })
-    //   );
-    // }
+    if (this.id) {
+      this.pessoaService.findByID(this.id).subscribe(res => this.pessoa = res);
+    }
 
   }
 

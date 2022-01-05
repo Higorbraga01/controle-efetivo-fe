@@ -101,9 +101,9 @@
                   </small>
                 </div>
                 <div class="p-input-filled col-6">
-                  <label>Graduação</label>
+                  <label>Posto</label>
                   <input
-                    formControlName="graduacao"
+                    formControlName="posto"
                     id="sigla"
                     type="text"
                     pInputText
@@ -111,10 +111,10 @@
                   <small
                     class="p-invalid"
                     *ngIf="
-                      form.get('nomeGuerra').invalid && form.get('nomeGuerra').touched
+                      form.get('posto').invalid && form.get('posto').touched
                     "
                   >
-                    Digite a graducao
+                    Digite o posto
                   </small>
                 </div>
                 <div class="p-input-filled col-6">
@@ -127,30 +127,19 @@
                     Digite um quadro
                   </small>
                 </div>
-                <div class="p-field col-6" align-itens->
-                  <label>Situação ?</label>
-                  <div class="p-0">
-                  <div class="col-3 mb-1">
-                  <p-radioButton label="Ativa" value="S" formControlName="statusReserva"></p-radioButton>
-                  </div> 
-                  <div class="col-3 mb-1">
-                  <p-radioButton label="Reserva" value="N" formControlName="statusReserva"></p-radioButton>
-                  </div>
-                </div>
-                </div>
                 <div class="col-6 flex justify-content-end p-0">
                 <div class="p-input-filled col-3">
                   <label>Data Praça</label>
                   <br />
                   <p-calendar 
-                  formControlName="dataApresentacao">
+                  formControlName="dataIncorporacao">
                   </p-calendar>
                 </div>
                 <div class="p-input-filled col-3">
-                  <label>Data Apresentação</label>
+                  <label>Data Nascimento</label>
                   <br />
                   <p-calendar 
-                  formControlName="dataApresentacao">
+                  formControlName="dataNascimento">
                   </p-calendar>
                 </div>
                 </div>
@@ -166,17 +155,9 @@
                 </div>
                 <div class="col-6 flex justify-content-end p-0">
                 <div class="p-input-filled col-3">
-                  <label>Data Ultima promoção</label>
-                  <br />
+                  <label>Data Baixa</label>
                   <p-calendar 
-                  formControlName="dataApresentacao">
-                  </p-calendar>
-                </div>
-                <div class="p-input-filled col-3">
-                  <label>Data Nascimento</label>
-                  <br />
-                  <p-calendar 
-                  formControlName="dataApresentacao">
+                  formControlName="dataBaixa">
                   </p-calendar>
                 </div>
                 </div>

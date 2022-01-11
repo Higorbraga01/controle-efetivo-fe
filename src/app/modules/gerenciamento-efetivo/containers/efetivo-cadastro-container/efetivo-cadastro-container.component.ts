@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SelectItem, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { switchMap, filter, toArray } from 'rxjs/operators';
-import { Pessoa } from 'src/app/models/pessoa.model';
+import { Pessoa, Setor } from 'src/app/models/pessoa.model';
 import { PessoaService } from 'src/app/service/pessoa.service';
 import { LoadingBarService } from 'src/app/shared/services/loading-bar.service';
 
@@ -22,6 +22,7 @@ export class EfetivoCadastroContainerComponent implements OnInit {
   public id: number;
   public situacao: any[];
   public pessoa: Pessoa;
+  public setores: Setor[];
 
 
   constructor(
@@ -69,7 +70,34 @@ export class EfetivoCadastroContainerComponent implements OnInit {
 
     this.id = this.activitedRoute.snapshot.params['id'];
     if (this.id) {
-      this.pessoaService.findByID(this.id).subscribe(res => this.pessoa = res);
+      this.pessoaService.findByID(this.id).subscribe(res => {
+        this.pessoa = res;
+        this.form.patchValue({
+          nomePessoa: res.nomePessoa,
+          nomeGuerra: res.nomeGuerra,
+          posto: res.posto.siglaPosto,
+          especialidade: res.especialidade.siglaAbreviada,
+          numeroIdentidade: res.numeroIdentidade,
+          siglaOrgaoEspedidor: res.siglaOrgaoEspedidor,
+          numeroCpf: res.numeroCpf,
+          numeroSaram: res.numeroSaram,
+          codigoSexo: res.codigoSexo,
+          quadro: res.quadro.siglaQuadro,
+          dataIncorporacao: res.dataIncorporacao,
+          dataBaixa: res.dataBaixa,
+          nomeEmail: res.nomeEmail,
+          numeroTelefone: res.numeroTelefone,
+          dataNascimento: res.dataNascimento,
+          numeroRegistroCnh: res.numeroRegistroCnh,
+          codigoCategoriaCnh: res.codigoCategoriaCnh,
+          dataValidadeCnh: res.dataValidadeCnh,
+          // inspecoes: res.inspecoes,
+          // setores: res.setores
+        });
+        console.log(res.setores)
+        this.loading.end;
+      });
+    
     }
 
   }

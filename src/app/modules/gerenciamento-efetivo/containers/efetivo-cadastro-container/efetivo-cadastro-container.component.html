@@ -27,7 +27,7 @@
             <p-button
               label="VOLTAR"
               icon="pi pi-directions-alt"
-              [routerLink]="'/area'"
+              [routerLink]="'/gerenciamento'"
               styleClass="p-button-outlined p-button-secondary mr-3"
             ></p-button>
 
@@ -74,7 +74,7 @@
             <p-card>
               <form [formGroup]="form" class="fluid formgrid grid">
                 <div class="p-input-filled col-6">
-                  <label >Nome completo</label>
+                  <label>Nome completo</label>
                   <input
                     formControlName="nomePessoa"
                     id="sigla"
@@ -92,7 +92,7 @@
                 </div>
                 <div class="p-input-filled col-6">
                   <label>Nome de guerra</label>
-                  <input formControlName="nomeGuerra" type="text" pInputText />
+                  <input formControlName="nomeGuerra" type="text" pInputText/>
                   <small
                     class="p-invalid"
                     *ngIf="form.get('nomeGuerra').invalid && form.get('nomeGuerra').touched"
@@ -104,6 +104,7 @@
                   <label>Posto</label>
                   <input
                     formControlName="posto"
+                    value="posto.siglaPosto"
                     id="sigla"
                     type="text"
                     pInputText
@@ -127,23 +128,27 @@
                     Digite um quadro
                   </small>
                 </div>
-                <div class="col-6 flex justify-content-end p-0">
-                <div class="p-input-filled col-3">
+                <div class="col-6 flex justify-content-between p-0 mb-2">
+                <div class="p-input-filled col-2">
                   <label>Data Praça</label>
-                  <br />
-                  <p-calendar 
-                  formControlName="dataIncorporacao">
-                  </p-calendar>
+                  <div class="mt-2">
+                    {{ pessoa?.dataIncorporacao | date: "dd/MM/yyyy" }}
+                  </div>
                 </div>
-                <div class="p-input-filled col-3">
+                <div class="p-input-filled col-2">
                   <label>Data Nascimento</label>
-                  <br />
-                  <p-calendar 
-                  formControlName="dataNascimento">
-                  </p-calendar>
+                  <div class="mt-2">
+                    {{ pessoa?.dataNascimento | date: "dd/MM/yyyy" }}
+                  </div>
+                </div>
+                <div class="p-input-filled col-2">
+                  <label>Data Baixa</label>
+                  <div class="mt-2">
+                    {{ pessoa?.dataBaixa | date: "dd/MM/yyyy" }}
+                  </div>
                 </div>
                 </div>
-                <div class="p-input-filled col-6">
+                <div class="col-6 p-input-filled">
                   <label>Especialidade</label>
                   <input formControlName="especialidade" type="text" pInputText />
                   <small
@@ -153,17 +158,11 @@
                     Digite uma especilidade
                   </small>
                 </div>
-                <div class="col-6 flex justify-content-end p-0">
-                <div class="p-input-filled col-3">
-                  <label>Data Baixa</label>
-                  <p-calendar 
-                  formControlName="dataBaixa">
-                  </p-calendar>
-                </div>
-                </div>
+                <!-- <div class="col-6 flex justify-content-end p-0">
+                </div> -->
                 <div class="p-input-filled col-12 mt-2">
                   <p-pickList
-                    [source]="cursoList"
+                    [source]="setores"
                     [target]="cursoSelecionados"
                     [showSourceControls]="false"
                     [showTargetControls]="false"
@@ -178,7 +177,7 @@
                     <ng-template let-cursos pTemplate="item">
                       <div>
                         <div>
-                          <b>{{ cursos.codigo }}</b> - {{ cursos.nome }}
+                          <b>{{ cursos.siglaSetor }}</b> - {{ cursos.nomeSetor }}
                         </div>
                       </div>
                     </ng-template>

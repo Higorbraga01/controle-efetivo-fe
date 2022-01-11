@@ -17,6 +17,12 @@ const routes: Routes = [
     // canActivate: [AuthGuard],
     // canActivateChild: [AuthGuard],
     component: EfetivoCadastroContainerComponent,
+  },
+  {
+    path: 'detalhe/pessoa/:id',
+    // canActivate: [AuthGuard],
+    // canActivateChild: [AuthGuard],
+    component: EfetivoCadastroContainerComponent,
   }
 ];
 

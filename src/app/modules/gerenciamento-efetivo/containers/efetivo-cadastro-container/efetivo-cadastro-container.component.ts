@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SelectItem, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { switchMap, filter, toArray } from 'rxjs/operators';
-import { Pessoa, Setor } from 'src/app/models/pessoa.model';
+import { Especialidade, Pessoa, Posto, Quadro, Setor, Unidade } from 'src/app/models/pessoa.model';
 import { PessoaService } from 'src/app/service/pessoa.service';
 import { LoadingBarService } from 'src/app/shared/services/loading-bar.service';
 
@@ -14,15 +14,14 @@ import { LoadingBarService } from 'src/app/shared/services/loading-bar.service';
   styleUrls: ['./efetivo-cadastro-container.component.scss']
 })
 export class EfetivoCadastroContainerComponent implements OnInit {
-  public area: SelectItem[];
-  public cursoList: any[] = [];
-  public cursoSelecionados: any[] = [];
   private subs$: Subscription[] = [];
   public form: FormGroup;
-  public id: number;
-  public situacao: any[];
   public pessoa: Pessoa;
   public setores: Setor[];
+  public postos: Posto[];
+  public quadros: Quadro[];
+  public especialidades: Especialidade[];
+  public unidades: Unidade[];
 
 
   constructor(
@@ -37,6 +36,63 @@ export class EfetivoCadastroContainerComponent implements OnInit {
   ngOnInit(): void {
     this.buscarCursos({});
     this.buildForm();
+    this.postos = [      
+      { 
+        id:          "BR",
+        nomePosto:   "Brigadeiro",
+        numeroOrdem: "1",
+        siglaPosto:  "Brig",
+      },
+      { 
+        id:          "CL",
+        nomePosto:   "Coronel",
+        numeroOrdem: "2",
+        siglaPosto:  "Cel",
+      }];
+    this.quadros = [
+      {
+        id: "13",
+        codigoPosto: "19",
+        siglaQuadro: "QSS",
+        nomeQuadro: "DE SUBOFICIAIS E SARGENTOS",
+        numeroQuadro: 60,
+        siglaQuadroEspecialidade: null
+      },
+      {
+        id: "16",
+        codigoPosto: "26",
+        siglaQuadro: "QSD",
+        nomeQuadro: "DE SOLDADOS",
+        numeroQuadro: 74,
+        siglaQuadroEspecialidade: null
+      }
+    ];
+    this.especialidades = [
+      {
+        id: 8,
+        siglaEspecialidade: "QSS-BMA",
+        siglaAbreviada: null,
+        descricaoEspecilidade: "MECANICA DE AERONAVES"
+      },
+      {
+        id: 31,
+        siglaEspecialidade: "QOINT",
+        siglaAbreviada: 'Int',
+        descricaoEspecilidade: "QUADRO DE OFICIAIS"
+      }
+    ];
+    this.unidades = [
+      {
+        id: "299",
+        siglaUnidade: "CCA RJ",
+        siglaUnidadeCompleta: "CCA RJ",
+        nomeUnidade: "CENTRO DE COMPUTACAO DA AERONAUTICA DO RJ",
+        nomeUnidadeCompleto: "CENTRO DE COMPUTACAO DA AERONAUTICA DO RJ",
+        endereço: "PONTA DO GALEÃO S/Nº",
+        cep: "21941520"
+      }
+    ]
+
   }
 
   buildForm(): void {
@@ -60,46 +116,9 @@ export class EfetivoCadastroContainerComponent implements OnInit {
       codigoCategoriaCnh: this.fb.control(null),
       dataValidadeCnh: this.fb.control(null),
       inspecoes: this.fb.control([]),
-      setores: this.fb.control([])
+      setores: this.fb.control([]),
+      unidade: this.fb.control(null),
     });
-
-    this.situacao = [
-      {name: 'Ativa', code: 'S'},
-      {name: 'Reserva', code: 'N'},
-  ];
-
-    this.id = this.activitedRoute.snapshot.params['id'];
-    if (this.id) {
-      this.pessoaService.findByID(this.id).subscribe(res => {
-        this.pessoa = res;
-        this.form.patchValue({
-          nomePessoa: res.nomePessoa,
-          nomeGuerra: res.nomeGuerra,
-          posto: res.posto.siglaPosto,
-          especialidade: res.especialidade.siglaAbreviada,
-          numeroIdentidade: res.numeroIdentidade,
-          siglaOrgaoEspedidor: res.siglaOrgaoEspedidor,
-          numeroCpf: res.numeroCpf,
-          numeroSaram: res.numeroSaram,
-          codigoSexo: res.codigoSexo,
-          quadro: res.quadro.siglaQuadro,
-          dataIncorporacao: res.dataIncorporacao,
-          dataBaixa: res.dataBaixa,
-          nomeEmail: res.nomeEmail,
-          numeroTelefone: res.numeroTelefone,
-          dataNascimento: res.dataNascimento,
-          numeroRegistroCnh: res.numeroRegistroCnh,
-          codigoCategoriaCnh: res.codigoCategoriaCnh,
-          dataValidadeCnh: res.dataValidadeCnh,
-          // inspecoes: res.inspecoes,
-          // setores: res.setores
-        });
-        console.log(res.setores)
-        this.loading.end;
-      });
-    
-    }
-
   }
 
   searchArea(event: any): void {
@@ -116,7 +135,7 @@ export class EfetivoCadastroContainerComponent implements OnInit {
   }
 
   onMoveToTarget(event: any): void {
-    this.cursoSelecionados.map(q => q.id)
+ 
   }
 
   onMoveToSource(event: any): void {
@@ -125,12 +144,9 @@ export class EfetivoCadastroContainerComponent implements OnInit {
 
   resetForms(): void {
     this.form.reset();
-    this.cursoSelecionados = [...this.cursoSelecionados.filter(curso => !this.cursoSelecionados.map(item => null))];
-    this.buscarCursos({});
   }
 
   buscarCursos(event: any): void {
-    const ids = this.cursoSelecionados.map(q => q.id);
     // this.facade.findAllCurso({filtroNomeOuCodigo: event.query})
     //   .pipe(
     //     switchMap(response => this.cursoList = response.content),

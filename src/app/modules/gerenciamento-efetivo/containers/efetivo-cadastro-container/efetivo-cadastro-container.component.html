@@ -2,13 +2,12 @@
   <header>
     <div class="l-finor-cadastro-container__header">
       <div class="grid l-main-grid">
-        <div class="col-12 xl-10 col-offset-1"></div>
+        <div class="col-12 xl-10"></div>
         <div
           class="
             l-finor-cadastro-container__title-wrapper
             col-12
             xl-10
-            col-offset-1
             flex
             align-items-center
             justify-content-between
@@ -17,10 +16,7 @@
         >
           <div>
             <h2 class="l-finor-cadastro-container__title ml-3">
-            Pessoa -
-            </h2>
-            <h2 class="l-finor-cadastro-container__title ml-3">
-              {{ id ? "Editar " : "Criar " }}
+            Pessoa - Cadastro
             </h2>
           </div>
           <div>
@@ -30,9 +26,8 @@
               [routerLink]="'/gerenciamento'"
               styleClass="p-button-outlined p-button-secondary mr-3"
             ></p-button>
-
             <p-button
-              label="LIMPAR d"
+              label="LIMPAR"
               (click)="resetForms()"
               icon="pi pi-undo"
               styleClass="p-button-outlined p-button-secondary mr-3"
@@ -49,27 +44,6 @@
     </div>
   </header>
   <div class="grid l-main-grid">
-    <div class="col-12 xl-10 col-offset-1">
-      <p-tabView>
-        <p-tabPanel>
-          <ng-template pTemplate="header">
-            <div class="l-finor-cadastro-container__tab-header flex">
-              <span
-                class="
-                  l-finor-cadastro-container__tab-header-step
-                  mr-2
-                  flex
-                  align-items-center
-                  justify-content-center
-                "
-              >
-                1 -
-              </span>
-              <span class="l-finor-cadastro-container__tab-header-title">
-                Cadastro
-              </span>
-            </div>
-          </ng-template>
           <div class="mt-3 mb-2">
             <p-card>
               <form [formGroup]="form" class="fluid formgrid grid">
@@ -100,27 +74,31 @@
                     Digite o nome de guerra
                   </small>
                 </div>
-                <div class="p-input-filled col-6">
+                <div class="p-input-filled col-2">
                   <label>Posto</label>
-                  <input
+                  <br />
+                    <p-dropdown 
+                    [options]="postos" 
                     formControlName="posto"
-                    value="posto.siglaPosto"
-                    id="sigla"
-                    type="text"
-                    pInputText
-                  />
-                  <small
-                    class="p-invalid"
-                    *ngIf="
-                      form.get('posto').invalid && form.get('posto').touched
-                    "
-                  >
-                    Digite o posto
-                  </small>
+                    optionValue="id"
+                    optionLabel="nomePosto"
+                    styleClass="flex"
+                    placeholder="Selecione"
+                    >
+                    </p-dropdown>
                 </div>
-                <div class="p-input-filled col-6">
+                <div class="p-input-filled col-2">
                   <label>Quadro</label>
-                  <input formControlName="quadro" type="text" pInputText class="p-input-filled" />
+                  <br />
+                  <p-dropdown 
+                  [options]="quadros" 
+                  formControlName="quadro"
+                  optionValue="id"
+                  optionLabel="siglaQuadro"
+                  styleClass="flex"
+                  placeholder="Selecione"
+                  >
+                  </p-dropdown>
                   <small
                     class="p-invalid"
                     *ngIf="form.get('quadro').invalid && form.get('quadro').touched"
@@ -128,66 +106,70 @@
                     Digite um quadro
                   </small>
                 </div>
-                <div class="col-6 flex justify-content-between p-0 mb-2">
+                <div class="p-input-filled col-2">
+                  <label>Especialidade</label>
+                  <br />
+                  <p-dropdown 
+                  [options]="especialidades" 
+                  formControlName="especialidade"
+                  optionValue="id"
+                  optionLabel="siglaEspecialidade"
+                  styleClass="flex"
+                  placeholder="Selecione"
+                  >
+                  </p-dropdown>
+                  <small
+                    class="p-invalid"
+                    *ngIf="form.get('quadro').invalid && form.get('quadro').touched"
+                  >
+                    Digite um quadro
+                  </small>
+                </div>
                 <div class="p-input-filled col-2">
                   <label>Data Praça</label>
-                  <div class="mt-2">
-                    {{ pessoa?.dataIncorporacao | date: "dd/MM/yyyy" }}
-                  </div>
+                  <p-calendar 
+                  formControlName="dataIncorporacao"
+                  placeholder="Selecione"
+                  styleClass="flex" 
+                  >
+                  </p-calendar>
                 </div>
                 <div class="p-input-filled col-2">
                   <label>Data Nascimento</label>
-                  <div class="mt-2">
-                    {{ pessoa?.dataNascimento | date: "dd/MM/yyyy" }}
-                  </div>
+                  <p-calendar 
+                  formControlName="dataNascimento"
+                  placeholder="Selecione"
+                  styleClass="flex"
+                  >
+                  </p-calendar>
                 </div>
                 <div class="p-input-filled col-2">
                   <label>Data Baixa</label>
-                  <div class="mt-2">
-                    {{ pessoa?.dataBaixa | date: "dd/MM/yyyy" }}
-                  </div>
-                </div>
-                </div>
-                <div class="col-6 p-input-filled">
-                  <label>Especialidade</label>
-                  <input formControlName="especialidade" type="text" pInputText />
-                  <small
-                    class="p-invalid"
-                    *ngIf="form.get('especialidade').invalid && form.get('especialidade').touched"
+                  <p-calendar 
+                  formControlName="dataBaixa"
+                  placeholder="Selecione"
+                  styleClass="flex"
                   >
-                    Digite uma especilidade
-                  </small>
+                  </p-calendar>
+                </div>
+                <div class="p-input-filled col-2">
+                  <label>Unidade</label>
+                  <p-dropdown 
+                  [options]="unidades" 
+                  formControlName="unidade"
+                  optionValue="id"
+                  optionLabel="siglaUnidade"
+                  styleClass="flex"
+                  placeholder="Selecione"
+                  >
+                  </p-dropdown>
                 </div>
                 <!-- <div class="col-6 flex justify-content-end p-0">
                 </div> -->
                 <div class="p-input-filled col-12 mt-2">
-                  <p-pickList
-                    [source]="setores"
-                    [target]="cursoSelecionados"
-                    [showSourceControls]="false"
-                    [showTargetControls]="false"
-                    (onMoveToSource)="onMoveToSource($event)"
-                    (onMoveToTarget)="onMoveToTarget($event)"
-                    sourceHeader="Cursos"
-                    targetHeader="Cursos Selecionados"
-                    (onSourceFilter)="buscarCursos($event)"
-                    [sourceStyle]="{ height: '300px' }"
-                    [targetStyle]="{ height: '300px' }"
-                  >
-                    <ng-template let-cursos pTemplate="item">
-                      <div>
-                        <div>
-                          <b>{{ cursos.siglaSetor }}</b> - {{ cursos.nomeSetor }}
-                        </div>
-                      </div>
-                    </ng-template>
-                  </p-pickList>
                 </div>
               </form>
             </p-card>
           </div>
-        </p-tabPanel>
-      </p-tabView>
-    </div>
   </div>
 </section>

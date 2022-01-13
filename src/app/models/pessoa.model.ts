@@ -48,7 +48,7 @@ export interface Pessoa {
   numeroRegistroCnh?:      null;
   codigoCategoriaCnh?:     null;
   dataValidadeCnh?:        null;
-  inspecoes?:              any[];
+  inspecoes?:              Inspecao[];
   setores?:                Setor[];
 }
 

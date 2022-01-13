@@ -1,0 +1,280 @@
+<section class="l-finor-cadastro-container" xmlns="http://www.w3.org/1999/html">
+      <header>
+        <div class="l-finor-cadastro-container__header">
+          <div class="l-main-grid">
+            <div class="col-12 xl-10 col-offset-1"></div>
+            <div
+              class="
+                l-finor-cadastro-container__title-wrapper
+                col-12
+                xl-10
+                flex
+                align-items-center
+                justify-content-between
+                mb-3
+              "
+            >
+              <div>
+                <h2 class="l-finor-cadastro-container__title ml-3">
+                  Pessoa - Detalhe
+                </h2>
+              </div>
+              <div>
+                <p-button
+                  label="VOLTAR"
+                  icon="pi pi-directions-alt"
+                  [routerLink]="'/gerenciamento'"
+                  styleClass="p-button-outlined p-button-secondary mr-3"
+                ></p-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="l-main-grid">
+        <p-card styleClass="mt-3 p-reset">
+          <div *ngIf="blocked"  class="custom-skeleton p-p-4">
+            <p-skeleton width="100%" height="640px"></p-skeleton>
+          </div>
+          <div *ngIf="!blocked" class="formgrid grid">
+            <div class="col-2">
+              <label>Posto</label>
+              <div class="mt-2">
+                {{ pessoa?.posto.siglaPosto }}
+                {{ pessoa?.dataBaixa ? "R/1" : "" }}
+              </div>
+            </div>
+            <div class="col-2">
+              <label>Quadro</label>
+              <div class="mt-2">
+                {{
+                  pessoa?.quadro?.siglaQuadro ? pessoa?.quadro?.siglaQuadro : "-"
+                }}
+              </div>
+            </div>
+            <div class="col-2 mt-2">
+              <label>Especialidade</label>
+              <div class="mt-2">
+                {{
+                  pessoa?.especialidade?.siglaAbreviada
+                    ? pessoa?.especialidade?.siglaAbreviada
+                    : pessoa?.especialidade?.siglaEspecialidade
+                    ? pessoa?.especialidade?.siglaEspecialidade
+                    : "-"
+                }}
+              </div>
+            </div>
+            <div class="col-3">
+              <label>Nome completo</label>
+              <div class="mt-2">
+                {{ pessoa?.nomePessoa }}
+              </div>
+            </div>
+            <div class="col-3">
+              <label>Nome de guerra</label>
+              <div class="mt-2">
+                {{ pessoa?.nomeGuerra }}
+              </div>
+            </div>
+            <div class="col-2 mt-2">
+              <label>Data Praça</label>
+              <div class="mt-2">
+                {{ pessoa?.dataIncorporacao | date: "dd/MM/yyyy" }}
+              </div>
+            </div>
+            <div class="col-2 mt-2">
+              <label>Data Nascimento</label>
+              <div class="mt-2">
+                {{ pessoa?.dataNascimento | date: "dd/MM/yyyy" }}
+              </div>
+            </div>
+            <div class="col-2 mt-2">
+              <label>Data Baixa</label>
+              <div class="mt-2">
+                {{ pessoa?.dataBaixa | date: "dd/MM/yyyy" }}
+              </div>
+            </div>
+            <div class="col-3 mt-2">
+              <label>Sigla Unidade</label>
+              <div class="mt-2">
+                {{ pessoa?.unidade.siglaUnidadeCompleta }}
+              </div>
+            </div>
+            <div class="col-3 mt-2">
+              <label>Nome Unidade</label>
+              <div class="mt-2">
+                {{ pessoa?.unidade.nomeUnidadeCompleto }}
+              </div>
+            </div>
+            <div class="col-12 flex mt-2 p-0">
+              <div class="col-2 mt-2">
+                <label>Nr Identidade</label>
+                <div class="mt-2">
+                  {{ pessoa?.numeroIdentidade ? pessoa?.numeroIdentidade : "-" }}
+                </div>
+              </div>
+              <div class="col-2 mt-2">
+                <label>Orgão Expedidor</label>
+                <div class="mt-2">
+                  {{
+                    pessoa?.siglaOrgaoEspedidor ? pessoa?.siglaOrgaoEspedidor : "-"
+                  }}
+                </div>
+              </div>
+              <div class="col-2 mt-2">
+                <label>Nr Saram</label>
+                <div class="mt-2">
+                  {{ pessoa?.numeroSaram ? pessoa?.numeroSaram : "-" }}
+                </div>
+              </div>
+              <div class="col-3 mt-2">
+                <label>Nr Cpf</label>
+                <div class="mt-2">
+                  {{ pessoa?.numeroCpf ? pessoa?.numeroCpf : "-" }}
+                </div>
+              </div>
+              <div class="col-3 mt-2">
+                <label>Email</label>
+                <div class="mt-2">
+                  {{ pessoa?.nomeEmail ? pessoa?.nomeEmail : "-" }}
+                </div>
+              </div>
+            </div>
+            <div class="col-12 flex mt-2 p-0">
+              <div class="col-2 mt-2">
+                <label>Nr Cnh</label>
+                <div class="mt-2">
+                  {{ pessoa?.numeroRegistroCnh ? pessoa?.numeroRegistroCnh : "-" }}
+                </div>
+              </div>
+              <div class="col-2 mt-2">
+                <label>Categoria Cnh</label>
+                <div class="mt-2">
+                  {{
+                    pessoa?.codigoCategoriaCnh ? pessoa?.codigoCategoriaCnh : "-"
+                  }}
+                </div>
+              </div>
+              <div class="col-2 mt-2">
+                <label>Validade Cnh</label>
+                <div
+                  [ngClass]="{
+                    'dt-vencida': hoje.isSameOrAfter(pessoa?.dataValidadeCnh),
+                    'dt-valida': hoje.isBefore(pessoa?.dataValidadeCnh)
+                  }"
+                  class="mt-2"
+                >
+                  {{
+                    pessoa?.dataValidadeCnh
+                      ? (pessoa?.dataValidadeCnh | date: "dd/MM/yyyy")
+                      : "-"
+                  }}
+                </div>
+              </div>
+              <div class="col-2 mt-2">
+                <label>Sexo</label>
+                <div class="mt-2">
+                  {{ pessoa?.codigoSexo ? pessoa?.codigoSexo : "-" }}
+                </div>
+              </div>
+            </div>
+            <div class="col-12 flex mt-2 p-0">
+              <div class="col-6">
+                <label>Setores Alocados</label>
+                <div class="mt-2">
+                  <p-table
+                    styleClass="p-datatable-striped"
+                    [value]="pessoa?.setores"
+                    [scrollable]="true"
+                    scrollHeight="200px"
+                  >
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Sigla</th>
+                        <th>Nome</th>
+                        <th>Chefe</th>
+                        <th>Divisão</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-setor>
+                      <tr>
+                        <td>{{ setor.siglaSetor }}</td>
+                        <td>{{ setor.nomeSetor }}</td>
+                        <td>{{ setor.inDetentor }}</td>
+                        <td>{{ setor.tipoDivisao }}</td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="4" class="justify-content-center">
+                          <span>
+                            {{ "Nenhum setor encontrado" | uppercase }}
+                          </span>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+              <div class="col-6">
+                <label>Inpeções realizadas</label>
+                <div class="mt-2">
+                  <p-table
+                    styleClass="p-datatable-striped"
+                    [value]="pessoa?.inspecoes"
+                    [scrollable]="true"
+                    scrollHeight="200px"
+                  >
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Tipo</th>
+                        <th>Resultado</th>
+                        <th pSortableColumn="dataRealizacao">
+                          Data Realizacao<p-sortIcon
+                            field="dataRealizacao"
+                          ></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="dataValidade">
+                          Data Validade<p-sortIcon
+                            field="dataValidade"
+                          ></p-sortIcon>
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-inspecao>
+                      <tr>
+                        <td>{{ inspecao.tipoInspecao }}</td>
+                        <td>{{ inspecao.tipoResultado }}</td>
+                        <td>{{ inspecao.dataRealizacao }}</td>
+                        <td>
+                          <div
+                            [ngClass]="{
+                              'dt-vencida': hoje.isSameOrAfter(
+                                inspecao.dataValidade
+                              ),
+                              'dt-valida': hoje.isBefore(inspecao.dataValidade)
+                            }"
+                          >
+                            {{ inspecao.dataValidade }}
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="4" class="justify-content-center">
+                          <span>
+                            {{ "Nenhuma inspecao encontrada" | uppercase }}
+                          </span>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </div>
+        </div>
+        </p-card>
+      </div>
+    </section>
+    

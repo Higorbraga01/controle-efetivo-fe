@@ -25,6 +25,7 @@
                 (onClear)="searchPessoas({})"
                 emptyMessage="Pessoa não encontrado"
                 (completeMethod)="searchPessoas($event)"
+                (onSelect)="updateTable({ first: 0, rows: 10 })"
                 [dropdown]="true"
                 formControlName="nomePessoa"
                 [minLength]="3"
@@ -55,15 +56,6 @@
             (click)="onClear()"
           ></button>
           <button
-            style="margin-right: 0.5rem"
-            pRipple
-            pButton
-            class="p-button-sm"
-            label="FILTRAR"
-            icon="pi pi-filter"
-            (click)="updateTable({ first: 0, rows: 10 })"
-          ></button>
-          <button
             [routerLink]="'cadastro'"
             pButton
             pRipple
@@ -73,7 +65,6 @@
           ></button>
         </div>
       </p-toolbar>
-
       <p-table
         #tablepessoa
         [value]="pessoasList"
@@ -97,7 +88,6 @@
             <td [attr.colspan]="8">Nenhum dado encontrado</td>
           </tr>
         </ng-template>
-
         <ng-template pTemplate="header">
           <tr>
             <th class="text-center">Posto / Quadro / Especialidade / Nome</th>

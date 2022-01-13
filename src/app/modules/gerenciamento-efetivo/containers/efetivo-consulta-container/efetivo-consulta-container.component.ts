@@ -53,17 +53,10 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     this.form = this.fb.group({
       nomePessoa: this.fb.control(null)
     });
-
     this.dtAtual = new Date();
-    this.pessoaService.getAllSearch().pipe().subscribe(res => {
-      this.pessoasList = res.content;
-      
-    });
-
     this._breadcrumbItems = [
       { label: 'Lista Efetivo', disabled: false },
     ];
-
     this._home = {
       icon: 'pi pi-home',
       url: environment.FRONT_URL,

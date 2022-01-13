@@ -28,20 +28,16 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { PickListModule } from 'primeng/picklist';
 import { DropdownModule } from 'primeng/dropdown';
 import { EfetivoCadastroContainerComponent } from './containers/efetivo-cadastro-container/efetivo-cadastro-container.component';
-import {RadioButtonModule} from 'primeng/radiobutton';
-import { GerenciamentoEfetivoConsultaContainerComponent } from './containers/gerenciamento-efetivo-consulta-container/gerenciamento-efetivo-consulta-container.component';
+import { RadioButtonModule } from 'primeng/radiobutton';
 import { EfetivoTabelaComponent } from './components/efetivo-tabela/efetivo-tabela.component';
-import {ConfirmationService} from 'primeng/api';
-import {TreeModule} from 'primeng/tree';
-
-
-
+import { ConfirmationService } from 'primeng/api';
+import { EfetivoDetalheContainerComponent } from './containers/efetivo-detalhe-container/efetivo-detalhe-container.component';
 @NgModule({
   declarations: [
     EfetivoConsultaContainerComponent,
     EfetivoCadastroContainerComponent,
-    GerenciamentoEfetivoConsultaContainerComponent,
-    EfetivoTabelaComponent
+    EfetivoTabelaComponent,
+    EfetivoDetalheContainerComponent,
   ],
   imports: [
     CommonModule,
@@ -72,8 +68,7 @@ import {TreeModule} from 'primeng/tree';
     TabMenuModule,
     BreadcrumbModule,
     RadioButtonModule,
-    TreeModule
   ],
-  providers: [ConfirmationService]
+  providers: [ConfirmationService],
 })
-export class GerenciamentoEfetivoModule { }
+export class GerenciamentoEfetivoModule {}

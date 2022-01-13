@@ -55,7 +55,7 @@ export interface Pessoa {
 export interface Especialidade {
   id?:                    number;
   siglaEspecialidade?:    string;
-  siglaAbreviada?:        null;
+  siglaAbreviada?:        string;
   descricaoEspecilidade?: string;
 }
 

@@ -16,7 +16,7 @@
         >
           <div>
             <h2 class="l-finor-cadastro-container__title ml-3">
-            Pessoa - Cadastro
+              Pessoa - Cadastro
             </h2>
           </div>
           <div>
@@ -35,7 +35,7 @@
             <p-button
               [label]="'SALVAR'"
               icon="pi pi-save"
-              (click)="saveArea()"
+              (onClick)="saveArea()"
               [disabled]="form.invalid"
             ></p-button>
           </div>
@@ -44,132 +44,317 @@
     </div>
   </header>
   <div class="grid l-main-grid">
-          <div class="mt-3 mb-2">
-            <p-card>
-              <form [formGroup]="form" class="fluid formgrid grid">
-                <div class="p-input-filled col-6">
-                  <label>Nome completo</label>
-                  <input
-                    formControlName="nomePessoa"
-                    id="sigla"
-                    type="text"
-                    pInputText
-                  />
-                  <small
-                    class="p-invalid"
-                    *ngIf="
-                      form.get('nomePessoa').invalid && form.get('nomePessoa').touched
-                    "
-                  >
-                    Digite o nome completo
-                  </small>
-                </div>
-                <div class="p-input-filled col-6">
-                  <label>Nome de guerra</label>
-                  <input formControlName="nomeGuerra" type="text" pInputText/>
-                  <small
-                    class="p-invalid"
-                    *ngIf="form.get('nomeGuerra').invalid && form.get('nomeGuerra').touched"
-                  >
-                    Digite o nome de guerra
-                  </small>
-                </div>
-                <div class="p-input-filled col-2">
-                  <label>Posto</label>
-                  <br />
-                    <p-dropdown 
-                    [options]="postos" 
-                    formControlName="posto"
-                    optionValue="id"
-                    optionLabel="nomePosto"
-                    styleClass="flex"
-                    placeholder="Selecione"
-                    >
-                    </p-dropdown>
-                </div>
-                <div class="p-input-filled col-2">
-                  <label>Quadro</label>
-                  <br />
-                  <p-dropdown 
-                  [options]="quadros" 
-                  formControlName="quadro"
-                  optionValue="id"
-                  optionLabel="siglaQuadro"
-                  styleClass="flex"
-                  placeholder="Selecione"
-                  >
-                  </p-dropdown>
-                  <small
-                    class="p-invalid"
-                    *ngIf="form.get('quadro').invalid && form.get('quadro').touched"
-                  >
-                    Digite um quadro
-                  </small>
-                </div>
-                <div class="p-input-filled col-2">
-                  <label>Especialidade</label>
-                  <br />
-                  <p-dropdown 
-                  [options]="especialidades" 
-                  formControlName="especialidade"
-                  optionValue="id"
-                  optionLabel="siglaEspecialidade"
-                  styleClass="flex"
-                  placeholder="Selecione"
-                  >
-                  </p-dropdown>
-                  <small
-                    class="p-invalid"
-                    *ngIf="form.get('quadro').invalid && form.get('quadro').touched"
-                  >
-                    Digite um quadro
-                  </small>
-                </div>
-                <div class="p-input-filled col-2">
-                  <label>Data Praça</label>
-                  <p-calendar 
-                  formControlName="dataIncorporacao"
-                  placeholder="Selecione"
-                  styleClass="flex" 
-                  >
-                  </p-calendar>
-                </div>
-                <div class="p-input-filled col-2">
-                  <label>Data Nascimento</label>
-                  <p-calendar 
-                  formControlName="dataNascimento"
-                  placeholder="Selecione"
-                  styleClass="flex"
-                  >
-                  </p-calendar>
-                </div>
-                <div class="p-input-filled col-2">
-                  <label>Data Baixa</label>
-                  <p-calendar 
-                  formControlName="dataBaixa"
-                  placeholder="Selecione"
-                  styleClass="flex"
-                  >
-                  </p-calendar>
-                </div>
-                <div class="p-input-filled col-2">
-                  <label>Unidade</label>
-                  <p-dropdown 
-                  [options]="unidades" 
-                  formControlName="unidade"
-                  optionValue="id"
-                  optionLabel="siglaUnidade"
-                  styleClass="flex"
-                  placeholder="Selecione"
-                  >
-                  </p-dropdown>
-                </div>
-                <!-- <div class="col-6 flex justify-content-end p-0">
-                </div> -->
-                <div class="p-input-filled col-12 mt-2">
-                </div>
-              </form>
-            </p-card>
+    <div class="mt-3 mb-2">
+      <p-card>
+        <form [formGroup]="form" class="fluid formgrid grid">
+          <div class="p-input-filled col-6">
+            <label>Nome completo *</label>
+            <input
+              formControlName="nomePessoa"
+              id="sigla"
+              type="text"
+              pInputText
+            />
+            <small
+              class="p-invalid"
+              *ngIf="
+                form.get('nomePessoa').invalid && form.get('nomePessoa').touched
+              "
+            >
+              Digite o nome completo
+            </small>
           </div>
+          <div class="p-input-filled col-2">
+            <label>Nome de guerra *</label>
+            <input formControlName="nomeGuerra" type="text" pInputText />
+            <small
+              class="p-invalid"
+              *ngIf="
+                form.get('nomeGuerra').invalid && form.get('nomeGuerra').touched
+              "
+            >
+              Digite o nome de guerra
+            </small>
+          </div>
+          <div class="p-input-filled col-2">
+            <label>Saram *</label>
+            <input formControlName="numeroSaram" [maxlength]="7" pInputText />
+            <small
+              class="p-invalid"
+              *ngIf="
+                form.get('numeroSaram').invalid &&
+                form.get('numeroSaram').touched
+              "
+            >
+              Digite o saram
+            </small>
+          </div>
+          <div class="p-input-filled col-2">
+            <label>Cpf *</label>
+            <input formControlName="numeroCpf" [maxlength]="11" pInputText />
+            <small
+              class="p-invalid"
+              *ngIf="
+                form.get('numeroCpf').invalid && form.get('numeroCpf').touched
+              "
+            >
+              Digite o cpf
+            </small>
+          </div>
+          <div class="p-input-filled col-2">
+            <label>Nr Identidade</label>
+            <input formControlName="numeroIdentidade" pInputText />
+            <small
+              class="p-invalid"
+              *ngIf="
+                form.get('numeroIdentidade').invalid &&
+                form.get('numeroIdentidade').touched
+              "
+            >
+              Digite o nome de guerra
+            </small>
+          </div>
+          <div class="p-input-filled col-2">
+            <label>Orgão expedidor</label>
+            <input
+              formControlName="siglaOrgaoEspedidor"
+              type="text"
+              pInputText
+            />
+            <small
+              class="p-invalid"
+              *ngIf="
+                form.get('numeroIdentidade').invalid &&
+                form.get('numeroIdentidade').touched
+              "
+            >
+              Digite a sigla do orgão expedidor
+            </small>
+          </div>
+          <div class="p-input-filled col-2">
+            <label>Posto *</label>
+            <br />
+            <p-dropdown
+              [options]="postos"
+              formControlName="postoId"
+              optionValue="id"
+              optionLabel="nomePosto"
+              styleClass="flex"
+              placeholder="Selecione"
+            >
+            </p-dropdown>
+            <small
+              class="p-invalid"
+              *ngIf="form.get('postoId').invalid && form.get('postoId').touched"
+            >
+              Selecione um posto
+            </small>
+          </div>
+          <div class="p-input-filled col-2">
+            <label>Quadro *</label>
+            <br />
+            <p-dropdown
+              [options]="quadros"
+              formControlName="quadroId"
+              optionValue="id"
+              optionLabel="siglaQuadro"
+              styleClass="flex"
+              placeholder="Selecione"
+            >
+            </p-dropdown>
+            <small
+              class="p-invalid"
+              *ngIf="form.get('quadroId').invalid && form.get('quadroId').touched"
+            >
+              Selecione um quadro
+            </small>
+          </div>
+          <div class="p-input-filled col-2">
+            <label>Especialidade *</label>
+            <br />
+            <p-dropdown
+              [options]="especialidades"
+              formControlName="especialidadeId"
+              optionValue="id"
+              optionLabel="siglaEspecialidade"
+              styleClass="flex"
+              placeholder="Selecione"
+            >
+            </p-dropdown>
+            <small
+              class="p-invalid"
+              *ngIf="
+                form.get('especialidadeId').invalid &&
+                form.get('especialidadeId').touched
+              "
+            >
+              Selecione uma especialidade
+            </small>
+          </div>
+          <div class="p-input-filled col-2">
+            <label>Sub Especialidade </label>
+            <br />
+            <p-dropdown
+              [options]="especialidades"
+              formControlName="codigoSubEspecialidade"
+              optionValue="id"
+              optionLabel="siglaEspecialidade"
+              styleClass="flex"
+              placeholder="Selecione"
+            >
+            </p-dropdown>
+            <small
+              class="p-invalid"
+              *ngIf="
+                form.get('codigoSubEspecialidade').invalid &&
+                form.get('codigoSubEspecialidade').touched
+              "
+            >
+              Selecione uma sub-especialidade
+            </small>
+          </div>
+          <div class="p-input-filled col-2">
+            <label>Sexo *</label>
+            <br />
+            <p-dropdown
+              [options]="cdsexo"
+              formControlName="codigoSexo"
+              optionValue="codigo"
+              optionLabel="nome"
+              styleClass="flex"
+              placeholder="Selecione"
+            >
+            </p-dropdown>
+            <small
+              class="p-invalid"
+              *ngIf="form.get('codigoSexo').invalid && form.get('codigoSexo').touched"
+            >
+              Selecione o sexo
+            </small>
+          </div>
+          <div class="p-input-filled col-2">
+            <label>Data Praça *</label>
+            <p-calendar
+              formControlName="dataIncorporacao"
+              placeholder="Selecione"
+              styleClass="flex"
+            >
+            </p-calendar>
+            <small
+            class="p-invalid"
+            *ngIf="
+              form.get('dataIncorporacao').invalid &&
+              form.get('dataIncorporacao').touched
+            "
+          >
+            Selecione uma data
+          </small>
+          </div>
+          <div class="p-input-filled col-2">
+            <label>Data Nascimento *</label>
+            <p-calendar
+              formControlName="dataNascimento"
+              placeholder="Selecione"
+              styleClass="flex"
+            >
+            </p-calendar>
+            <small
+            class="p-invalid"
+            *ngIf="
+              form.get('dataNascimento').invalid &&
+              form.get('dataNascimento').touched
+            "
+          >
+            Selecione uma data
+          </small>
+          </div>
+          <div class="p-input-filled col-2">
+            <label>Data Baixa</label>
+            <p-calendar
+              formControlName="dataBaixa"
+              placeholder="Selecione"
+              styleClass="flex"
+            >
+            </p-calendar>
+          </div>
+          <div class="p-input-filled col-2">
+            <label>Unidade *</label>
+            <p-dropdown
+              [options]="unidades"
+              formControlName="unidadeId"
+              optionValue="id"
+              optionLabel="siglaUnidade"
+              styleClass="flex"
+              placeholder="Selecione"
+            >
+            </p-dropdown>
+          </div>
+          <div class="flex col-12 p-0">
+          <div class="p-input-filled col-2">
+            <label>Numero Cnh</label>
+            <input formControlName="numeroRegistroCnh" pInputText />
+            <small
+              class="p-invalid"
+              *ngIf="
+                form.get('numeroRegistroCnh').invalid &&
+                form.get('numeroRegistroCnh').touched
+              "
+            >
+              Digite o nr de registro da cnh
+            </small>
+          </div>
+          <div class="p-input-filled col-2">
+            <label>Categoria Cnh</label>
+            <input 
+              formControlName="codigoCategoriaCnh"
+              [maxlength]="1"
+              pInputText />
+            <small
+              class="p-invalid"
+              *ngIf="
+                form.get('codigoCategoriaCnh').invalid &&
+                form.get('codigoCategoriaCnh').touched
+              "
+            >
+              Digite a categoria da cnh
+            </small>
+          </div>
+          <div class="p-input-filled col-2">
+            <label>Data de validade Cnh</label>
+            <p-calendar
+              formControlName="dataValidadeCnh"
+              placeholder="Selecione"
+              styleClass="flex"
+            >
+            </p-calendar>
+            <small
+            class="p-invalid"
+            *ngIf="
+              form.get('dataValidadeCnh').invalid &&
+              form.get('dataValidadeCnh').touched
+            "
+          >
+            Selecione uma data
+          </small>
+          </div>
+          <div class="p-input-filled col-4">
+            <label>Email</label>
+            <input formControlName="nomeEmail" type="text" pInputText />
+            <small
+              class="p-invalid"
+              *ngIf="
+                form.get('nomeEmail').invalid && form.get('nomeEmail').touched
+              "
+            >
+              Digite o email
+            </small>
+          </div>
+          </div>
+          <!-- <div class="col-6 flex justify-content-end p-0">
+                </div> -->
+          <div class="p-input-filled col-12 mt-2"></div>
+        </form>
+      </p-card>
+    </div>
   </div>
 </section>

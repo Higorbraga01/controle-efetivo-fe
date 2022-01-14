@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Pageable } from '../models/pageable.model';
 import { Pessoa } from '../models/pessoa.model';
+import { PessoaRequest } from '../models/pessoa.request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -42,15 +43,13 @@ export class PessoaService {
     return params;
   }
 
-  getPessoas(): Observable<Pageable<Pessoa>> {
-    return this.http.get<Pageable<Pessoa>>(`${this.endpoint}/pessoas`);
+  save(pessoa: PessoaRequest): Observable<PessoaRequest> {
+    console.log(pessoa);
+    return this.http.post<PessoaRequest>(`${this.endpoint}/pessoas`, pessoa)
+      .pipe(take(1));
   }
 
-  getAll(searchObject?: any): Observable<Pageable<Pessoa>> {
-    return this.http.get<Pageable<Pessoa>>(`${this.endpoint}/pessoas`, {
-      headers: this.defaultHeaders,
-    });
-  }
+
   getAllSearch(search?: any): Observable<Pageable<Pessoa>> {
     this.removeEmptyFields(search)
     const params = this.buildHttpParams(search);

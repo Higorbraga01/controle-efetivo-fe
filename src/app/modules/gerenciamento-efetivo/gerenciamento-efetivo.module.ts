@@ -32,6 +32,9 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { EfetivoTabelaComponent } from './components/efetivo-tabela/efetivo-tabela.component';
 import { ConfirmationService } from 'primeng/api';
 import { EfetivoDetalheContainerComponent } from './containers/efetivo-detalhe-container/efetivo-detalhe-container.component';
+import {InputMaskModule} from 'primeng/inputmask';
+
+
 @NgModule({
   declarations: [
     EfetivoConsultaContainerComponent,
@@ -68,6 +71,7 @@ import { EfetivoDetalheContainerComponent } from './containers/efetivo-detalhe-c
     TabMenuModule,
     BreadcrumbModule,
     RadioButtonModule,
+    InputMaskModule
   ],
   providers: [ConfirmationService],
 })

@@ -44,7 +44,7 @@ export class EfetivoTabelaComponent implements OnInit {
       this.loading = true;
 
       setTimeout(() => {
-          this.pessoaService.getAll({lazyEvent: JSON.stringify(event)}).subscribe(res => {
+          this.pessoaService.getAllSearch({lazyEvent: JSON.stringify(event)}).subscribe(res => {
               this.pessoas = res.content;
               this.totalRecords = res.totalElements;
               this.loading = false;

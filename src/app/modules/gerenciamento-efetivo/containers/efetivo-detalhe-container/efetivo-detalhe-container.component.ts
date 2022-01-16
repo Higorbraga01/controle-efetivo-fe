@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import moment, { Moment } from 'moment';
 import { Subscription } from 'rxjs';
-import { Pessoa, Setor } from 'src/app/models/pessoa.model';
+import { Pessoa } from 'src/app/models/pessoa.model';
+import { Setor } from "src/app/models/Setor";
 import { PessoaService } from 'src/app/service/pessoa.service';
 import { LoadingBarService } from 'src/app/shared/services/loading-bar.service';
 

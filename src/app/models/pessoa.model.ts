@@ -2,16 +2,11 @@ import {OrganizacaoResponse} from './organizacao.model';
 import { BaseModel } from './base.model';
 import {BaseSearch} from './base-search';
 import { Inspecao } from './inspecao.model';
-
-// export interface Pessoa extends BaseModel {
-//   nome?: string;
-//   nrCpf?: string;
-//   nrOrdem?: string;
-//   siglaPosto?: string;
-//   siglaQuadro?: string;
-//   siglaEspecialidade?: string;
-//   organizacao?: OrganizacaoResponse;
-// }
+import { Especialidade } from './Especialidade';
+import { Posto } from './Posto';
+import { Quadro } from './Quadro';
+import { Setor } from './Setor';
+import { Unidade } from './Unidade';
 
 export interface PessoaSearch extends BaseSearch {
   nrCpf?: string;
@@ -24,6 +19,32 @@ export interface PessoaSearch extends BaseSearch {
   organizacaoMilitarId?: number;
   contatoPrincipal?: string;
 }
+
+export interface PessoaRequest {
+  id: number;
+  unidadeId: string;
+  nomePessoa: string;
+  postoId: string;
+  nomeGuerra: string;
+  inAtivo: string;
+  especialidadeId: number;
+  codigoSubEspecialidade: number;
+  numeroIdentidade: string;
+  siglaOrgaoEspedidor: string;
+  numeroCpf: string;
+  numeroSaram: string;
+  codigoSexo: string;
+  quadroId: string;
+  dataIncorporacao: Date;
+  dataBaixa: Date;
+  nomeEmail: string;
+  numeroTelefone: string;
+  dataNascimento: string;
+  numeroRegistroCnh: string;
+  codigoCategoriaCnh: string;
+  dataValidadeCnh: Date;
+}
+
 
 export interface Pessoa {
   id?:                     number;
@@ -51,52 +72,3 @@ export interface Pessoa {
   inspecoes?:              Inspecao[];
   setores?:                Setor[];
 }
-
-export interface Especialidade {
-  id?:                    number;
-  siglaEspecialidade?:    string;
-  siglaAbreviada?:        string;
-  descricaoEspecilidade?: string;
-}
-
-export interface Posto {
-  id?:          string;
-  nomePosto?:   string;
-  numeroOrdem?: string;
-  siglaPosto?:  string;
-}
-
-export interface Quadro {
-  id?:                       string;
-  codigoPosto?:              string;
-  siglaQuadro?:              string;
-  nomeQuadro?:               string;
-  numeroQuadro?:             number;
-  siglaQuadroEspecialidade?: null;
-}
-
-export interface Setor {
-  setorId?:           SetorID;
-  siglaSetor?:        string;
-  tipoSetor?:         string;
-  nomeSetor?:         string;
-  inAtivo?:           string;
-  tipoDivisao?:       string;
-  codigoSetorSigpes?: string;
-}
-
-export interface SetorID {
-  codigoSetor?: string;
-  codigoUnidade?: string;
-}
-
-export interface Unidade {
-  id?:                   string;
-  siglaUnidade?:         string;
-  siglaUnidadeCompleta?: string;
-  nomeUnidade?:          string;
-  nomeUnidadeCompleto?:  string;
-  endereço?:             string;
-  cep?:                  string;
-}
-

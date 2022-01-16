@@ -5,8 +5,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SelectItem, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { switchMap, filter, toArray } from 'rxjs/operators';
-import { Especialidade, Pessoa, Posto, Quadro, Setor, Unidade } from 'src/app/models/pessoa.model';
-import { PessoaRequest } from 'src/app/models/pessoa.request.model';
+import { Pessoa } from 'src/app/models/pessoa.model';
+import { Unidade } from "src/app/models/Unidade";
+import { Setor } from "src/app/models/Setor";
+import { Quadro } from "src/app/models/Quadro";
+import { Posto } from "src/app/models/Posto";
+import { Especialidade } from "src/app/models/Especialidade";
+import { PessoaRequest } from 'src/app/models/pessoa.model';
 import { PessoaService } from 'src/app/service/pessoa.service';
 import { LoadingBarService } from 'src/app/shared/services/loading-bar.service';
 

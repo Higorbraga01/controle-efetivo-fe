@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Pageable } from '../models/pageable.model';
 import { Pessoa } from '../models/pessoa.model';
-import { PessoaRequest } from '../models/pessoa.request.model';
+import { PessoaRequest } from '../models/pessoa.model';
 
 @Injectable({
   providedIn: 'root',

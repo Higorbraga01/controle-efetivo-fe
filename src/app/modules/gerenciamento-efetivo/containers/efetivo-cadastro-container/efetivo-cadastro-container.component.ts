@@ -108,7 +108,7 @@ export class EfetivoCadastroContainerComponent implements OnInit {
         siglaUnidadeCompleta: "CCA RJ",
         nomeUnidade: "CENTRO DE COMPUTACAO DA AERONAUTICA DO RJ",
         nomeUnidadeCompleto: "CENTRO DE COMPUTACAO DA AERONAUTICA DO RJ",
-        endereço: "PONTA DO GALEÃO S/Nº",
+        endereco: "PONTA DO GALEÃO S/Nº",
         cep: "21941520"
       }
     ]

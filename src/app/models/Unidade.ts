@@ -4,6 +4,6 @@ export interface Unidade {
   siglaUnidadeCompleta?: string;
   nomeUnidade?: string;
   nomeUnidadeCompleto?: string;
-  endereço?: string;
+  endereco?: string;
   cep?: string;
 }

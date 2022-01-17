@@ -158,13 +158,13 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     return [
       {
         label: 'Editar', icon: 'pi pi-pencil',
-        routerLink: ['/habilitacao-instrutor', 'editar', this.pessoaSelecDropdown?.id],
+        routerLink: ['', 'editar', this.pessoaSelecDropdown?.id],
         // visible: this.userService?.user?.roles.includes('ROLE_crud-habilitacao-instrucao')
         disabled:true
       },
       {
         label: 'Detalhe Pessoa', icon: 'pi pi-info-circle',
-        routerLink: ['/gerenciamento/detalhe/', 'pessoa', this.pessoaSelecDropdown?.id]
+        routerLink: ['/efetivo/detalhe/', 'pessoa', this.pessoaSelecDropdown?.id]
       },
       {
         label: 'Excluir', icon: 'pi pi-trash',

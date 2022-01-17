@@ -16,12 +16,20 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'gerenciamento',
-    // canActivate: [AuthGuard],
+    path: 'efetivo',
+    // canActivate: [Authuard],
     // canActivateChild: [AuthGuard],
     loadChildren: () =>
       import('./modules/gerenciamento-efetivo/containers/efetivo/gerenciamento-efetivo.module')
         .then((m) => m.GerenciamentoEfetivoModule)
+  },
+  {
+    path: 'inspecao',
+    // canActivate: [Authuard],
+    // canActivateChild: [AuthGuard],
+    loadChildren: () =>
+      import('./modules/gerenciamento-efetivo/containers/inspecao/gerenciamento-inspecao.module')
+        .then((m) => m.GerenciamentoInspecaoModule)
   },
 
   { path: '403', component: NotAllowedComponent },

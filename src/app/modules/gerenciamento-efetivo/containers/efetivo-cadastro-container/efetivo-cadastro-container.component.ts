@@ -1,10 +1,9 @@
 import { Route } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { SelectItem, MessageService } from 'primeng/api';
-import { Subscription } from 'rxjs';
-import { switchMap, filter, toArray } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { Subscription } from 'rxjs'
 import { Pessoa } from 'src/app/models/pessoa.model';
 import { Unidade } from "src/app/models/Unidade";
 import { Setor } from "src/app/models/Setor";
@@ -14,6 +13,10 @@ import { Especialidade } from "src/app/models/Especialidade";
 import { PessoaRequest } from 'src/app/models/pessoa.model';
 import { PessoaService } from 'src/app/service/pessoa.service';
 import { LoadingBarService } from 'src/app/shared/services/loading-bar.service';
+import { PostoService } from 'src/app/service/posto.service';
+import { QuadroService } from 'src/app/service/quadro.service';
+import { EspecialidadeService } from 'src/app/service/especialidade.service';
+import { UnidadeService } from 'src/app/service/unidade.service';
 
 @Component({
   selector: 'app-efetivo-cadastro-container',
@@ -36,6 +39,10 @@ export class EfetivoCadastroContainerComponent implements OnInit {
     private loading: LoadingBarService,
               private fb: FormBuilder,
               private service: PessoaService,
+              private postoService: PostoService,
+              private quadroService: QuadroService,
+              private especialidadeService: EspecialidadeService,
+              private unidadeService: UnidadeService,
               private messageService: MessageService,
               private router: Router
               ) {
@@ -43,7 +50,6 @@ export class EfetivoCadastroContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildForm();
-    console.log(this.form);
     this.cdsexo = [
       {
         id: 1,
@@ -56,63 +62,10 @@ export class EfetivoCadastroContainerComponent implements OnInit {
         nome: "Feminino"
       }
     ]
-    this.postos = [      
-      { 
-        id:          "BR",
-        nomePosto:   "Brigadeiro",
-        numeroOrdem: "1",
-        siglaPosto:  "Brig",
-      },
-      { 
-        id:          "CL",
-        nomePosto:   "Coronel",
-        numeroOrdem: "2",
-        siglaPosto:  "Cel",
-      }];
-    this.quadros = [
-      {
-        id: "13",
-        codigoPosto: "19",
-        siglaQuadro: "QSS",
-        nomeQuadro: "DE SUBOFICIAIS E SARGENTOS",
-        numeroQuadro: 60,
-        siglaQuadroEspecialidade: null
-      },
-      {
-        id: "16",
-        codigoPosto: "26",
-        siglaQuadro: "QSD",
-        nomeQuadro: "DE SOLDADOS",
-        numeroQuadro: 74,
-        siglaQuadroEspecialidade: null
-      }
-    ];
-    this.especialidades = [
-      {
-        id: 8,
-        siglaEspecialidade: "QSS-BMA",
-        siglaAbreviada: null,
-        descricaoEspecilidade: "MECANICA DE AERONAVES"
-      },
-      {
-        id: 31,
-        siglaEspecialidade: "QOINT",
-        siglaAbreviada: 'Int',
-        descricaoEspecilidade: "QUADRO DE OFICIAIS"
-      }
-    ];
-    this.unidades = [
-      {
-        id: "299",
-        siglaUnidade: "CCA RJ",
-        siglaUnidadeCompleta: "CCA RJ",
-        nomeUnidade: "CENTRO DE COMPUTACAO DA AERONAUTICA DO RJ",
-        nomeUnidadeCompleto: "CENTRO DE COMPUTACAO DA AERONAUTICA DO RJ",
-        endereco: "PONTA DO GALEÃO S/Nº",
-        cep: "21941520"
-      }
-    ]
-
+    this.postoService.buscarPostos().subscribe(postos => this.postos = postos);
+    this.quadroService.buscarQuadros().subscribe(quadros => this.quadros = quadros);
+    this.especialidadeService.buscarEspecialidades().subscribe(especialidades => this.especialidades = especialidades);
+    this.unidadeService.buscarUnidades().subscribe(unidades => this.unidades = unidades);
   }
 
   buildForm(): void {
@@ -138,19 +91,6 @@ export class EfetivoCadastroContainerComponent implements OnInit {
       dataValidadeCnh: this.fb.control(null),
       unidadeId: this.fb.control(null),
     });
-  }
-
-  searchArea(event: any): void {
-    // this.subs$.push(
-    //   this.facade.findAllArea({sigla: event.query})
-    //     .subscribe(response => {
-    //       this.area = response.content.map(area => ({
-    //         label: area.nome,
-    //         title: area.sigla,
-    //         value: area
-    //       }));
-    //     })
-    // );
   }
 
   resetForms(): void {

@@ -1,1 +1,195 @@
-<p>inspecao-consulta-container works!</p>
+<section class="l-finor-consulta-container">
+  <header>
+    <div class="l-finor-consulta-container__header">
+      <div class="l-main-grid">
+        <div class="col-12 xl-10 xl-offset-1 mb-3">
+          <p-breadcrumb
+            [model]="_breadcrumbItems"
+            [home]="_home"
+            styleClass="mt-3"
+            (onItemClick)="handleBreadcrumbClick($event)"
+          ></p-breadcrumb>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="l-main-grid">
+    <p-card styleClass="mt-3 p-reset">
+      <p-toolbar styleClass="mb-2">
+        <form [formGroup]="form">
+          <div class="p-toolbar-group-left">
+            <div class="mr-5">
+              <p-autoComplete
+                field="label"
+                [suggestions]="pessoas"
+                (onClear)="searchPessoas({})"
+                emptyMessage="Pessoa não encontrado"
+                (completeMethod)="searchPessoas($event)"
+                (onSelect)="updateTable({ first: 0, rows: 10 })"
+                [dropdown]="true"
+                formControlName="nomePessoa"
+                [minLength]="3"
+                [placeholder]="'Filtrar Inspeções por pessoa'"
+                pTooltip="Digite o nome"
+              >
+                <ng-template let-pessoas pTemplate="item">
+                  <div class="dropdown-item-container">
+                    <span style="font-weight: bolder; font-size: 1.2rem">{{
+                      pessoas.label
+                    }}</span>
+                    <br />
+                    <span style="font-size: 1rem">{{ pessoas.title }}</span>
+                  </div>
+                </ng-template>
+              </p-autoComplete>
+            </div>
+          </div>
+        </form>
+        <div class="p-toolbar-group-right">
+          <button
+            style="margin-right: 0.5rem"
+            pRipple
+            pButton
+            class="p-button-sm"
+            label="LIMPAR"
+            icon="pi pi-replay"
+            (click)="onClear()"
+          ></button>
+          <button
+            [routerLink]="''"
+            pButton
+            pRipple
+            class="p-button-sm"
+            label="CADASTRAR INSPEÇÃO"
+            icon="pi pi-plus"
+          ></button>
+        </div>
+      </p-toolbar>
+      <p-table
+        #tablepessoa
+        [value]="inspecaoList"
+        (onLazyLoad)="updateTable($event)"
+        [lazy]="true"
+        [rowHover]="true"
+        [showCurrentPageReport]="true"
+        [paginator]="true"
+        [loading]="loadingData"
+        [showLoader]="false"
+        [rows]="10"
+        [totalRecords]="totalRecords"
+        [rowsPerPageOptions]="[10, 20, 30]"
+        currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} registros"
+        styleClass="p-datatable-gridlines p-datatable-striped  p-datatable-sm-custom"
+        dataKey="id"
+        rowExpandMode="single"
+      >
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td [attr.colspan]="8">Nenhum dado encontrado</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="text-center">Letra</th>
+            <th class="text-center">Resultado</th>
+            <th class="text-center" pSortableColumn="dataRealizacao">
+              Data Realizacao
+              <p-sortIcon field="dataRealizacao"></p-sortIcon>
+            </th>
+            <th class="text-center" pSortableColumn="dataValidade">
+              Data Validade
+              <p-sortIcon field="dataValidade"></p-sortIcon>
+            </th>
+            <th class="text-center">Ações</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-inspecao let-expanded="expanded">
+          <tr>
+            <td class="text-center">
+              {{ inspecao?.tipoInspecao }}
+            </td>
+            <td class="text-center">
+              {{ inspecao?.tipoResultado }}
+            </td>
+            <td class="text-center">
+              {{ inspecao?.dataRealizacao | date: "dd/MM/yyyy" }}
+            </td>
+            <td class="text-center">
+              <div
+                [ngClass]="{
+                  'dt-vencida': hoje.isSameOrAfter(inspecao?.dataValidade),
+                  'dt-valida': hoje.isBefore(inspecao?.dataValidade)
+                }"
+                class="mt-2"
+              >
+                {{ inspecao?.dataValidade | date: "dd/MM/yyyy" }}
+              </div>
+            </td>
+            <!-- <td class="text-center" >
+                <button type="button" pButton pRipple [pRowToggler]="pessoa" 
+                class="p-button-text p-button-rounded p-button-plain" 
+                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'">
+              </button>
+              </td> -->
+            <td class="text-center">
+              <div>
+                <p-splitButton
+                  label="Ações"
+                  [model]="menuItems"
+                  (onDropdownClick)="onDropdownClick($event, inspecao)"
+                >
+                </p-splitButton>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+        <!-- <ng-template pTemplate="rowexpansion" let-pessoa>
+            <tr>
+                <td class="text-center">-</td>
+                <td class="text-center">-</td>
+                <td class="text-center">-</td>
+                <td class="text-center">-</td>
+                <td class="text-center">-</td>
+                <td class="text-center">-</td>
+                <td class="text-center">
+                  <ng-template ngFor let-setor [ngForOf]="pessoa?.setores" let-i="index">
+                    <div class="table-setor-sigla">
+                      {{ setor.siglaSetor}}
+                    </div>
+                    </ng-template>
+                </td>
+                <td class="text-center">-</td>
+            </tr>
+        </ng-template> -->
+        <ng-template pTemplate="loadingbody">
+          <tr *ngFor="let row of fakeArrayRows">
+            <td *ngFor="let col of fakeArrayColumns">
+              <p-skeleton> </p-skeleton>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
+
+  <p-confirmDialog #cd header="Confirmação" icon="pi pi-exclamation-triangle">
+    <p-footer>
+      <button
+        type="button"
+        class="p-button-danger"
+        pButton
+        icon="pi pi-times"
+        label="Não"
+        (click)="cd.reject()"
+      ></button>
+      <button
+        type="button"
+        pButton
+        icon="pi pi-check"
+        label="Sim"
+        (click)="cd.accept()"
+      ></button>
+    </p-footer>
+  </p-confirmDialog>
+</section>

@@ -29,10 +29,13 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { ConfirmationService } from 'primeng/api';
 import {InputMaskModule} from 'primeng/inputmask';
 import { GerenciamentoInspecaoRoutingModule } from './gerenciamento-inspecao-routing.module';
+import { InspecaoConsultaContainerComponent } from './inspecao-consulta-container/inspecao-consulta-container.component';
 
 
 @NgModule({
-  declarations: [ ],
+  declarations: [
+    InspecaoConsultaContainerComponent,
+  ],
   imports: [
     CommonModule,
     GerenciamentoInspecaoRoutingModule,

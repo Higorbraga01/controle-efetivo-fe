@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { InspecaoConsultaContainerComponent } from './inspecao-consulta-container/inspecao-consulta-container.component';
 
 const routes: Routes = [
   {
     path: '',
     // canActivate: [AuthGuard],
     // canActivateChild: [AuthGuard],
-    component: null,
+    component: InspecaoConsultaContainerComponent,
   },
   {
     path: 'cadastro/inspecao',

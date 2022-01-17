@@ -16,7 +16,6 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { InspecaoConsultaContainerComponent } from './modules/gerenciamento-efetivo/containers/inspecao/inspecao-consulta-container/inspecao-consulta-container.component';
 
 registerLocaleData(localePt);
 
@@ -28,8 +27,7 @@ const authProvider = authProviderBuilder({
 
 @NgModule({
   declarations: [
-    AppComponent,
-    InspecaoConsultaContainerComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,

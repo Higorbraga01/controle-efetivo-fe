@@ -12,7 +12,7 @@ const routes: Routes = [
     component: EfetivoConsultaContainerComponent,
   },
   {
-    path: 'cadastro',
+    path: 'cadastro/pessoa',
     // canActivate: [AuthGuard],
     // canActivateChild: [AuthGuard],
     component: EfetivoCadastroContainerComponent,

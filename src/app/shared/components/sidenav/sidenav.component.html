@@ -14,24 +14,12 @@
     </button>
     <nav>
       <ul>
-        <shrd-sidenav-item (click)="toggleNav()" href="#">
-          Botão 01
+        <shrd-sidenav-item (click)="toggleNav()" href="#" [routerLink]="['/gerenciamento']" >
+          Gerenciamento Efetivo
         </shrd-sidenav-item>
         <shrd-sidenav-item (click)="toggleNav()" href="#">
-          Botão 02
+          Gerenciamento Inspeções
         </shrd-sidenav-item>
-        <shrd-sidenav-item (click)="toggleNav()" href="#">
-          Botão 03
-        </shrd-sidenav-item>
-        <shrd-sidenav-item (click)="toggleNav()" href="#">
-          Botão 04
-        </shrd-sidenav-item>
-        <shrd-sidenav-item (click)="toggleNav()" href="#">
-          Botão 05
-        </shrd-sidenav-item>
-        <!-- <shrd-sidenav-item (click)="toggleNav()" href="#" [routerLink]="['/pag06']">
-          Botão 06
-        </shrd-sidenav-item> -->
       </ul>
     </nav>
   </div>

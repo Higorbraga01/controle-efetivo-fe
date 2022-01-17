@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GerenciamentoEfetivoRoutingModule } from './gerenciamento-efetivo-routing.module';
-import { EfetivoConsultaContainerComponent } from './containers/efetivo-consulta-container/efetivo-consulta-container.component';
+import { EfetivoConsultaContainerComponent } from './containers/efetivo/efetivo-consulta-container/efetivo-consulta-container.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CalendarModule } from 'primeng/calendar';
@@ -27,10 +27,10 @@ import { TabMenuModule } from 'primeng/tabmenu';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { PickListModule } from 'primeng/picklist';
 import { DropdownModule } from 'primeng/dropdown';
-import { EfetivoCadastroContainerComponent } from './containers/efetivo-cadastro-container/efetivo-cadastro-container.component';
+import { EfetivoCadastroContainerComponent } from './containers/efetivo/efetivo-cadastro-container/efetivo-cadastro-container.component';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ConfirmationService } from 'primeng/api';
-import { EfetivoDetalheContainerComponent } from './containers/efetivo-detalhe-container/efetivo-detalhe-container.component';
+import { EfetivoDetalheContainerComponent } from './containers/efetivo/efetivo-detalhe-container/efetivo-detalhe-container.component';
 import {InputMaskModule} from 'primeng/inputmask';
 
 

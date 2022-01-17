@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/auth/public-api';
-import { EfetivoCadastroContainerComponent } from './containers/efetivo-cadastro-container/efetivo-cadastro-container.component';
-import { EfetivoConsultaContainerComponent } from './containers/efetivo-consulta-container/efetivo-consulta-container.component';
-import { EfetivoDetalheContainerComponent } from './containers/efetivo-detalhe-container/efetivo-detalhe-container.component';
+import { EfetivoCadastroContainerComponent } from './containers/efetivo/efetivo-cadastro-container/efetivo-cadastro-container.component';
+import { EfetivoConsultaContainerComponent } from './containers/efetivo/efetivo-consulta-container/efetivo-consulta-container.component';
+import { EfetivoDetalheContainerComponent } from './containers/efetivo/efetivo-detalhe-container/efetivo-detalhe-container.component';
 const routes: Routes = [
   {
     path: '',

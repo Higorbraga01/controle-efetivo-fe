@@ -20,7 +20,7 @@ const routes: Routes = [
     // canActivate: [AuthGuard],
     // canActivateChild: [AuthGuard],
     loadChildren: () =>
-      import('./modules/gerenciamento-efetivo/gerenciamento-efetivo.module')
+      import('./modules/gerenciamento-efetivo/containers/efetivo/gerenciamento-efetivo.module')
         .then((m) => m.GerenciamentoEfetivoModule)
   },
 

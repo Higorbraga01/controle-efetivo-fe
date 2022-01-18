@@ -43,7 +43,6 @@ export class InspecaoService {
   }
 
   save(inspecao: InspecaoRequest): Observable<InspecaoRequest> {
-    console.log(inspecao);
     return this.http.post<InspecaoRequest>(`${this.endpoint}/inspecoes`, inspecao)
       .pipe(take(1));
   }

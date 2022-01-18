@@ -14,19 +14,20 @@ export interface InspecaoRequest {
     id:             number;
     pessoaId:       number;
     tipoInspecao:   TipoInspecao;
-    tipoResultado:  tipoResultado;
+    tipoResultado:  TipoResultado;
     dataRealizacao: Date;
     dataValidade:   Date;
 }
 
 export enum TipoInspecao {
-    D, 
-    E,
-    H
+    D = 'D', 
+    E = 'E',
+    H = 'H',
+    G = 'G'
 }
 
-export enum tipoResultado {
-    APTO, 
-    NAO_APTO, 
-    APTO_COM_RESTRICAO
+export enum TipoResultado {
+    APTO = 'APTO',
+    NAO_APTO = 'NAO_APTO',
+    APTO_COM_RESTRICAO = 'APTO_COM_RESTRICAO'
 }

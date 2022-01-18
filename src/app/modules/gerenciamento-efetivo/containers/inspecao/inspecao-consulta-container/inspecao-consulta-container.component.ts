@@ -161,14 +161,14 @@ export class InspecaoConsultaContainerComponent implements OnInit {
         disabled:true
       },
       {
-        label: 'Detalhe Pessoa', icon: 'pi pi-info-circle',
+        label: 'Detalhe Inspeção', icon: 'pi pi-info-circle',
         routerLink: [this.inspecaoSelecDropdown?.id, 'detalhe']
       },
       {
         label: 'Excluir', icon: 'pi pi-trash',
         command: () => this.delete(this.inspecaoSelecDropdown?.id),
         // visible: this.userService?.user?.roles.includes('ROLE_crud-habilitacao-instrucao')
-        disabled:true
+        disabled:false
       },
     
     ];

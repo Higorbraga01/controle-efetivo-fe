@@ -4,8 +4,6 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Inspecao, InspecaoRequest } from '../models/inspecao.model';
 import { Pageable } from '../models/pageable.model';
-import { Pessoa } from '../models/pessoa.model';
-import { PessoaRequest } from '../models/pessoa.model';
 
 @Injectable({
   providedIn: 'root',
@@ -63,6 +61,7 @@ export class InspecaoService {
     return this.http
       .delete<any>(`${this.endpoint}/inspecoes/${ id }`,)
   }
+  
   findByID(id: number): Observable<Inspecao> {
     return this.http
       .get<Inspecao>(`${this.endpoint}/inspecoes/${ id }`,)

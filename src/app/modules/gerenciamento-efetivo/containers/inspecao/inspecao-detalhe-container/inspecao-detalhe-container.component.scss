@@ -1,44 +1,52 @@
-.tag {
-  font-size: 0.857143rem;
-  text-transform: uppercase;
-  font-weight: 600;
-  background: var(--light-grey);
-  color: var(--black);
-  border-radius: 4px;
-  padding: 0.2rem 0.5rem;
+::ng-deep .pi-spinner {
+  visibility: hidden;
 }
 
-.emptyTableMessage {
-  font-weight: bold;
-  opacity: 50%;
+$gutter: 0.714286rem !default;
+
+.l-main-grid {
+  max-width: 1024px !important;
+  margin: calc(#{$gutter} * -1) auto;
+  padding: 0 $gutter;
 }
 
 :host {
   display: block;
 
-  section.l-finor-consulta-container {
+  section.l-finor-cadastro-container {
     header {
       overflow: hidden;
 
-      div.l-finor-consulta-container__header {
+      div.l-finor-cadastro-container__header {
         background-color: var(--lighter-grey);
         border-bottom: 1px solid var(--light-grey);
         width: 100%;
 
-        .l-finor-consulta-container__title-wrapper {
-          h2.l-finor-consulta-container__title {
+        .l-finor-cadastro-container__title-wrapper {
+          span.l-finor-cadastro-container__idf {
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+            font-size: 0.9rem;
+            color: var(--grey);
+            background-color: var(--light-grey);
+            border-radius: 4px;
+          }
+
+          h2.l-finor-cadastro-container__title {
             font-weight: 600;
             font-size: 2rem;
             text-transform: uppercase;
             margin: 0;
-            padding-left: 60px;
+            padding: 0;
           }
+
           min-height: 4.5rem;
         }
       }
     }
 
-    section.l-finor-consulta-container__body {
+    section.l-finor-cadastro-container__body {
       position: relative;
 
       &::before {
@@ -53,13 +61,13 @@
         border-bottom: 1px solid var(--light-grey);
       }
 
-      .l-finor-consulta-container__tab-header {
-        .l-finor-consulta-container__tab-header-title,
-        .l-finor-consulta-container__tab-header-step {
+      .l-finor-cadastro-container__tab-header {
+        .l-finor-cadastro-container__tab-header-title,
+        .l-finor-cadastro-container__tab-header-step {
           display: block;
         }
 
-        .l-finor-consulta-container__tab-header-step {
+        .l-finor-cadastro-container__tab-header-step {
           display: block;
           font-size: 0.857143rem;
           line-height: 0.857143rem;
@@ -74,20 +82,20 @@
       }
     }
   }
-  
+
   .dt-vencida {
     font-weight: 700;
-    color: #FF5252;
+    color: #ff5252;
     text-decoration: line-through;
-}
+  }
 
-.dt-proximo-vencimento {
+  .dt-proximo-vencimento {
     font-weight: 700;
-    color: #FFA726;
-}
+    color: #ffa726;
+  }
 
-.dt-valida {
+  .dt-valida {
     font-weight: 700;
-    color: #66BB6A;
-}
+    color: #66bb6a;
+  }
 }

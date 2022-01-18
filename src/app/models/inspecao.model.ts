@@ -1,5 +1,9 @@
 export interface Inspecao {
     id:             number;
+    pessoaPostoSiglaPosto: string;
+    pessoaEspecialidadeSiglaEspecialidade: string;
+    pessoaDataBaixa: Date;
+    pessoaNomePessoa: string
     tipoInspecao:   string;
     tipoResultado:  string;
     dataRealizacao: Date;

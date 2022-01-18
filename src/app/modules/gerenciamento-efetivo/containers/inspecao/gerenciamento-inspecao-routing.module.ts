@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { InspecaoConsultaContainerComponent } from './inspecao-consulta-container/inspecao-consulta-container.component';
+import { InspecaoDetalheContainerComponent } from './inspecao-detalhe-container/inspecao-detalhe-container.component';
 
 const routes: Routes = [
   {
@@ -19,7 +20,7 @@ const routes: Routes = [
     path: 'detalhe/inspecao/:id',
     // canActivate: [AuthGuard],
     // canActivateChild: [AuthGuard],
-    component: null,
+    component: InspecaoDetalheContainerComponent,
   }
 ];
 

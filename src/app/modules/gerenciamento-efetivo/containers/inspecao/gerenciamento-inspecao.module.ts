@@ -30,11 +30,13 @@ import { ConfirmationService } from 'primeng/api';
 import {InputMaskModule} from 'primeng/inputmask';
 import { GerenciamentoInspecaoRoutingModule } from './gerenciamento-inspecao-routing.module';
 import { InspecaoConsultaContainerComponent } from './inspecao-consulta-container/inspecao-consulta-container.component';
+import { InspecaoDetalheContainerComponent } from './inspecao-detalhe-container/inspecao-detalhe-container.component';
 
 
 @NgModule({
   declarations: [
     InspecaoConsultaContainerComponent,
+    InspecaoDetalheContainerComponent,
   ],
   imports: [
     CommonModule,

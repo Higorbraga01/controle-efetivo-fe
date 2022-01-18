@@ -162,7 +162,7 @@ export class InspecaoConsultaContainerComponent implements OnInit {
       },
       {
         label: 'Detalhe Pessoa', icon: 'pi pi-info-circle',
-        routerLink: ['detalhe/', 'inspecao', this.inspecaoSelecDropdown?.id]
+        routerLink: [this.inspecaoSelecDropdown?.id, 'detalhe']
       },
       {
         label: 'Excluir', icon: 'pi pi-trash',

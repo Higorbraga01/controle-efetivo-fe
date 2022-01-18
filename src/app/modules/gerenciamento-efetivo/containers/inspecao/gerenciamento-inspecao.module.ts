@@ -31,12 +31,14 @@ import {InputMaskModule} from 'primeng/inputmask';
 import { GerenciamentoInspecaoRoutingModule } from './gerenciamento-inspecao-routing.module';
 import { InspecaoConsultaContainerComponent } from './inspecao-consulta-container/inspecao-consulta-container.component';
 import { InspecaoDetalheContainerComponent } from './inspecao-detalhe-container/inspecao-detalhe-container.component';
+import { InspecaoCadastroContainerComponent } from './inspecao-cadastro-container/inspecao-cadastro-container.component';
 
 
 @NgModule({
   declarations: [
     InspecaoConsultaContainerComponent,
     InspecaoDetalheContainerComponent,
+    InspecaoCadastroContainerComponent,
   ],
   imports: [
     CommonModule,

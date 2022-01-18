@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { InspecaoCadastroContainerComponent } from './inspecao-cadastro-container/inspecao-cadastro-container.component';
 import { InspecaoConsultaContainerComponent } from './inspecao-consulta-container/inspecao-consulta-container.component';
 import { InspecaoDetalheContainerComponent } from './inspecao-detalhe-container/inspecao-detalhe-container.component';
 
@@ -11,13 +12,13 @@ const routes: Routes = [
     component: InspecaoConsultaContainerComponent,
   },
   {
-    path: 'cadastro/inspecao',
+    path: 'cadastro',
     // canActivate: [AuthGuard],
     // canActivateChild: [AuthGuard],
-    component: null,
+    component: InspecaoCadastroContainerComponent,
   },
   {
-    path: 'detalhe/inspecao/:id',
+    path: ':id/detalhe',
     // canActivate: [AuthGuard],
     // canActivateChild: [AuthGuard],
     component: InspecaoDetalheContainerComponent,

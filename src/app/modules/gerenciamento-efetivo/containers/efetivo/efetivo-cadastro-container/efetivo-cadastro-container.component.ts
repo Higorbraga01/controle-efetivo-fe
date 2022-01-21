@@ -97,7 +97,7 @@ export class EfetivoCadastroContainerComponent implements OnInit {
     this.form.reset();
   }
 
-  saveArea(): void {
+  save(): void {
     const pessoaRequest: PessoaRequest = this.form.value;
     this.loading.start();
     this.service.save(pessoaRequest)
@@ -109,7 +109,7 @@ export class EfetivoCadastroContainerComponent implements OnInit {
           life: 3000
         });
         this.loading.end();
-        this.router.navigate(['gerenciamento']);
+        this.router.navigate(['efetivo']);
       });
   }
 

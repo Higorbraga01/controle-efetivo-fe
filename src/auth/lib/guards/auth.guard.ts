@@ -46,9 +46,9 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivateChild {
 
           this.userService.user = {
             id: user.pessoa.id,
-            nome: user.pessoa.nome,
-            nrCpf: user.pessoa.nrCpf,
-            organizacao: user.pessoa.organizacao,
+            nome: user.pessoa.nomePessoa,
+            nrCpf: user.pessoa.numeroCpf,
+            organizacao: user.pessoa.unidade,
             roles: user.roles
           };
         }

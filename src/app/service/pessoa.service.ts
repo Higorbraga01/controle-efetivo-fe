@@ -44,7 +44,6 @@ export class PessoaService {
   }
 
   save(pessoa: PessoaRequest): Observable<PessoaRequest> {
-    console.log(pessoa);
     return this.http.post<PessoaRequest>(`${this.endpoint}/pessoas`, pessoa)
       .pipe(take(1));
   }

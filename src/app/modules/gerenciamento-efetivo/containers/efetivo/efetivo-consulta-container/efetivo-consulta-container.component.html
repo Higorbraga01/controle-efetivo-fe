@@ -63,24 +63,26 @@
             class="p-button-sm"
             label="CADASTRAR PESSOA"
             icon="pi pi-plus"
+            [disabled]="actionDisable()"
           ></button>
         </div>
       </p-toolbar>
       <p-table
         #tablepessoa
         [value]="pessoasList"
+        [(first)]="first"
         (onLazyLoad)="updateTable($event)"
         [lazy]="true"
-        [rowHover]="true"
         [showCurrentPageReport]="true"
         [paginator]="true"
         [loading]="loadingData"
-        [showLoader]="false"
+        [showLoader]="true"
         [rows]="10"
+        responsiveLayout="scroll"
         [totalRecords]="totalRecords"
         [rowsPerPageOptions]="[10, 20, 30]"
         currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} registros"
-        styleClass="p-datatable-gridlines p-datatable-striped  p-datatable-sm-custom"
+        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm-custom"
         dataKey="id"
         rowExpandMode="single"
       >

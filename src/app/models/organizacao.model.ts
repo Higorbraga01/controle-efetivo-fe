@@ -2,9 +2,8 @@ import { BaseSearch } from './base-search';
 import { BaseModel } from './base.model';
 
 export interface OrganizacaoResponse extends BaseModel {
-  nome?: string;
-  sigla?: string;
-  cdOrg?: string;
+  nomeUnidade?: string;
+  siglaUnidade?: string;
 }
 
 export interface OrganizacaoSearch extends BaseSearch{

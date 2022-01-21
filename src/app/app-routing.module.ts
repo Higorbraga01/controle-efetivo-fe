@@ -8,8 +8,8 @@ import { NotAllowedComponent } from './shared/components/not-allowed/not-allowed
 const routes: Routes = [
   {
     path: '',
-    // canActivate: [AuthGuard],
-    // canActivateChild: [AuthGuard],
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     loadChildren: () =>
       import('./dashboard/dashboard.module').then(
         (m) => m.DashboardModule
@@ -17,16 +17,16 @@ const routes: Routes = [
   },
   {
     path: 'efetivo',
-    // canActivate: [Authuard],
-    // canActivateChild: [AuthGuard],
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     loadChildren: () =>
       import('./modules/gerenciamento-efetivo/containers/efetivo/gerenciamento-efetivo.module')
         .then((m) => m.GerenciamentoEfetivoModule)
   },
   {
     path: 'inspecao',
-    // canActivate: [Authuard],
-    // canActivateChild: [AuthGuard],
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     loadChildren: () =>
       import('./modules/gerenciamento-efetivo/containers/inspecao/gerenciamento-inspecao.module')
         .then((m) => m.GerenciamentoInspecaoModule)

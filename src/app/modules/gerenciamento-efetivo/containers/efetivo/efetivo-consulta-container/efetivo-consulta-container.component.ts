@@ -1,3 +1,4 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -8,6 +9,7 @@ import { of, Subscription, timer } from 'rxjs';
 import { mapTo, mergeAll, share, takeUntil } from 'rxjs/operators';
 import { Pessoa } from 'src/app/models/pessoa.model';
 import { PessoaService } from 'src/app/service/pessoa.service';
+import { UserService } from 'src/app/service/user.service';
 import { LoadingBarService } from 'src/app/shared/services/loading-bar.service';
 import { environment } from 'src/environments/environment';
 
@@ -30,20 +32,20 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   public fakeArrayColumns = new Array(this.NUMCOLUMNS).fill({});
   public fakeArrayRows: any = [];
   public dtAtual: Date;
+  public first: number = 0;
   private rowsCount: number;
-
   public pessoasList: Pessoa[];
+  public disabled: boolean = true;
 
   _breadcrumbItems: MenuItem[];
   _home: MenuItem;
-
   _activeTabMenuItem: MenuItem;
 
   constructor(
     private loading: LoadingBarService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    // public userService: UserService,
+    public userService: UserService,
     public pessoaService: PessoaService,
     private fb: FormBuilder,
     private router: Router) {
@@ -67,23 +69,24 @@ export class EfetivoConsultaContainerComponent implements OnInit {
 
   updateTable(event: LazyLoadEvent): void {
     this.rowsCount = event.rows;
+    this.first = event.first;
     this.fakeArrayRows = new Array(event.rows).fill({});
-    
-    const page = { page: (event.first / event.rows) };
+    const page = { page: ( event.first / event.rows ) };
     const size = { size: event.rows };
     const pessoa = { nomePessoa: this.form?.value?.nomePessoa?.value };
+
     let searchObject = {};
     if (event.sortField) {
       const sort = { sort: `${event.sortField},${event.sortOrder === 1 ? 'ASC' : 'DESC'}` };
       searchObject = Object.assign({}, pessoa, page, size, sort);
     } else {
-      searchObject = Object.assign({}, pessoa,page, size);
+      searchObject = Object.assign({}, pessoa, page, size);
     }
 
     this.loading.start();
     const getPessoas$ =  this.pessoaService.getAllSearch(searchObject).pipe(share());
     const isLoading$ = of(
-      timer(200).pipe(mapTo(true), takeUntil(getPessoas$)),
+      timer(1000).pipe(mapTo(true), takeUntil(getPessoas$)),
       getPessoas$.pipe(mapTo(false))
     ).pipe(mergeAll());
 
@@ -108,6 +111,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
           this.pessoaService.delete(id)
             .subscribe(
               () => {
+                this.updateTable({ first: 0, rows: this.rowsCount });
                 this.loading.end();
                 this.messageService.add({
                   severity: 'success',
@@ -115,7 +119,6 @@ export class EfetivoConsultaContainerComponent implements OnInit {
                   detail: 'Pessoa excluida com sucesso',
                   life: 3000
                 });
-                this.updateTable({ first: 0, rows: this.rowsCount });
               },
               (_e: any) => this.messageService.add({
                 severity: 'error',
@@ -123,7 +126,6 @@ export class EfetivoConsultaContainerComponent implements OnInit {
                 detail: 'Erro ao excluir pessoa',
                 life: 3000
               })));
-        this.loading.end();
       }
     });
   }
@@ -159,8 +161,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
       {
         label: 'Editar', icon: 'pi pi-pencil',
         routerLink: ['', 'editar', this.pessoaSelecDropdown?.id],
-        // visible: this.userService?.user?.roles.includes('ROLE_crud-habilitacao-instrucao')
-        disabled:true
+        disabled: true
       },
       {
         label: 'Detalhe Pessoa', icon: 'pi pi-info-circle',
@@ -169,13 +170,11 @@ export class EfetivoConsultaContainerComponent implements OnInit {
       {
         label: 'Excluir', icon: 'pi pi-trash',
         command: () => this.delete(this.pessoaSelecDropdown?.id),
-        // visible: this.userService?.user?.roles.includes('ROLE_crud-habilitacao-instrucao')
-        disabled:true
+        disabled: this.actionDisable()
       },
     
     ];
   }
-
 
   handleBreadcrumbClick(e: any) {
     if (!e.item.icon) {
@@ -188,5 +187,12 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   onDropdownClick($event: any, pessoa: any): void {
     this.pessoaSelecDropdown = pessoa;
     this.menuItems = this.createMenuItens();
+  }
+
+  actionDisable(): boolean {
+    if (this.userService.user?.roles || (this.userService.user?.roles?.includes('ROLE_ADMINISTRADOR'))) {
+      return false;
+    }
+    return true;
   }
 }

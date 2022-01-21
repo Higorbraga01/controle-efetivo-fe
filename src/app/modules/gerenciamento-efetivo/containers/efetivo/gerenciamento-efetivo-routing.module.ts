@@ -7,20 +7,20 @@ import { EfetivoDetalheContainerComponent } from './efetivo-detalhe-container/ef
 const routes: Routes = [
   {
     path: '',
-    // canActivate: [AuthGuard],
-    // canActivateChild: [AuthGuard],
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     component: EfetivoConsultaContainerComponent,
   },
   {
     path: 'cadastro/pessoa',
-    // canActivate: [AuthGuard],
-    // canActivateChild: [AuthGuard],
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     component: EfetivoCadastroContainerComponent,
   },
   {
     path: 'detalhe/pessoa/:id',
-    // canActivate: [AuthGuard],
-    // canActivateChild: [AuthGuard],
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     component: EfetivoDetalheContainerComponent,
   }
 ];

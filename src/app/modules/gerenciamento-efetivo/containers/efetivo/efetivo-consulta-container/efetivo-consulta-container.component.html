@@ -123,7 +123,7 @@
               {{ pessoa?.dataBaixa != null ? "R/1" : ""}}
               {{ 
                 pessoa?.quadro == null ? " ":
-                pessoa?.quadro?.siglaQuadro.includes("QSD") ? pessoa?.quadro?.siglaQuadro+ " "+ pessoa?.especialidade?.siglaEspecialidade.substring(4,7):
+                pessoa?.quadro?.siglaQuadro.includes("QSS") || pessoa?.quadro?.siglaQuadro.includes("QSD") ? pessoa?.quadro?.siglaQuadro+ " "+ pessoa?.especialidade?.siglaEspecialidade.substring(4,7):
                 pessoa?.especialidade?.siglaAbreviada == null ? pessoa?.quadro?.siglaQuadro:
                 pessoa?.quadro?.siglaQuadro+ " " +pessoa?.especialidade?.siglaAbreviada
               }}

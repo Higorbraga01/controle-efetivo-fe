@@ -81,10 +81,9 @@
         [totalRecords]="totalRecords"
         [rowsPerPageOptions]="[10, 20, 30]"
         currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} registros"
-        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm-custom"
+        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm-custom p-datatable p-component p-datatable-responsive-stack"
         dataKey="id"
         rowExpandMode="single"
-        [scrollable]="true" scrollHeight="455px"
       >
         <ng-template pTemplate="emptymessage">
           <tr>
@@ -93,31 +92,31 @@
         </ng-template>
         <ng-template pTemplate="header">
           <tr>
-            <th style="min-width:450px">Posto / Quadro / Especialidade / Nome</th>
-            <th style="min-width:180px">Saram / Cpf </th>
-            <th style="min-width:50px" pSortableColumn="dataNascimento">
+            <th class="text-center">Posto / Quadro / Especialidade / Nome</th>
+            <th class="text-center">Saram / Cpf </th>
+            <th class="text-center" pSortableColumn="dataNascimento">
               Dt Nasc
               <p-sortIcon field="dataNascimento"></p-sortIcon>
             </th>
-            <th style="min-width:50px" pSortableColumn="dataIncorporacao">
+            <th class="text-center" pSortableColumn="dataIncorporacao">
               Dt Praça
               <p-sortIcon field="dataIncorporacao"></p-sortIcon>
             </th>
-            <th style="min-width:150px">
+            <th class="text-center">
               Nr Identidade
             </th>
-            <th style="min-width:150px">
+            <th class="text-center">
               Email
             </th>
-            <th style="min-width:20px">
+            <th class="text-center">
               Setores
             </th>
-            <th style="min-width:100px">Ações</th>
+            <th class="text-center">Ações</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-pessoa let-expanded="expanded">
           <tr>
-            <td style="min-width:450px">
+            <td class="text-left">
               <b> 
               {{ pessoa?.posto?.siglaPosto }}
               </b>
@@ -131,33 +130,33 @@
               {{ pessoa?.nomePessoa }} 
               ( <b>{{ pessoa?.nomeGuerra }}</b> )
             </td>
-            <td class="text-justify" style="min-width:180px">
+            <td class="text-justify">
               ( <b>{{ pessoa?.numeroSaram }}</b> )
               {{ pessoa?.numeroCpf?.substring(0,3)+"."+ pessoa?.numeroCpf?.substring(3,6)+"."+ pessoa?.numeroCpf?.substring(6,9)+"-"+ pessoa?.numeroCpf?.substring(9,11) }}
             </td>
-            <td class="text-center" style="min-width:50px">
+            <td class="text-center">
               {{ pessoa?.dataNascimento | date: "dd/MM/yyyy" }}
             </td>
-            <td class="text-center" style="min-width:50px">
+            <td class="text-center">
               {{
                 pessoa?.dataIncorporacao
                   ? (pessoa?.dataIncorporacao | date: "dd/MM/yyyy")
                   : "-"
               }}
             </td>
-            <td style="min-width:150px">
+            <td class="text-center">
               {{ pessoa?.numeroIdentidade ? pessoa?.numeroIdentidade+ " ( "+ pessoa?.siglaOrgaoEspedidor +" )" : "-" }}
             </td>
-            <td style="min-width:150px">
+            <td class="text-center">
               {{ pessoa?.nomeEmail ? pessoa?.nomeEmail : "-" }}
             </td>
-            <td style="min-width:20px" >
+            <td class="text-center">
               <button type="button" pButton pRipple [pRowToggler]="pessoa" 
               class="p-button-text p-button-rounded p-button-plain" 
               [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'">
             </button>
             </td>
-            <td style="min-width:100px">
+            <td class="text-center">
               <div class="flex p-jc-center align-items-center">
                 <p-splitButton
                   label="Ações"
@@ -172,20 +171,20 @@
 
         <ng-template pTemplate="rowexpansion" let-pessoa>
           <tr>
-              <td style="min-width:450px">-</td>
-              <td style="min-width:180px">-</td>
-              <td style="min-width:50px">-</td>
-              <td style="min-width:50px">-</td>
-              <td style="min-width:150px">-</td>
-              <td style="min-width:150px">-</td>
-              <td style="min-width:20px">
+              <td class="text-center">-</td>
+              <td class="text-center">-</td>
+              <td class="text-center">-</td>
+              <td class="text-center">-</td>
+              <td class="text-center">-</td>
+              <td class="text-center">-</td>
+              <td class="text-center">
                 <ng-template ngFor let-setor [ngForOf]="pessoa?.setores" let-i="index">
                   <div class="table-setor-sigla">
                     {{ setor.siglaSetor}}
                   </div>
                   </ng-template>
               </td>
-              <td style="min-width:100px">-</td>
+              <td class="text-center">-</td>
           </tr>
       </ng-template>
         <ng-template pTemplate="loadingbody">

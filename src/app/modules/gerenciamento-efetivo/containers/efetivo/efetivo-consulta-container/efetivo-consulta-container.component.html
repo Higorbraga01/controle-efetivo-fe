@@ -78,11 +78,10 @@
         [loading]="loadingData"
         [showLoader]="true"
         [rows]="10"
-        responsiveLayout="scroll"
         [totalRecords]="totalRecords"
         [rowsPerPageOptions]="[10, 20, 30]"
         currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} registros"
-        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm-custom"
+        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm-custom p-datatable p-component p-datatable-responsive-stack"
         dataKey="id"
         rowExpandMode="single"
       >
@@ -124,14 +123,14 @@
               {{ pessoa?.dataBaixa != null ? "R/1" : ""}}
               {{ 
                 pessoa?.quadro == null ? " ":
-                pessoa?.quadro?.siglaQuadro.includes("QSD") ? pessoa?.quadro?.siglaQuadro+ " "+ pessoa?.especialidade?.siglaEspecialidade.substring(4,7):
+                pessoa?.quadro?.siglaQuadro.includes("QSS") || pessoa?.quadro?.siglaQuadro.includes("QSD") ? pessoa?.quadro?.siglaQuadro+ " "+ pessoa?.especialidade?.siglaEspecialidade.substring(4,7):
                 pessoa?.especialidade?.siglaAbreviada == null ? pessoa?.quadro?.siglaQuadro:
                 pessoa?.quadro?.siglaQuadro+ " " +pessoa?.especialidade?.siglaAbreviada
               }}
               {{ pessoa?.nomePessoa }} 
               ( <b>{{ pessoa?.nomeGuerra }}</b> )
             </td>
-            <td class="text-center">
+            <td class="text-justify">
               ( <b>{{ pessoa?.numeroSaram }}</b> )
               {{ pessoa?.numeroCpf?.substring(0,3)+"."+ pessoa?.numeroCpf?.substring(3,6)+"."+ pessoa?.numeroCpf?.substring(6,9)+"-"+ pessoa?.numeroCpf?.substring(9,11) }}
             </td>
@@ -151,7 +150,7 @@
             <td class="text-center">
               {{ pessoa?.nomeEmail ? pessoa?.nomeEmail : "-" }}
             </td>
-            <td class="text-center" >
+            <td class="text-center">
               <button type="button" pButton pRipple [pRowToggler]="pessoa" 
               class="p-button-text p-button-rounded p-button-plain" 
               [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'">

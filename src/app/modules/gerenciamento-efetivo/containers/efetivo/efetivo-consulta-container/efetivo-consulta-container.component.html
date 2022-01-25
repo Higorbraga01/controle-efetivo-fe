@@ -158,11 +158,12 @@
             </button>
             </td>
             <td class="text-center">
-              <div class="flex p-jc-center align-items-center">
+              <div class="align-items-center">
                 <p-splitButton
                   label="Ações"
                   [model]="menuItems"
                   (onDropdownClick)="onDropdownClick($event, pessoa)"
+                  appendTo="body"
                 >
                 </p-splitButton>
               </div>

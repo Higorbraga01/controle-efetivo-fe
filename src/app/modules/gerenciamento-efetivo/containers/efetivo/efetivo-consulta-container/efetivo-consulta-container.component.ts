@@ -1,5 +1,5 @@
 import { ThrowStmt } from '@angular/compiler';
-import { Component, OnInit} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
@@ -9,6 +9,7 @@ import { of, Subscription, timer } from 'rxjs';
 import { mapTo, mergeAll, share, takeUntil } from 'rxjs/operators';
 import { Pessoa } from 'src/app/models/pessoa.model';
 import { PessoaService } from 'src/app/service/pessoa.service';
+import { RelatorioService } from 'src/app/service/relatorio.service';
 import { UserService } from 'src/app/service/user.service';
 import { LoadingBarService } from 'src/app/shared/services/loading-bar.service';
 import { environment } from 'src/environments/environment';
@@ -47,6 +48,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     private confirmationService: ConfirmationService,
     public userService: UserService,
     public pessoaService: PessoaService,
+    public relatorioService: RelatorioService,
     private fb: FormBuilder,
     private router: Router) {
   }
@@ -65,7 +67,6 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     };
   }
 
-  
 
   updateTable(event: LazyLoadEvent): void {
     this.rowsCount = event.rows;
@@ -195,4 +196,27 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     }
     return true;
   }
+
+  gerarRelatorio() {
+    this.loading.start();
+    this.subs$.push(
+      this.relatorioService
+        .gerarRelatorio(this.userService.user?.organizacao.id.toString())
+        .subscribe((response) => {
+            let blob= new Blob([response], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+            var link = document.createElement('a');
+            link.href = url;
+            link.download = "relacao-efetivo-" +this.userService?.user?.organizacao?.siglaUnidade.toLowerCase()+ ".pdf";
+            link.click();
+            this.loading.end();
+          },
+          (_e: any) => this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao gerar lista do efetivo',
+            life: 3000
+          })
+          )
+    )}
 }

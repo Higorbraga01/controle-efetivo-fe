@@ -20,6 +20,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "keycloak-js"
+           ],
             "outputPath": "dist",
             "baseHref": "/controle-efetivo/",
             "index": "src/index.html",

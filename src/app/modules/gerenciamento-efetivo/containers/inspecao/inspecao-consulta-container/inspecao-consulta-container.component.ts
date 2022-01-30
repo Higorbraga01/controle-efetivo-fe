@@ -7,6 +7,7 @@ import { Subscription, of, timer } from 'rxjs';
 import { share, mapTo, takeUntil, mergeAll } from 'rxjs/operators';
 import { Inspecao } from 'src/app/models/inspecao.model';
 import { Pessoa } from 'src/app/models/pessoa.model';
+import { Posto } from 'src/app/models/Posto';
 import { InspecaoService } from 'src/app/service/inspecao.service';
 import { PessoaService } from 'src/app/service/pessoa.service';
 import { LoadingBarService } from 'src/app/shared/services/loading-bar.service';
@@ -136,9 +137,9 @@ export class InspecaoConsultaContainerComponent implements OnInit {
     this.subs$.push(
       this.pessoaService.getAllSearch({ nomePessoa: event.query })
         .subscribe((response: { content: any }) => {
-          this.pessoas = response.content.map((pessoas: { nomePessoa: string, nomeGuerra: string}) => ({
+          this.pessoas = response.content.map((pessoas: { nomePessoa: string, nomeGuerra: string, posto: Posto}) => ({
             label: pessoas.nomePessoa,
-            title: pessoas.nomeGuerra,
+            title: pessoas.posto.siglaPosto + " "+  pessoas.nomeGuerra,
             value: pessoas.nomePessoa
           }));
         })

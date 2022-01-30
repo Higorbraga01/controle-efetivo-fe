@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +47,9 @@ export class RelatorioService {
   gerarRelatorio(codigoUnidade: string): Observable<Blob> {
     return this.http.get(
       `${this.endpoint}/relatorios/efetivo/${codigoUnidade}`,
-      { responseType: 'blob' }
-    );
+      { 
+        reportProgress: true,
+        responseType: 'blob' }
+    ).pipe(take(1));
   }
 }

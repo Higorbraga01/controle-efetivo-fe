@@ -8,6 +8,7 @@ import { SelectItem } from 'primeng/api/selectitem';
 import { of, Subscription, timer } from 'rxjs';
 import { mapTo, mergeAll, share, takeUntil } from 'rxjs/operators';
 import { Pessoa } from 'src/app/models/pessoa.model';
+import { Posto } from 'src/app/models/Posto';
 import { PessoaService } from 'src/app/service/pessoa.service';
 import { RelatorioService } from 'src/app/service/relatorio.service';
 import { UserService } from 'src/app/service/user.service';
@@ -141,9 +142,9 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     this.subs$.push(
       this.pessoaService.getAllSearch({ nomePessoa: event.query })
         .subscribe((response: { content: any }) => {
-          this.pessoas = response.content.map((pessoas: { nomePessoa: string, nomeGuerra: string}) => ({
+          this.pessoas = response.content.map((pessoas: { nomePessoa: string, nomeGuerra: string, posto: Posto}) => ({
             label: pessoas.nomePessoa,
-            title: pessoas.nomeGuerra,
+            title: pessoas.posto.siglaPosto + " "+  pessoas.nomeGuerra,
             value: pessoas.nomePessoa
           }));
         })

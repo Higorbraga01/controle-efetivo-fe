@@ -55,6 +55,7 @@
           label="GERAR LISTA DO EFETIVO"
           icon="pi pi-download"
           (click)="gerarRelatorio()"
+          [disabled]="actionDisable()"
         ></button>
           <button
             style="margin-right: 0.5rem"

@@ -192,7 +192,8 @@
                       <tr>
                         <th>Sigla</th>
                         <th>Nome</th>
-                        <th>Chefe</th>
+                        <th>Cargo</th>
+                        <th>Detentor Carga</th>
                         <th>Divisão</th>
                       </tr>
                     </ng-template>
@@ -200,7 +201,8 @@
                       <tr>
                         <td>{{ setor.siglaSetor }}</td>
                         <td>{{ setor.nomeSetor }}</td>
-                        <td>{{ setor.inDetentor }}</td>
+                        <td>{{ setor.descricaoAlocacao }}</td>
+                        <td>{{ setor.inDetentor !=null ? "Sim" : "Não" }}</td>
                         <td>{{ setor.tipoDivisao }}</td>
                       </tr>
                     </ng-template>

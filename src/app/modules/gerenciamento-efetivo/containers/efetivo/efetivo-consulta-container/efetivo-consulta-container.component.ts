@@ -1,5 +1,5 @@
 import { ThrowStmt } from '@angular/compiler';
-import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
@@ -33,7 +33,8 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   private readonly NUMCOLUMNS = 8;
   public fakeArrayColumns = new Array(this.NUMCOLUMNS).fill({});
   public fakeArrayRows: any = [];
-  public dtAtual: Date;
+  public dtAtual: Date = new Date();
+  public dtString: String;
   public first: number = 0;
   private rowsCount: number;
   public pessoasList: Pessoa[];
@@ -58,7 +59,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     this.form = this.fb.group({
       nomePessoa: this.fb.control(null)
     });
-    this.dtAtual = new Date();
+    this.dtString =   this.dtAtual.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
     this._breadcrumbItems = [
       { label: 'Lista Efetivo', disabled: false },
     ];
@@ -208,7 +209,8 @@ export class EfetivoConsultaContainerComponent implements OnInit {
             const url = window.URL.createObjectURL(blob);
             var link = document.createElement('a');
             link.href = url;
-            link.download = "relacao-efetivo-" +this.userService?.user?.organizacao?.siglaUnidade.toLowerCase()+ ".pdf";
+            link.href = url;
+            link.download = "relacao-efetivo-" +this.userService?.user?.organizacao?.siglaUnidade.toLowerCase()+"-"+ this.dtString+ ".pdf";
             link.click();
             this.loading.end();
           },

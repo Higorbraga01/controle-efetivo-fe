@@ -209,6 +209,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
           'pessoa',
           this.pessoaSelecDropdown?.id,
         ],
+        disabled: this.actionDisable()
       },
       {
         label: 'Excluir',
@@ -233,7 +234,6 @@ export class EfetivoConsultaContainerComponent implements OnInit {
 
   actionDisable(): boolean {
     if (
-      this.userService.user?.roles ||
       this.userService.user?.roles?.includes('ROLE_ADMINISTRADOR')
     ) {
       return false;

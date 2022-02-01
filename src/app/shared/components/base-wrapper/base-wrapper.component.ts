@@ -158,7 +158,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
   }
 
   actionDisable(): boolean {
-    if (this.userService.user?.roles || (this.userService.user?.roles?.includes('ROLE_ADMINISTRADOR'))) {
+    if (this.userService.user?.roles?.includes('ROLE_ADMINISTRADOR')) {
       return false;
     }
     return true;

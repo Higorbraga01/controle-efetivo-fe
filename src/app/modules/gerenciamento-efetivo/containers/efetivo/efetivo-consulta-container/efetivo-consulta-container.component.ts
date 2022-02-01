@@ -79,9 +79,8 @@ export class EfetivoConsultaContainerComponent implements OnInit {
           sessionStorage.getItem('unidade')
         )?.siglaUnidade.toLowerCase();
       } else {
-        this.unidadeId = this.userService?.user?.organizacao?.id.toString();
-        this.nomeUnidade =
-          this.userService?.user?.organizacao.siglaUnidade.toLowerCase();
+        this.unidadeId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id.toString(): '0000';
+        this.nomeUnidade = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.siglaUnidade.toLowerCase(): 'não encontrado';
       }
       this.updateTable({ first: 0, rows: 10 })
     });

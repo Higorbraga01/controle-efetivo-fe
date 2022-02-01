@@ -10,6 +10,8 @@ import { Pessoa } from 'src/app/models/pessoa.model';
 import { Posto } from 'src/app/models/Posto';
 import { InspecaoService } from 'src/app/service/inspecao.service';
 import { PessoaService } from 'src/app/service/pessoa.service';
+import { SharedDataService } from 'src/app/service/shared-data.service';
+import { UserService } from 'src/app/service/user.service';
 import { LoadingBarService } from 'src/app/shared/services/loading-bar.service';
 import { environment } from 'src/environments/environment';
 
@@ -33,6 +35,7 @@ export class InspecaoConsultaContainerComponent implements OnInit {
   private rowsCount: number;
   public pessoas: Pessoa[];
   public inspecaoList: Inspecao[];
+  private unidadeId: string;
 
   _breadcrumbItems: MenuItem[];
   _home: MenuItem;
@@ -43,7 +46,8 @@ export class InspecaoConsultaContainerComponent implements OnInit {
     private loading: LoadingBarService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    // public userService: UserService,
+    public userService: UserService,
+    private sharedService: SharedDataService,
     public inspecaoService: InspecaoService,
     public pessoaService: PessoaService,
     private fb: FormBuilder,
@@ -62,6 +66,14 @@ export class InspecaoConsultaContainerComponent implements OnInit {
       icon: 'pi pi-home',
       url: environment.FRONT_URL,
     };
+    this.sharedService.currentMessage.subscribe(() =>{
+      if (JSON.parse(sessionStorage.getItem('unidade'))) {
+        this.unidadeId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
+      } else {
+        this.unidadeId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id.toString(): '0000';
+      }
+      this.updateTable({ first: 0, rows: 10 })
+    });
   }
 
   updateTable(event: LazyLoadEvent): void {
@@ -71,12 +83,13 @@ export class InspecaoConsultaContainerComponent implements OnInit {
     const page = { page: (event.first / event.rows) };
     const size = { size: event.rows };
     const pessoa = { nomePessoa: this.form?.value?.nomePessoa?.value };
+    const unidade = { unidadeId: this.unidadeId};
     let searchObject = {};
     if (event.sortField) {
       const sort = { sort: `${event.sortField},${event.sortOrder === 1 ? 'ASC' : 'DESC'}` };
-      searchObject = Object.assign({}, pessoa, page, size, sort);
+      searchObject = Object.assign({},unidade, pessoa, page, size, sort);
     } else {
-      searchObject = Object.assign({}, pessoa,page, size);
+      searchObject = Object.assign({},unidade, pessoa,page, size);
     }
 
     this.loading.start();
@@ -135,7 +148,7 @@ export class InspecaoConsultaContainerComponent implements OnInit {
 
   searchPessoas(event: any): void {
     this.subs$.push(
-      this.pessoaService.getAllSearch({ nomePessoa: event.query })
+      this.pessoaService.getAllSearch({unidadeId: this.unidadeId ,nomePessoa: event.query })
         .subscribe((response: { content: any }) => {
           this.pessoas = response.content.map((pessoas: { nomePessoa: string, nomeGuerra: string, posto: Posto}) => ({
             label: pessoas.nomePessoa,
@@ -163,19 +176,19 @@ export class InspecaoConsultaContainerComponent implements OnInit {
       },
       {
         label: 'Detalhe Inspeção', icon: 'pi pi-info-circle',
-        routerLink: [this.inspecaoSelecDropdown?.id, 'detalhe']
+        routerLink: [this.inspecaoSelecDropdown?.id, 'detalhe'],
+        disabled: this.actionDisable()
       },
       {
         label: 'Excluir', icon: 'pi pi-trash',
         command: () => this.delete(this.inspecaoSelecDropdown?.id),
         // visible: this.userService?.user?.roles.includes('ROLE_crud-habilitacao-instrucao')
-        disabled:false
+        disabled: this.actionDisable()
       },
     
     ];
   }
-
-
+  
   handleBreadcrumbClick(e: any) {
     if (!e.item.icon) {
       this._breadcrumbItems[
@@ -187,5 +200,15 @@ export class InspecaoConsultaContainerComponent implements OnInit {
   onDropdownClick($event: any, pessoa: any): void {
     this.inspecaoSelecDropdown = pessoa;
     this.menuItems = this.createMenuItens();
+  }
+
+  actionDisable(): boolean {
+    if (
+      this.userService.user?.roles ||
+      this.userService.user?.roles?.includes('ROLE_ADMINISTRADOR')
+    ) {
+      return false;
+    }
+    return true;
   }
 }

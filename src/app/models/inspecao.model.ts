@@ -11,7 +11,7 @@ export interface Inspecao {
 }
 
 export interface InspecaoRequest {
-    id:             number;
+    id?:             number;
     pessoaId:       number;
     tipoInspecao:   TipoInspecao;
     tipoResultado:  TipoResultado;

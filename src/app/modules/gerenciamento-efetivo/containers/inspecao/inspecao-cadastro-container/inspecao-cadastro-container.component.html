@@ -50,20 +50,29 @@
           <div class="md:col-6">
             <div class="p-input-filled">
               <label for="pessoa">Pessoa Inspecionada *</label>
-              <p-dropdown
-                id="pessoa"
-                [options]="pessoas"
-                [filter]="true"
-                filterBy="nomePessoa"
-                [showClear]="true"
-                emptyFilterMessage="Nenhuma pessoa encontrada"
+              <p-autoComplete
+                field="label"
+                [suggestions]="pessoas"
+                (onClear)="searchPessoas({})"
+                emptyMessage="Pessoa não encontrada"
+                (completeMethod)="searchPessoas($event)"
+                [dropdown]="true"
                 formControlName="pessoaId"
-                optionValue="id"
-                optionLabel="nomePessoa"
-                placeholder="Pessoa Inspecionada"
-                styleClass="flex"
+                [minLength]="3"
+                [placeholder]="'Seleciona uma pesssoa'"
+                pTooltip="Digite o nome"
+                [size]="100"
               >
-              </p-dropdown>
+                <ng-template let-pessoas pTemplate="item">
+                  <div class="dropdown-item-container">
+                    <span style="font-weight: bolder; font-size: 1.2rem">{{
+                      pessoas.label
+                    }}</span>
+                    <br />
+                    <span style="font-size: 1rem">{{ pessoas.title }}</span>
+                  </div>
+                </ng-template>
+              </p-autoComplete>
               <small
               class="p-invalid"
               *ngIf="

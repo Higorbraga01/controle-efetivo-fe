@@ -15,7 +15,7 @@
   display: block;
 
   .l-header {
-    z-index: 99999;
+    z-index: 1;
     position: fixed;
     height: calc(3.86rem * 2);
     width: 100%;
@@ -53,6 +53,9 @@
           color: var(--grey);
         }
       }
+    }
+    .c-header-om {
+      color: var(--grey);
     }
 
     .c-sub-header {

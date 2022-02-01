@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -7,6 +7,10 @@ import { KeycloakService } from 'keycloak-angular';
 import { LoadingBarService } from './../../services/loading-bar.service';
 import { UserService } from '../../../service/user.service';
 import moment from 'moment';
+import { UnidadeService } from 'src/app/service/unidade.service';
+import { Unidade } from 'src/app/models/Unidade';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { SharedDataService } from 'src/app/service/shared-data.service';
 
 @Component({
   selector: 'shrd-base-wrapper',
@@ -15,6 +19,10 @@ import moment from 'moment';
 })
 export class BaseWrapperComponent implements OnInit, OnDestroy {
   private _sessionInterval: any;
+  public unidades: Unidade[];
+  public unidade: any;
+  public form: FormGroup;
+  public nomeUnidade: string;
 
   @Input() title: string;
   @Input() basePath: string;
@@ -27,7 +35,10 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
     private router: Router,
     public keycloak: KeycloakService,
     public userService: UserService,
-    public loading: LoadingBarService
+    public loading: LoadingBarService,
+    private unidadeService: UnidadeService,
+    private fb: FormBuilder,
+    private sharedService: SharedDataService
   ) {
     this.subs$.push(
       this.router.events
@@ -48,8 +59,20 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
     this.refreshTokenTime();
   }
 
-  ngOnInit(): void {
 
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      unidadeId: this.fb.control(null)
+    })
+    this.unidadeService.buscarUnidades().subscribe(res =>{ 
+      this.unidades = res
+      if(sessionStorage.getItem('unidade')){
+        this.form.get('unidadeId').patchValue(JSON.parse(sessionStorage.getItem('unidade')))
+      } else
+      this.userService.getCurrentUser().subscribe(res => {
+        this.form.get('unidadeId').patchValue(res.pessoa?.unidade)
+      })
+    });
   }
 
   ngOnDestroy(): void {
@@ -57,9 +80,14 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
     clearInterval(this._sessionInterval);
   }
 
+  unidadeChanged(value:any){
+    sessionStorage.setItem('unidade', JSON.stringify(value));
+    this.sharedService.changeMessage(true);
+  }
+
   handleLogout(): void {
     clearInterval(this._sessionInterval);
-
+    sessionStorage.clear();
     this.keycloak.logout();
   }
 
@@ -79,6 +107,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
         ?.concat('-')
         ?.concat(this.userService.user.organizacao.siglaUnidade || '?')
         ?.join(' ') || 'Usuário não identificado'
+        
     );
   }
 
@@ -126,6 +155,13 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  actionDisable(): boolean {
+    if (this.userService.user?.roles || (this.userService.user?.roles?.includes('ROLE_ADMINISTRADOR'))) {
+      return false;
+    }
+    return true;
   }
 
   @HostListener('document:click')

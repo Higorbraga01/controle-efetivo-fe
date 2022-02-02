@@ -141,8 +141,8 @@
               (<b>{{ pessoa?.nomeGuerra }}</b>)
             </td>
             <td class="text-justify">
-              (<b>{{ pessoa?.numeroSaram }}</b>)
-              {{ pessoa?.numeroCpf?.substring(0,3)+"."+ pessoa?.numeroCpf?.substring(3,6)+"."+ pessoa?.numeroCpf?.substring(6,9)+"-"+ pessoa?.numeroCpf?.substring(9,11) }}
+              (<b>{{ pessoa?.numeroSaram == null ? "-": pessoa.numeroSaram }}</b>)
+              {{ pessoa.numeroCpf == null ? "" : pessoa?.numeroCpf?.substring(0,3)+"."+ pessoa?.numeroCpf?.substring(3,6)+"."+ pessoa?.numeroCpf?.substring(6,9)+"-"+ pessoa?.numeroCpf?.substring(9,11) }}
             </td>
             <td class="text-center">
               {{ pessoa?.dataNascimento | date: "dd/MM/yyyy" }}
@@ -155,7 +155,7 @@
               }}
             </td>
             <td class="text-center">
-              {{ pessoa?.numeroIdentidade ? pessoa?.numeroIdentidade+ " ( "+ pessoa?.siglaOrgaoEspedidor +" )" : "-" }}
+              {{ pessoa?.numeroIdentidade ? pessoa?.numeroIdentidade+ " ( "+ (pessoa?.siglaOrgaoEspedidor ? pessoa?.siglaOrgaoEspedidor: "-" ) +" )" : "-" }}
             </td>
             <td class="text-center">
               {{ pessoa?.nomeEmail ? pessoa?.nomeEmail : "-" }}

@@ -135,7 +135,7 @@
                 filterBy="letra"
                 [showClear]="true"
                 emptyFilterMessage="Nenhuma especialidade encontrada"
-                formControlName="tipoInspecao"
+                formControlName="julgamentoJuntaSaudeId"
                 optionValue="letra"
                 optionLabel="letra"
                 placeholder="Letra"
@@ -145,8 +145,8 @@
               <small
                 class="p-invalid"
                 *ngIf="
-                  form.get('tipoInspecao').invalid &&
-                  form.get('tipoInspecao').touched
+                  form.get('julgamentoJuntaSaudeId').invalid &&
+                  form.get('julgamentoJuntaSaudeId').touched
                 "
               >
                 Selecione o tipo de inspeção
@@ -162,7 +162,7 @@
                   filterBy="tipo"
                   [showClear]="true"
                   emptyFilterMessage="Nenhuma especialidade encontrada"
-                  formControlName="tipoResultado"
+                  formControlName="finalidadeInspecaoId"
                   optionValue="tipo"
                   optionLabel="tipo"
                   placeholder="Resultado"
@@ -172,8 +172,8 @@
                 <small
                   class="p-invalid"
                   *ngIf="
-                    form.get('tipoResultado').invalid &&
-                    form.get('tipoResultado').touched
+                    form.get('finalidadeInspecaoId').invalid &&
+                    form.get('finalidadeInspecaoId').touched
                   "
                 >
                   Selecione o resultado

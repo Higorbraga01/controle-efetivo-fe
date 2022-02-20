@@ -42,14 +42,14 @@
             <label>Dados do inspecionado</label>
           </div>
           <div class="mt-3 mb-3 flex justify-content-center">
-            {{ inspecao?.pessoaPostoSiglaPosto }}
-            {{ inspecao?.pessoaDataBaixa ? "R/1" : "" }}
+            {{ inspecao?.pessoa.posto.siglaPosto }}
+            {{ inspecao?.pessoa.dataBaixa ? "R/1" : "" }}
             {{
-              inspecao?.pessoaEspecialidadeSiglaEspecialidade
-                ? inspecao?.pessoaEspecialidadeSiglaEspecialidade
+              inspecao?.pessoa.especialidade.siglaEspecialidade
+                ? inspecao?.pessoa.especialidade.siglaEspecialidade
                 : "-"
             }}
-            {{ inspecao?.pessoaNomePessoa }}
+            {{ inspecao?.pessoa.nomePessoa }}
           </div>
         </div>
         <div class="col-12">
@@ -57,13 +57,13 @@
             <div class="col-3">
               <label>Letra Inspeção</label>
               <div class="mt-2">
-                {{ inspecao?.tipoInspecao }}
+                {{ inspecao?.finalidadeInspecao.codigo }}
               </div>
             </div>
             <div class="col-2 mt-2">
               <label>Resultado Inspeção</label>
               <div class="mt-2">
-                {{ inspecao?.tipoResultado }}
+                {{ inspecao?.julgamentoJuntaSaude.codigo }}
               </div>
             </div>
             <div class="col-2 mt-2">

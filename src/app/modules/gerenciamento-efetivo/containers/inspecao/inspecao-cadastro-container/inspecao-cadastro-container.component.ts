@@ -85,8 +85,11 @@ export class InspecaoCadastroContainerComponent implements OnInit {
       dataRealizacao: this.fb.control(null, [Validators.required]),
       dataValidade: this.fb.control(null, [Validators.required]),
       pessoaId: this.fb.control(null, [Validators.required]),
-      tipoInspecao: this.fb.control(null, [Validators.required]),
-      tipoResultado: this.fb.control(null, [Validators.required]),
+      finalidadeInspecaoId: this.fb.control(null, [Validators.required]),
+      subFinalidadeInspecaoId: this.fb.control(null, Validators.required),
+      julgamentoJuntaSaudeId: this.fb.control(null, [Validators.required]),
+      classificacaoInspecaoId: this.fb.control(null, Validators.required),
+      subClassificacaoInspecaoId: this.fb.control(null, Validators.required)
     });
   }
 
@@ -99,8 +102,11 @@ export class InspecaoCadastroContainerComponent implements OnInit {
       dataRealizacao: this.form.get('dataRealizacao').value,
       dataValidade: this.form.get('dataValidade').value,
       pessoaId: this.form.get('pessoaId').value.value,
-      tipoInspecao: this.form.get('tipoInspecao').value,
-      tipoResultado: this.form.get('tipoResultado').value,
+      finalidadeInspecaoId: this.form.get('finalidadeInspecaoId').value,
+      subFinalidadeInspecaoId: this.form.get('subFinalidadeInspecaoId').value,
+      julgamentoJuntaSaudeId: this.form.get('julgamentoJuntaSaudeId').value,
+      classificacaoInspecaoId: this.form.get('classificacaoInspecaoId').value,
+      subClassificacaoInspecaoId: this.form.get('subClassificacaoInspecaoId').value
     };
     
     this.loading.start();

@@ -108,10 +108,10 @@
         <ng-template pTemplate="body" let-inspecao let-expanded="expanded">
           <tr>
             <td class="text-center">
-              {{ inspecao?.tipoInspecao }}
+              {{ inspecao?.finalidadeInspecao.codigo }}
             </td>
             <td class="text-center">
-              {{ inspecao?.tipoResultado }}
+              {{ inspecao?.julgamentoJuntaSaude.descricao }}
             </td>
             <td class="text-center">
               {{ inspecao?.dataRealizacao | date: "dd/MM/yyyy" }}

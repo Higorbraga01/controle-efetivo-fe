@@ -7,9 +7,66 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  public customers: any[]
+  public dialogVisible: boolean;
+  public siglaUnidadeSelecionada: string;
+
   constructor() { }
 
   ngOnInit(): void {
+    this.siglaUnidadeSelecionada = 'CCA-RJ';
+    this.customers = [
+      {
+        name: 'teste',
+        country: 'teste',
+        company: 'teste',
+        representative: 'teste'
+      },
+      {
+        name: 'teste',
+        country: 'teste',
+        company: 'teste',
+        representative: 'teste'
+      },
+      {
+        name: 'teste',
+        country: 'teste',
+        company: 'teste',
+        representative: 'teste'
+      },
+      {
+        name: 'teste',
+        country: 'teste',
+        company: 'teste',
+        representative: 'teste'
+      },
+      {
+        name: 'teste',
+        country: 'teste',
+        company: 'teste',
+        representative: 'teste'
+      },      {
+        name: 'teste',
+        country: 'teste',
+        company: 'teste',
+        representative: 'teste'
+      },
+      {
+        name: 'teste',
+        country: 'teste',
+        company: 'teste',
+        representative: 'teste'
+      },      {
+        name: 'teste',
+        country: 'teste',
+        company: 'teste',
+        representative: 'teste'
+      }
+    ]
   }
+
+  showDialog() {
+    this.dialogVisible = true;
+}
 
 }

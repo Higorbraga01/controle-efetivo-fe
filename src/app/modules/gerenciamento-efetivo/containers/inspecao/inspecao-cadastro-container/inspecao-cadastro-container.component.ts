@@ -160,9 +160,9 @@ export class InspecaoCadastroContainerComponent implements OnInit {
     this.subs$.push(
       this.pessoaService.getAllSearch({unidadeId: this.unidadeId ,nomePessoa: event.query })
         .subscribe((response: { content: any }) => {
-          this.pessoas = response.content.map((pessoas: {id: number ,nomePessoa: string, nomeGuerra: string, posto: Posto}) => ({
-            label: pessoas.nomePessoa,
-            title: pessoas.posto.siglaPosto + " "+  pessoas.nomeGuerra,
+          this.pessoas = response.content.map((pessoas: {id: number ,nome: string, nomeGuerra: string, posto: Posto}) => ({
+            label: pessoas.nome,
+            title: pessoas.posto + " "+  pessoas.nomeGuerra,
             value: pessoas.id
           }));
         })

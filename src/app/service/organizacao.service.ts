@@ -1,15 +1,14 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Organizacao } from './../models/organizacao.model';
+import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Pageable } from '../models/pageable.model';
-import { Pessoa } from '../models/pessoa.model';
-import { PessoaRequest } from '../models/pessoa.model';
+import { Unidade } from '../models/Unidade';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class PessoaService {
+export class OrganizacaoService {
   private defaultHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
   });
@@ -43,28 +42,17 @@ export class PessoaService {
     return params;
   }
 
-  save(pessoa: PessoaRequest): Observable<PessoaRequest> {
-    return this.http.post<PessoaRequest>(`${this.endpoint}/pessoas`, pessoa)
-      .pipe(take(1));
-  }
-
-
-  getAllSearch(search?: any): Observable<Pageable<Pessoa>> {
+  buscarTodasOrganizacoes(search?: any): Observable<Organizacao[]> {
     this.removeEmptyFields(search)
     const params = this.buildHttpParams(search);
     return this.http
-      .get<Pageable<Pessoa>>(`${this.endpoint}/pessoas`,{
-        params
+      .get<Organizacao[]>(`${this.endpoint}/organizacoes`,{
+       params
       })
       .pipe(take(1));
   }
 
-  delete(id: number): Observable<any> {
-    return this.http
-      .delete<any>(`${this.endpoint}/pessoas/${ id }`,)
-  }
-  findByID(id: number): Observable<Pessoa> {
-    return this.http
-      .get<Pessoa>(`${this.endpoint}/pessoas/${ id }`,)
+  buscarOrganizacaoPorId(organizacaoId: string): Observable<Organizacao> {
+    return this.http.get<Organizacao>(`${this.endpoint}/organizacoes/${organizacaoId}`)
   }
 }

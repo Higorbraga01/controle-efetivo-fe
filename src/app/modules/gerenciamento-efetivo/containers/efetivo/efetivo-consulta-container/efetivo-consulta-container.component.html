@@ -81,6 +81,7 @@
         #tablepessoa
         [value]="pessoasList"
         [(first)]="first"
+        sortField="numeroAntiguidade"
         (onLazyLoad)="updateTable($event)"
         [lazy]="true"
         [showCurrentPageReport]="true"
@@ -116,9 +117,6 @@
               Nr Identidade
             </th>
             <th class="text-center">
-              Email
-            </th>
-            <th class="text-center">
               Setores
             </th>
             <th class="text-center">Ações</th>
@@ -127,42 +125,38 @@
         <ng-template pTemplate="body" let-pessoa let-expanded="expanded">
           <tr>
             <td class="text-left">
-              <b> 
-              {{ pessoa?.posto?.siglaPosto }}
+              <b>
+              {{ pessoa?.posto }}
               </b>
               {{ pessoa?.dataBaixa != null ? "R/1" : ""}}
-              {{ 
+              {{
                 pessoa?.quadro == null ? " ":
-                pessoa?.quadro?.siglaQuadro.includes("QSS") || pessoa?.quadro?.siglaQuadro.includes("QSD") ? pessoa?.quadro?.siglaQuadro+ " "+ pessoa?.especialidade?.siglaEspecialidade.substring(4,7):
-                pessoa?.especialidade?.siglaAbreviada == null ? pessoa?.quadro?.siglaQuadro:
-                pessoa?.quadro?.siglaQuadro+ " " +pessoa?.especialidade?.siglaAbreviada
+                pessoa?.quadro+ " "+ pessoa?.especialidade
               }}
-              {{ pessoa?.nomePessoa }} 
+              {{ pessoa?.nome }}
               (<b>{{ pessoa?.nomeGuerra }}</b>)
             </td>
             <td class="text-justify">
-              (<b>{{ pessoa?.numeroSaram == null ? "-": pessoa.numeroSaram }}</b>)
-              {{ pessoa.numeroCpf == null ? "" : pessoa?.numeroCpf?.substring(0,3)+"."+ pessoa?.numeroCpf?.substring(3,6)+"."+ pessoa?.numeroCpf?.substring(6,9)+"-"+ pessoa?.numeroCpf?.substring(9,11) }}
+              (<b>{{ pessoa?.id == null ? "-": pessoa.id }}</b>)
+              {{ pessoa.cpf == null ? "" : pessoa?.cpf?.substring(0,3)+"."+ pessoa?.cpf?.substring(3,6)+"."+ pessoa?.cpf?.substring(6,9)+"-"+ pessoa?.cpf?.substring(9,11) }}
             </td>
             <td class="text-center">
               {{ pessoa?.dataNascimento | date: "dd/MM/yyyy" }}
             </td>
             <td class="text-center">
               {{
-                pessoa?.dataIncorporacao
-                  ? (pessoa?.dataIncorporacao | date: "dd/MM/yyyy")
+                pessoa?.dataPraca
+                  ? (pessoa?.dataPraca | date: "dd/MM/yyyy")
                   : "-"
               }}
             </td>
             <td class="text-center">
-              {{ pessoa?.numeroIdentidade ? pessoa?.numeroIdentidade+ " ( "+ (pessoa?.siglaOrgaoEspedidor ? pessoa?.siglaOrgaoEspedidor: "-" ) +" )" : "-" }}
+              {{ pessoa?.identidadeMilitar ?
+                (pessoa?.identidadeMilitar? pessoa?.identidadeMilitar + " COMAER": ""): "-" }}
             </td>
             <td class="text-center">
-              {{ pessoa?.nomeEmail ? pessoa?.nomeEmail : "-" }}
-            </td>
-            <td class="text-center">
-              <button type="button" pButton pRipple [pRowToggler]="pessoa" 
-              class="p-button-text p-button-rounded p-button-plain" 
+              <button type="button" pButton pRipple [pRowToggler]="pessoa"
+              class="p-button-text p-button-rounded p-button-plain"
               [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'">
             </button>
             </td>
@@ -182,7 +176,6 @@
 
         <ng-template pTemplate="rowexpansion" let-pessoa>
           <tr>
-              <td class="text-center">-</td>
               <td class="text-center">-</td>
               <td class="text-center">-</td>
               <td class="text-center">-</td>

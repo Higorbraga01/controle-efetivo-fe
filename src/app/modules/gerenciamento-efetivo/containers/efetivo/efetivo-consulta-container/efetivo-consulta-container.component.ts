@@ -75,12 +75,8 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     this.sharedService.currentMessage.subscribe(() =>{
       if (JSON.parse(sessionStorage.getItem('unidade'))) {
         this.unidadeId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
-        this.nomeUnidade = JSON.parse(
-          sessionStorage.getItem('unidade')
-        )?.siglaUnidade.toLowerCase();
       } else {
-        this.unidadeId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id.toString(): '0000';
-        this.nomeUnidade = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.siglaUnidade.toLowerCase(): 'não encontrado';
+        this.unidadeId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id : '0000';
       }
       this.updateTable({ first: 0, rows: 10 })
     });
@@ -95,8 +91,8 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     const size = { size: event.rows };
     const pessoa = { nomePessoa: this.form?.value?.nomePessoa?.value };
     const unidade = { unidadeId: this.unidadeId };
-
     let searchObject = {};
+
     if (event.sortField) {
       const sort = {
         sort: `${event.sortField},${event.sortOrder === 1 ? 'ASC' : 'DESC'}`,
@@ -175,13 +171,13 @@ export class EfetivoConsultaContainerComponent implements OnInit {
         .subscribe((response: { content: any }) => {
           this.pessoas = response.content.map(
             (pessoas: {
-              nomePessoa: string;
+              nome: string;
               nomeGuerra: string;
               posto: Posto;
             }) => ({
-              label: pessoas.nomePessoa,
-              title: pessoas.posto.siglaPosto + ' ' + pessoas.nomeGuerra,
-              value: pessoas.nomePessoa,
+              label: pessoas.nome,
+              title: pessoas.posto+ ' ' + pessoas.nomeGuerra,
+              value: pessoas.nome,
             })
           );
         })
@@ -215,7 +211,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
         label: 'Excluir',
         icon: 'pi pi-trash',
         command: () => this.delete(this.pessoaSelecDropdown?.id),
-        disabled: this.actionDisable(),
+        disabled: true,
       },
     ];
   }

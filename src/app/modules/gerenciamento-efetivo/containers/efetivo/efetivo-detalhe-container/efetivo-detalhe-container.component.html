@@ -40,15 +40,15 @@
             <div class="col-2">
               <label>Posto</label>
               <div class="mt-2">
-                {{ pessoa?.posto.siglaPosto }}
-                {{ pessoa?.dataBaixa ? "R/1" : "" }}
+                {{ pessoa?.posto? pessoa?.posto: "-" }}
+                {{ pessoa?.tarefaTempoCerto == "TTC" ? "R/1" : "" }}
               </div>
             </div>
             <div class="col-2">
               <label>Quadro</label>
               <div class="mt-2">
                 {{
-                  pessoa?.quadro?.siglaQuadro ? pessoa?.quadro?.siglaQuadro : "-"
+                  pessoa?.quadro ? pessoa?.quadro : "-"
                 }}
               </div>
             </div>
@@ -56,30 +56,34 @@
               <label>Especialidade</label>
               <div class="mt-2">
                 {{
-                  pessoa?.especialidade?.siglaAbreviada
-                    ? pessoa?.especialidade?.siglaAbreviada
-                    : pessoa?.especialidade?.siglaEspecialidade
-                    ? pessoa?.especialidade?.siglaEspecialidade
+                  pessoa?.especialidade
+                    ? pessoa?.especialidade
                     : "-"
                 }}
               </div>
             </div>
-            <div class="col-3">
+            <div class="col-2">
               <label>Nome completo</label>
               <div class="mt-2">
-                {{ pessoa?.nomePessoa }}
+                {{ pessoa?.nome }}
               </div>
             </div>
-            <div class="col-3">
+            <div class="col-2">
               <label>Nome de guerra</label>
               <div class="mt-2">
                 {{ pessoa?.nomeGuerra }}
               </div>
             </div>
+            <div class="col-2">
+              <label>Origem</label>
+              <div class="mt-2">
+                {{ pessoa?.nomePais }}
+              </div>
+            </div>
             <div class="col-2 mt-2">
               <label>Data Praça</label>
               <div class="mt-2">
-                {{ pessoa?.dataIncorporacao | date: "dd/MM/yyyy" }}
+                {{ pessoa?.dataPraca ? (pessoa?.dataPraca | date: "dd/MM/yyyy"): "-" }}
               </div>
             </div>
             <div class="col-2 mt-2">
@@ -89,92 +93,106 @@
               </div>
             </div>
             <div class="col-2 mt-2">
-              <label>Data Baixa</label>
+              <label>Primeira Promoção</label>
               <div class="mt-2">
-                {{ pessoa?.dataBaixa | date: "dd/MM/yyyy" }}
+                {{pessoa?.primeiraPromocao ? pessoa?.primeiraPromocao : "Não disponivel" }}
               </div>
             </div>
-            <div class="col-3 mt-2">
-              <label>Sigla Unidade</label>
+            <div class="col-2 mt-2">
+              <label>Promoção Atual</label>
               <div class="mt-2">
-                {{ pessoa?.unidade.siglaUnidadeCompleta }}
+                {{pessoa?.dataPromocaoAtual ? (pessoa?.dataPromocaoAtual | date: "dd/MM/yyyy"): "Não disponivel" }}
               </div>
             </div>
-            <div class="col-3 mt-2">
-              <label>Nome Unidade</label>
+            <div class="col-2 mt-2">
+              <label>Unidade</label>
               <div class="mt-2">
-                {{ pessoa?.unidade.nomeUnidadeCompleto }}
+                {{ pessoa?.organizacaoSigla }}
+              </div>
+            </div>
+            <div class="col-2 mt-2">
+              <label>Unidade Serviço</label>
+              <div class="mt-2">
+                {{ pessoa?.organizacaoServicoSigla }}
               </div>
             </div>
             <div class="col-12 flex mt-2 p-0">
               <div class="col-2 mt-2">
-                <label>Nr Identidade</label>
+                <label>Identidade Militar</label>
                 <div class="mt-2">
-                  {{ pessoa?.numeroIdentidade ? pessoa?.numeroIdentidade : "-" }}
+                  {{ pessoa?.identidadeMilitar ? pessoa?.identidadeMilitar : "-" }}
+                </div>
+              </div>
+              <div class="col-2 mt-2">
+                <label>Identidade Civil</label>
+                <div class="mt-2">
+                  {{ pessoa?.identidadeCivil ? pessoa?.identidadeCivil : "-" }}
                 </div>
               </div>
               <div class="col-2 mt-2">
                 <label>Orgão Expedidor</label>
                 <div class="mt-2">
                   {{
-                    pessoa?.siglaOrgaoEspedidor ? pessoa?.siglaOrgaoEspedidor : "-"
+                    pessoa?.nomeOrgaoEmissorCivil ? pessoa?.nomeOrgaoEmissorCivil : "Não disponivel"
                   }}
                 </div>
               </div>
               <div class="col-2 mt-2">
-                <label>Nr Saram</label>
+                <label>Data emissão</label>
                 <div class="mt-2">
-                  {{ pessoa?.numeroSaram ? pessoa?.numeroSaram : "-" }}
+                  {{pessoa?.dataEmissaoCivil ? (pessoa?.dataEmissaoCivil | date: "dd/MM/yyyy"): "Não disponivel" }}
                 </div>
               </div>
-              <div class="col-3 mt-2">
-                <label>Nr Cpf</label>
+              <div class="col-2 mt-2">
+                <label>Saram</label>
                 <div class="mt-2">
-                  {{ pessoa?.numeroCpf ? pessoa?.numeroCpf : "-" }}
+                  {{ pessoa?.id ? pessoa?.id : "-" }}
                 </div>
               </div>
-              <div class="col-3 mt-2">
-                <label>Email</label>
+              <div class="col-2 mt-2">
+                <label>Cpf</label>
                 <div class="mt-2">
-                  {{ pessoa?.nomeEmail ? pessoa?.nomeEmail : "-" }}
+                  {{ pessoa?.cpf ? pessoa?.cpf : "-" }}
                 </div>
               </div>
             </div>
             <div class="col-12 flex mt-2 p-0">
               <div class="col-2 mt-2">
-                <label>Nr Cnh</label>
+                <label>PIS/PASEP</label>
                 <div class="mt-2">
-                  {{ pessoa?.numeroRegistroCnh ? pessoa?.numeroRegistroCnh : "-" }}
+                  {{ pessoa?.numeroPisPasep ? pessoa?.numeroPisPasep : "Não disponivel" }}
                 </div>
               </div>
               <div class="col-2 mt-2">
-                <label>Categoria Cnh</label>
+                <label>Matricula Siape</label>
                 <div class="mt-2">
-                  {{
-                    pessoa?.codigoCategoriaCnh ? pessoa?.codigoCategoriaCnh : "-"
-                  }}
+                  {{ pessoa?.numeroMatriculaSiape ? pessoa?.numeroMatriculaSiape : "Não disponivel" }}
                 </div>
               </div>
               <div class="col-2 mt-2">
-                <label>Validade Cnh</label>
-                <div
-                  [ngClass]="{
-                    'dt-vencida': hoje.isSameOrAfter(pessoa?.dataValidadeCnh),
-                    'dt-valida': hoje.isBefore(pessoa?.dataValidadeCnh)
-                  }"
-                  class="mt-2"
-                >
+                <label>Situação</label>
+                <div class="mt-2">
                   {{
-                    pessoa?.dataValidadeCnh
-                      ? (pessoa?.dataValidadeCnh | date: "dd/MM/yyyy")
-                      : "-"
+                    pessoa?.siglaSituacao ? pessoa?.siglaSituacao : "-"
                   }}
                 </div>
               </div>
               <div class="col-2 mt-2">
                 <label>Sexo</label>
                 <div class="mt-2">
-                  {{ pessoa?.codigoSexo ? pessoa?.codigoSexo : "-" }}
+                  {{ pessoa?.sexo ? pessoa?.sexo : "-" }}
+                </div>
+              </div>
+              <div class="col-2 mt-2">
+                <label>Raça</label>
+                <div class="mt-2">
+                  {{ pessoa?.raca ? pessoa?.raca : "Não disponivel" }}
+                </div>
+              </div>
+              <div class="col-2 mt-2">
+                <label>Local de Nascimento</label>
+                <div class="mt-2">
+                  {{ pessoa?.nomeCidade ? pessoa?.nomeCidade +" "+ pessoa?.siglaEstado: "Não disponivel" }}
                 </div>
               </div>
             </div>
@@ -279,4 +297,3 @@
         </p-card>
       </div>
     </section>
-    

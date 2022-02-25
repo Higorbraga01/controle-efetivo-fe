@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { KeycloakAuthGuard, KeycloakService } from 'keycloak-angular';
 import {ActivatedRouteSnapshot, Router, RouterStateSnapshot, CanActivateChild, UrlTree} from '@angular/router';
@@ -46,15 +47,15 @@ export class AuthGuard extends KeycloakAuthGuard implements CanActivateChild {
 
           this.userService.user = {
             id: user.pessoa.id,
-            nome: user.pessoa.nomePessoa,
-            nrCpf: user.pessoa.numeroCpf,
-            organizacao: user.pessoa.unidade,
+            nome: user.pessoa.nome,
+            nrCpf: user.pessoa.cpf,
+            organizacao:  user.organizacao,
             roles: user.roles
           };
         }
       } catch (err) {
         this.userService.user = {
-          id: -1,
+          id: '-1',
           nome: null,
           nrCpf: null,
           roles: null,

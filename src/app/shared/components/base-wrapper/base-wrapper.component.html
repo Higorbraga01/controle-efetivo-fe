@@ -35,18 +35,22 @@
         <form class="flex align-items-center" [formGroup]="form">
           <span class="c-header-om mr-2">OM:</span>
           <p-dropdown
-            [options]="unidades"
+            [options]="organizacoes"
             formControlName="unidadeId"
             placeholder="Unidade não encontrada"
-            optionLabel="siglaUnidade"
+            optionLabel="sigla"
             class="mr-5"
             [filter]="true"
             appendTo="body"
-            filterBy="siglaUnidade"
+            filterBy="sigla"
             (onChange)="unidadeChanged($event.value)"
-            [disabled]="actionDisable()"
           >
           </p-dropdown>
+          <!-- <div *ngIf="!userService.user?.organizacao">
+            <span class="mr-2">
+              <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+            </span>
+          </div> -->
         </form>
         <span class="mr-2">{{ handleUserName() }}</span>
         <p-avatar

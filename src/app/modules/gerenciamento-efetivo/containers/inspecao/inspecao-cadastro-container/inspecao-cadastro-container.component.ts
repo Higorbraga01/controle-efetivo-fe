@@ -1,3 +1,9 @@
+import { ClassificacaoInspecao, SubClassificacaoInspecao, FinalidadeInspecao, SubFinalidadeInspecao, JulgamentoJuntaSaude } from './../../../../../models/inspecao.model';
+import { JulgamentoInspecaoService } from './../../../../../service/julgamento-inspecao.service';
+import { SubFinalidadeService } from './../../../../../service/sub-finalidade.service';
+import { FinalidadeService } from './../../../../../service/finalidade.service';
+import { SubClassificacaoService } from './../../../../../service/sub-classificacao.service';
+import { ClassificacacaoService } from './../../../../../service/classificacacao.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -26,6 +32,11 @@ export class InspecaoCadastroContainerComponent implements OnInit {
   public form: FormGroup;
   public inspecao: InspecaoRequest;
   public pessoas: Pessoa[];
+  public classificacoes: ClassificacaoInspecao[]
+  public subClassificacoes: SubClassificacaoInspecao[]
+  public finalidadesInspecao: FinalidadeInspecao[]
+  public subFinalidadesInspecao: SubFinalidadeInspecao[]
+  public julgamentosInspecao: JulgamentoJuntaSaude[]
   public tipoInspecao: any[];
   public tiposResultados: any[];
   private unidadeId: string;
@@ -35,6 +46,11 @@ export class InspecaoCadastroContainerComponent implements OnInit {
     private fb: FormBuilder,
     private pessoaService: PessoaService,
     private inspecaoService: InspecaoService,
+    private classificacaoService: ClassificacacaoService,
+    private subClassificacaoService: SubClassificacaoService,
+    private finalidadeService: FinalidadeService,
+    private subFinalidadeService: SubFinalidadeService,
+    private julgamentoInspecaoService: JulgamentoInspecaoService,
     private messageService: MessageService,
     public userService: UserService,
     private sharedService: SharedDataService,
@@ -47,37 +63,19 @@ export class InspecaoCadastroContainerComponent implements OnInit {
       if (JSON.parse(sessionStorage.getItem('unidade'))) {
         this.unidadeId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
       } else {
-        this.unidadeId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id.toString(): '0000';
+        this.unidadeId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id: '0000';
       }
       this.pessoaService
       .getAllSearch({unidadeId: this.unidadeId})
       .subscribe((res) => (this.pessoas = res.content));
-    });    
-    this.tiposResultados = [
-      {
-        tipo: TipoResultado.APTO,
-      },
-      {
-        tipo: TipoResultado.NAO_APTO,
-      },
-      {
-        tipo: TipoResultado.APTO_COM_RESTRICAO,
-      },
-    ];
-    this.tipoInspecao = [
-      {
-        letra: TipoInspecao.D,
-      },
-      {
-        letra: TipoInspecao.E,
-      },
-      {
-        letra: TipoInspecao.H,
-      },
-      {
-        letra: TipoInspecao.G,
-      },
-    ];
+      this.classificacaoService
+      .buscarClassificacoes()
+      .subscribe((res) => this.classificacoes = res);
+    });
+    this.finalidadeService.buscarFinalidades()
+    .subscribe((res) => this.finalidadesInspecao = res.content);
+    this.julgamentoInspecaoService.buscarJulgamentosInspecao()
+    .subscribe((res) => this.julgamentosInspecao = res);
   }
 
   buildForm(): void {
@@ -86,11 +84,47 @@ export class InspecaoCadastroContainerComponent implements OnInit {
       dataValidade: this.fb.control(null, [Validators.required]),
       pessoaId: this.fb.control(null, [Validators.required]),
       finalidadeInspecaoId: this.fb.control(null, [Validators.required]),
-      subFinalidadeInspecaoId: this.fb.control(null, Validators.required),
+      subFinalidadeInspecaoId: this.fb.control({value: null, disabled: true }, Validators.required),
       julgamentoJuntaSaudeId: this.fb.control(null, [Validators.required]),
       classificacaoInspecaoId: this.fb.control(null, Validators.required),
-      subClassificacaoInspecaoId: this.fb.control(null, Validators.required)
+      subClassificacaoInspecaoId: this.fb.control({value: null, disabled: true },Validators.required)
     });
+  }
+
+  onSelectClassificacao(event: any){
+    if(event.value){
+      this.subClassificacaoService
+      .buscarSubClassificacoesPorClassificacao(event.value)
+      .subscribe((res) => {
+        this.subClassificacoes = res
+        if(res.length > 0 ){
+          this.form.get('subClassificacaoInspecaoId').enable();
+        }else {
+          this.form.get('subClassificacaoInspecaoId').disable();
+        }
+      });
+    }else {
+      this.form.get('subClassificacaoInspecaoId').disable();
+      this.form.get('subClassificacaoInspecaoId').reset();
+    }
+  }
+
+  onSelectFinalidade(event: any) {
+    if(event.value){
+      this.subFinalidadeService
+      .buscarSubFinalidadesPorFinalidade(event.value)
+      .subscribe((res) => {
+        this.subFinalidadesInspecao = res
+        if(res.length > 0 ){
+          this.form.get('subFinalidadeInspecaoId').enable();
+        }else {
+          this.form.get('subFinalidadeInspecaoId').disable();
+        }
+      });
+    }else {
+      this.form.get('subFinalidadeInspecaoId').disable();
+      this.form.get('subFinalidadeInspecaoId').reset();
+    }
   }
 
   resetForms(): void {
@@ -108,7 +142,7 @@ export class InspecaoCadastroContainerComponent implements OnInit {
       classificacaoInspecaoId: this.form.get('classificacaoInspecaoId').value,
       subClassificacaoInspecaoId: this.form.get('subClassificacaoInspecaoId').value
     };
-    
+
     this.loading.start();
     this.inspecaoService.save(inspecaoRequest).subscribe(() => {
       this.messageService.add({

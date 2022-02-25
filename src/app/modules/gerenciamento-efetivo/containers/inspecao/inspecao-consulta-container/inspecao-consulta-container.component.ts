@@ -70,7 +70,7 @@ export class InspecaoConsultaContainerComponent implements OnInit {
       if (JSON.parse(sessionStorage.getItem('unidade'))) {
         this.unidadeId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
       } else {
-        this.unidadeId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id.toString(): '0000';
+        this.unidadeId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id: '0000';
       }
       this.updateTable({ first: 0, rows: 10 })
     });
@@ -79,7 +79,7 @@ export class InspecaoConsultaContainerComponent implements OnInit {
   updateTable(event: LazyLoadEvent): void {
     this.rowsCount = event.rows;
     this.fakeArrayRows = new Array(event.rows).fill({});
-    
+
     const page = { page: (event.first / event.rows) };
     const size = { size: event.rows };
     const pessoa = { nomePessoa: this.form?.value?.nomePessoa?.value };
@@ -185,10 +185,10 @@ export class InspecaoConsultaContainerComponent implements OnInit {
         // visible: this.userService?.user?.roles.includes('ROLE_crud-habilitacao-instrucao')
         disabled: this.actionDisable()
       },
-    
+
     ];
   }
-  
+
   handleBreadcrumbClick(e: any) {
     if (!e.item.icon) {
       this._breadcrumbItems[

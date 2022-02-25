@@ -1,5 +1,6 @@
+import { SharedDataService } from 'src/app/service/shared-data.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import moment, { Moment } from 'moment';
 import { Subscription } from 'rxjs';
 import { Pessoa } from 'src/app/models/pessoa.model';
@@ -24,10 +25,12 @@ export class EfetivoDetalheContainerComponent implements OnInit {
   constructor(
     public loading: LoadingBarService,
               private pessoaService: PessoaService,
+              private sharedDataService: SharedDataService,
+              private router: Router,
               private activitedRoute: ActivatedRoute) {
-              
+
   }
-  
+
   ngOnInit(): void {
     this.hoje = moment(new Date).startOf('day');
     this.id = this.activitedRoute.snapshot.params['id'];
@@ -40,6 +43,11 @@ export class EfetivoDetalheContainerComponent implements OnInit {
     }
     this.loading.end();
     this.blocked = false;
+    this.sharedDataService.currentMessage.subscribe(unidadeChange => {
+      if(unidadeChange === true){
+        this.router.navigate(['/efetivo'])
+      }
+    });
   }
 
   ngOnDestroy(): void {

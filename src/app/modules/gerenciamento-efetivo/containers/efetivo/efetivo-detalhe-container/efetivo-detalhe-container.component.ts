@@ -37,17 +37,17 @@ export class EfetivoDetalheContainerComponent implements OnInit {
     this.loading.start();
     this.blocked = true;
       if (this.id) {
-        this.pessoaService.findByID(this.id).subscribe(res => {
-          this.pessoa = res;
+        this.pessoaService.findByID(this.id).subscribe(pessoa => {
+          this.pessoa = pessoa;
+          this.sharedDataService.currentMessage.subscribe(unidadeChange => {
+            if(unidadeChange.id != pessoa.organizacaoId){
+              this.router.navigate(['/efetivo'])
+            }      
+          });
         });
     }
     this.loading.end();
-    this.blocked = false;
-    this.sharedDataService.currentMessage.subscribe(unidadeChange => {
-      if(unidadeChange === true){
-        this.router.navigate(['/efetivo'])
-      }
-    });
+    this.blocked = false;   
   }
 
   ngOnDestroy(): void {

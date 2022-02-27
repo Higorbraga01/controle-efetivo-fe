@@ -88,7 +88,6 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
           });
       });
     });
-    // this.userService.getCurrentUser().subscribe(user => this.enableUnidadeDropDown = user?.roles?.includes('ROLE_ADMINISTRADOR') )
     this.actionDisable();
   }
 
@@ -99,7 +98,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
 
   unidadeChanged(value: any) {
     sessionStorage.setItem('unidade', JSON.stringify(value));
-    this.sharedService.changeMessage(true);
+    this.sharedService.changeMessage(value);
   }
 
   handleLogout(): void {

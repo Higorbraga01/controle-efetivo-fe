@@ -182,9 +182,9 @@
               <td class="text-center">-</td>
               <td class="text-center">-</td>
               <td class="text-center">
-                <ng-template ngFor let-setor [ngForOf]="pessoa?.setores" let-i="index">
+                <ng-template ngFor let-local [ngForOf]="pessoa?.locaisTrabalho" let-i="index">
                   <div class="table-setor-sigla">
-                    {{ setor.siglaSetor}}
+                    {{ local.organizacaoSigla}}
                   </div>
                   </ng-template>
               </td>

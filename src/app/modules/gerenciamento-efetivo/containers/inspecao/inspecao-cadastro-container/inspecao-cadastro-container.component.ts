@@ -71,11 +71,11 @@ export class InspecaoCadastroContainerComponent implements OnInit {
       this.classificacaoService
       .buscarClassificacoes()
       .subscribe((res) => this.classificacoes = res);
+      this.finalidadeService.buscarFinalidades()
+      .subscribe((res) => this.finalidadesInspecao = res.content);
+      this.julgamentoInspecaoService.buscarJulgamentosInspecao()
+      .subscribe((res) => this.julgamentosInspecao = res);
     });
-    this.finalidadeService.buscarFinalidades()
-    .subscribe((res) => this.finalidadesInspecao = res.content);
-    this.julgamentoInspecaoService.buscarJulgamentosInspecao()
-    .subscribe((res) => this.julgamentosInspecao = res);
   }
 
   buildForm(): void {

@@ -104,13 +104,13 @@
             <div class="col-2">
               <label>Codigo classificação</label>
               <div class="mt-2">
-                {{ inspecao?.classificacaoInspecao?.codigo }}
+                {{ inspecao?.classificacaoInspecao?.codigo? inspecao?.classificacaoInspecao?.codigo: "N/A" }}
               </div>
             </div>
             <div class="col-10">
               <label>Descrição classificação </label>
               <div class="mt-2 text-justify">
-                {{ inspecao?.classificacaoInspecao?.descricao }}
+                {{ inspecao?.classificacaoInspecao?.descricao? inspecao?.classificacaoInspecao?.descricao: "N/A" }}
               </div>
             </div>
           </div>
@@ -125,13 +125,13 @@
             <div class="col-2">
               <label>Codigo subclassificação</label>
               <div class="mt-2">
-                {{ inspecao?.subClassificacaoInspecao?.codigo }}
+                {{ inspecao?.subClassificacaoInspecao?.codigo ? inspecao?.subClassificacaoInspecao?.codigo: "N/A" }}
               </div>
             </div>
             <div class="col-10">
               <label>Descrição subclassificação </label>
               <div class="mt-2 text-justify">
-                {{ inspecao?.subClassificacaoInspecao?.descricao }}
+                {{ inspecao?.subClassificacaoInspecao?.descricao ? inspecao?.subClassificacaoInspecao?.descricao: "N/A" }}
               </div>
             </div>
           </div>

@@ -7,6 +7,7 @@ import { Posto } from './Posto';
 import { Quadro } from './Quadro';
 import { Setor } from './Setor';
 import { Unidade } from './Unidade';
+import { LocalTrabalhoPessoa } from './local-trabalho-pessoa.model';
 
 export interface PessoaSearch extends BaseSearch {
   nrCpf?: string;
@@ -82,6 +83,7 @@ export interface Pessoa {
   altura?:                  string;
   peso?:                    string;
   tipoSangueRh?:            string;
+  locaisTrabalho?:         LocalTrabalhoPessoa[];
   inspecoes?:              Inspecao[];
   setores?:                Setor[];
 }

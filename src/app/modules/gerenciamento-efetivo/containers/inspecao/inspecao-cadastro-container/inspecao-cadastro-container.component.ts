@@ -162,7 +162,7 @@ export class InspecaoCadastroContainerComponent implements OnInit {
         .subscribe((response: { content: any }) => {
           this.pessoas = response.content.map((pessoas: {id: number ,nome: string, nomeGuerra: string, posto: Posto}) => ({
             label: pessoas.nome,
-            title: pessoas.posto + " "+  pessoas.nomeGuerra,
+            title: pessoas.posto? pessoas.posto: "CV"  + " "+  pessoas.nomeGuerra,
             value: pessoas.id
           }));
         })

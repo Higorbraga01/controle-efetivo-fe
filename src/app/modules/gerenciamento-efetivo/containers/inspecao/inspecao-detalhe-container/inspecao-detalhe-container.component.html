@@ -42,12 +42,12 @@
             <label>Inspecionado</label>
           </div>
           <div class="mt-3 mb-3 flex justify-content-center">
-            {{ inspecao?.pessoa.posto}}
+            {{ inspecao?.pessoa.posto ? inspecao?.pessoa.posto : "CV"}}
             {{ inspecao?.pessoa.tarefaTempoCerto == "TTC"? "R/1" : "" }}
             {{
               inspecao?.pessoa.especialidade
                 ? inspecao?.pessoa.especialidade
-                : "-"
+                : ""
             }}
             {{ inspecao?.pessoa.nome }}
           </div>

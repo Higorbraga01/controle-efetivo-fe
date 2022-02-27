@@ -40,6 +40,9 @@ export class EfetivoDetalheContainerComponent implements OnInit {
         this.pessoaService.findByID(this.id).subscribe(pessoa => {
           this.pessoa = pessoa;
           this.sharedDataService.currentMessage.subscribe(unidadeChange => {
+            if(unidadeChange instanceof Array ){
+              return;
+            } else
             if(unidadeChange.id != pessoa.organizacaoId){
               this.router.navigate(['/efetivo'])
             }      

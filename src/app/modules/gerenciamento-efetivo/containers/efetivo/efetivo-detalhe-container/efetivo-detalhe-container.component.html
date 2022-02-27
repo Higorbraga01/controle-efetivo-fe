@@ -202,33 +202,33 @@
                 <div class="mt-2">
                   <p-table
                     styleClass="p-datatable-striped"
-                    [value]="pessoa?.setores"
+                    [value]="pessoa?.locaisTrabalho"
                     [scrollable]="true"
                     scrollHeight="200px"
                   >
                     <ng-template pTemplate="header">
                       <tr>
+                        <th>Código</th>
                         <th>Sigla</th>
                         <th>Nome</th>
-                        <th>Cargo</th>
-                        <th>Detentor Carga</th>
-                        <th>Divisão</th>
+                        <th>Subordinação</th>
+                        <th>Extinto</th>
                       </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-setor>
+                    <ng-template pTemplate="body" let-local>
                       <tr>
-                        <td>{{ setor.siglaSetor }}</td>
-                        <td>{{ setor.nomeSetor }}</td>
-                        <td>{{ setor.descricaoAlocacao }}</td>
-                        <td>{{ setor.inDetentor !=null ? "Sim" : "Não" }}</td>
-                        <td>{{ setor.tipoDivisao }}</td>
+                        <td class="text-xs">{{ local.codigoLocalTrabalho }}</td>
+                        <td class="text-xs">{{ local.organizacaoSigla }}</td>
+                        <td class="text-xs">{{ local.nomeLocalTrabalho }}</td>
+                        <td class="text-xs">{{ local.siglaLocalSubornidada ? local.siglaLocalSubornidada : "N/A"  }}</td>
+                        <td class="text-xs">{{ local.situacao }}</td>
                       </tr>
                     </ng-template>
                     <ng-template pTemplate="emptymessage">
                       <tr>
                         <td colspan="4" class="justify-content-center">
                           <span>
-                            {{ "Nenhum setor encontrado" | uppercase }}
+                            {{ "Nenhum local de trabalho encontrado" | uppercase }}
                           </span>
                         </td>
                       </tr>
@@ -263,9 +263,9 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-inspecao>
                       <tr>
-                        <td>{{ inspecao.tipoInspecao }}</td>
-                        <td>{{ inspecao.tipoResultado }}</td>
-                        <td>{{ inspecao.dataRealizacao }}</td>
+                        <td class="text-xs">{{ inspecao.finalidadeInspecao.codigo }}</td>
+                        <td class="text-xs">{{ inspecao.julgamentoJuntaSaude.descricao }}</td>
+                        <td >{{ inspecao.dataRealizacao }}</td>
                         <td>
                           <div
                             [ngClass]="{

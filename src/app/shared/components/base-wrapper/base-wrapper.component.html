@@ -34,7 +34,7 @@
         </p-button>
         <form class="flex align-items-center" [formGroup]="form">
           <span class="c-header-om mr-2">OM:</span>
-          <p-dropdown
+          <p-dropdown *ngIf="userService.user?.organizacao"
             [options]="organizacoes"
             formControlName="unidadeId"
             placeholder="Unidade não encontrada"
@@ -46,11 +46,11 @@
             (onChange)="unidadeChanged($event.value)"
           >
           </p-dropdown>
-          <!-- <div *ngIf="!userService.user?.organizacao">
+          <div *ngIf="!userService.user?.organizacao">
             <span class="mr-2">
               <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
             </span>
-          </div> -->
+          </div>
         </form>
         <span class="mr-2">{{ handleUserName() }}</span>
         <p-avatar

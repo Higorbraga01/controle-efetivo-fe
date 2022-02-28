@@ -73,7 +73,7 @@
             class="p-button-sm"
             label="CADASTRAR PESSOA"
             icon="pi pi-plus"
-            [disabled]="actionDisable()"
+            [disabled]="!userService.user?.roles?.includes('ROLE_ADMINISTRADOR')"
           ></button>
         </div>
       </p-toolbar>

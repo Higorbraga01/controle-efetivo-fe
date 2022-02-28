@@ -230,7 +230,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
 
   actionDisable(): boolean {
     if (
-      this.userService.user?.roles?.includes('ROLE_ADMINISTRADOR')
+      this.userService.user?.roles?.includes('ROLE_GERENTE_SPM' ||'ROLE_ADMINISTRADOR')
     ) {
       return false;
     }

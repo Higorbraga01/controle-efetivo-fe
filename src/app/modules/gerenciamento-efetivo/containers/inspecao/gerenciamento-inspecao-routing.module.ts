@@ -8,18 +8,27 @@ import { InspecaoDetalheContainerComponent } from './inspecao-detalhe-container/
 const routes: Routes = [
   {
     path: '',
+    data: {
+      roles: ['GERENTE_SPM']
+    },
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     component: InspecaoConsultaContainerComponent,
   },
   {
     path: 'cadastro',
+    data: {
+      roles: ['GERENTE_SPM']
+    },
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     component: InspecaoCadastroContainerComponent,
   },
   {
     path: ':id/detalhe',
+    data: {
+      roles: ['GERENTE_SPM']
+    },
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     component: InspecaoDetalheContainerComponent,

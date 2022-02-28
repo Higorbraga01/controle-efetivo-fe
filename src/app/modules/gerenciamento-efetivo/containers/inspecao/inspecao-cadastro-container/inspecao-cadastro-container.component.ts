@@ -65,6 +65,7 @@ export class InspecaoCadastroContainerComponent implements OnInit {
       } else {
         this.unidadeId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id: '0000';
       }
+      this.resetForms();
       this.pessoaService
       .getAllSearch({unidadeId: this.unidadeId})
       .subscribe((res) => (this.pessoas = res.content));

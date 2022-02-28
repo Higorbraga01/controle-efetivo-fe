@@ -83,6 +83,7 @@
                 placeholder="Data inspeção"
                 styleClass="flex"
                 dateFormat="dd/mm/yy"
+                (onFocus)="validarData()"
               >
               </p-calendar>
               <small
@@ -104,13 +105,23 @@
                 placeholder="Data validade"
                 styleClass="flex"
                 dateFormat="dd/mm/yy"
+                (onFocus)="validarData()"
               >
               </p-calendar>
+              <small
+              class="p-invalid p-0 mt-0"
+              *ngIf="
+                form.get('dataValidade').getError('dataIncorreta')
+              "
+            >
+              A data de validade não pode ser menor que data da inspeção
+              </small>
               <small
                 class="p-invalid p-0 mt-0"
                 *ngIf="
                   form.get('dataValidade').invalid &&
-                  form.get('dataValidade').touched
+                  form.get('dataValidade').touched &&
+                  !form.get('dataValidade').getError('dataIncorreta')
                 "
               >
                 Selecione uma data

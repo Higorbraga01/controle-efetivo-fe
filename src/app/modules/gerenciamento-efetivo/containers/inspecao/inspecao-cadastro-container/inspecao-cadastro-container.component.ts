@@ -1,3 +1,4 @@
+
 import { ClassificacaoInspecao, SubClassificacaoInspecao, FinalidadeInspecao, SubFinalidadeInspecao, JulgamentoJuntaSaude } from './../../../../../models/inspecao.model';
 import { JulgamentoInspecaoService } from './../../../../../service/julgamento-inspecao.service';
 import { SubFinalidadeService } from './../../../../../service/sub-finalidade.service';
@@ -9,11 +10,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import {
-  InspecaoRequest,
-  TipoInspecao,
-  TipoResultado,
-} from 'src/app/models/inspecao.model';
+import { InspecaoRequest } from 'src/app/models/inspecao.model';
 import { Pessoa } from 'src/app/models/pessoa.model';
 import { Posto } from 'src/app/models/Posto';
 import { InspecaoService } from 'src/app/service/inspecao.service';
@@ -21,6 +18,7 @@ import { PessoaService } from 'src/app/service/pessoa.service';
 import { SharedDataService } from 'src/app/service/shared-data.service';
 import { UserService } from 'src/app/service/user.service';
 import { LoadingBarService } from 'src/app/shared/services/loading-bar.service';
+import moment, { Moment } from 'moment';
 
 @Component({
   selector: 'controle-inspecao-cadastro-container',
@@ -127,7 +125,6 @@ export class InspecaoCadastroContainerComponent implements OnInit {
       this.form.get('subFinalidadeInspecaoId').reset();
     }
   }
-
   resetForms(): void {
     this.form.reset();
   }
@@ -168,6 +165,24 @@ export class InspecaoCadastroContainerComponent implements OnInit {
           }));
         })
     );
+  }
+
+  validarData(): any {
+    console.log(new Date());
+    let dataRealizacao: Moment;
+    let dataValidade: Moment;
+    this.form.get('dataRealizacao').valueChanges.subscribe(value => {
+        dataRealizacao = moment(value)
+       this.form.get('dataValidade').valueChanges.subscribe(value => {
+         dataValidade = moment(value)
+        if(dataValidade.isBefore(dataRealizacao)){
+          this.form.get('dataValidade').setErrors({dataIncorreta: dataValidade})
+          }
+        });
+        if(dataRealizacao.isBefore(dataValidade)){
+          this.form.get('dataValidade').setErrors(null)
+          }
+    });
   }
 
   ngOnDestroy(): void {

@@ -67,15 +67,13 @@
             (click)="onClear()"
           ></button>
           <button
+            *ngIf="this.userService.user?.roles?.includes('ROLE_ADMINISTRADOR')"
             [routerLink]="'cadastro'"
             pButton
             pRipple
             class="p-button-sm"
             label="CADASTRAR PESSOA"
             icon="pi pi-plus"
-            [disabled]="
-              !userService.user?.roles?.includes('ROLE_ADMINISTRADOR')
-            "
           ></button>
         </div>
       </p-toolbar>

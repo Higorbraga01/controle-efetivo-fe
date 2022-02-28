@@ -91,17 +91,17 @@ export class InspecaoConsultaContainerComponent implements OnInit {
     }
 
     this.loading.start();
-    const getPessoas$ =  this.inspecaoService.getAll(searchObject).pipe(share());
+    const getInspecoes$ =  this.inspecaoService.getAll(searchObject).pipe(share());
     const isLoading$ = of(
-      timer(200).pipe(mapTo(true), takeUntil(getPessoas$)),
-      getPessoas$.pipe(mapTo(false))
+      timer(200).pipe(mapTo(true), takeUntil(getInspecoes$)),
+      getInspecoes$.pipe(mapTo(false))
     ).pipe(mergeAll());
 
     this.subs$.push(
       isLoading$.subscribe(result => {
         this.loadingData = result;
       }),
-      getPessoas$.subscribe((res: { content: Inspecao[]; totalElements: number; }) => {
+      getInspecoes$.subscribe((res: { content: Inspecao[]; totalElements: number; }) => {
         this.inspecaoList = res.content;
         this.totalRecords = res.totalElements;
         this.loading.end();
@@ -111,7 +111,7 @@ export class InspecaoConsultaContainerComponent implements OnInit {
 
   delete(id: number): void {
     this.confirmationService.confirm({
-      message: 'Deseja excluir esta pessoa?',
+      message: 'Deseja excluir esta inspeção?',
       accept: () => {
         this.loading.start();
         this.subs$.push(
@@ -122,7 +122,7 @@ export class InspecaoConsultaContainerComponent implements OnInit {
                 this.messageService.add({
                   severity: 'success',
                   summary: 'Sucesso',
-                  detail: 'Pessoa excluida com sucesso',
+                  detail: 'Inspeção excluida com sucesso',
                   life: 3000
                 });
                 this.updateTable({ first: 0, rows: this.rowsCount });
@@ -130,7 +130,7 @@ export class InspecaoConsultaContainerComponent implements OnInit {
               (_e: any) => this.messageService.add({
                 severity: 'error',
                 summary: 'Erro',
-                detail: 'Erro ao excluir pessoa',
+                detail: 'Erro ao excluir inspeção',
                 life: 3000
               })));
         this.loading.end();

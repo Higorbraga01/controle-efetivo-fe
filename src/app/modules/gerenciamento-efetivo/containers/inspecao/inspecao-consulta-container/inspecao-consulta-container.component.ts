@@ -25,8 +25,6 @@ export class InspecaoConsultaContainerComponent implements OnInit {
   public form: FormGroup;
   public inspecao: SelectItem[];
   public totalRecords: number;
-  public inspecaoSelecDropdown: any;
-  public menuItems: MenuItem[];
   public loadingData = true;
   private readonly NUMCOLUMNS = 8;
   public fakeArrayColumns = new Array(this.NUMCOLUMNS).fill({});
@@ -152,7 +150,7 @@ export class InspecaoConsultaContainerComponent implements OnInit {
         .subscribe((response: { content: any }) => {
           this.pessoas = response.content.map((pessoas: { nome: string, nomeGuerra: string, posto: Posto}) => ({
             label: pessoas.nome,
-            title: pessoas.posto + " "+  pessoas.nomeGuerra,
+            title: pessoas.posto? pessoas.posto : "CV" + " "+  pessoas.nomeGuerra,
             value: pessoas.nome
           }));
         })
@@ -165,41 +163,12 @@ export class InspecaoConsultaContainerComponent implements OnInit {
     this.updateTable({ first: 0, rows: this.rowsCount });
   }
 
-
-  createMenuItens(): MenuItem[] {
-    return [
-      {
-        label: 'Editar', icon: 'pi pi-pencil',
-        routerLink: ['', 'editar', this.inspecaoSelecDropdown?.id],
-        // visible: this.userService?.user?.roles.includes('ROLE_crud-habilitacao-instrucao')
-        disabled:true
-      },
-      {
-        label: 'Detalhe Inspeção', icon: 'pi pi-info-circle',
-        routerLink: [this.inspecaoSelecDropdown?.id, 'detalhe'],
-        disabled: this.actionDisable()
-      },
-      {
-        label: 'Excluir', icon: 'pi pi-trash',
-        command: () => this.delete(this.inspecaoSelecDropdown?.id),
-        // visible: this.userService?.user?.roles.includes('ROLE_crud-habilitacao-instrucao')
-        disabled: this.actionDisable()
-      },
-
-    ];
-  }
-
   handleBreadcrumbClick(e: any) {
     if (!e.item.icon) {
       this._breadcrumbItems[
         this._breadcrumbItems.indexOf(e.item)
       ].disabled = true;
     }
-  }
-
-  onDropdownClick($event: any, pessoa: any): void {
-    this.inspecaoSelecDropdown = pessoa;
-    this.menuItems = this.createMenuItens();
   }
 
   actionDisable(): boolean {

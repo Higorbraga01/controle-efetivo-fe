@@ -29,8 +29,6 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   public form: FormGroup;
   public pessoas: SelectItem[];
   public totalRecords: number;
-  public pessoaSelecDropdown: any;
-  public menuItems: MenuItem[];
   public loadingData = true;
   private readonly NUMCOLUMNS = 8;
   public fakeArrayColumns = new Array(this.NUMCOLUMNS).fill({});
@@ -176,7 +174,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
               posto: Posto;
             }) => ({
               label: pessoas.nome,
-              title: pessoas.posto+ ' ' + pessoas.nomeGuerra,
+              title: pessoas.posto? pessoas.posto : "CV"+ ' ' + pessoas.nomeGuerra,
               value: pessoas.nome,
             })
           );
@@ -189,43 +187,11 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     this.updateTable({ first: 0, rows: this.rowsCount });
   }
 
-  createMenuItens(): MenuItem[] {
-    return [
-      {
-        label: 'Editar',
-        icon: 'pi pi-pencil',
-        routerLink: ['', 'editar', this.pessoaSelecDropdown?.id],
-        disabled: true,
-      },
-      {
-        label: 'Detalhe Pessoa',
-        icon: 'pi pi-info-circle',
-        routerLink: [
-          '/efetivo/detalhe/',
-          'pessoa',
-          this.pessoaSelecDropdown?.id,
-        ],
-        disabled: this.actionDisable()
-      },
-      {
-        label: 'Excluir',
-        icon: 'pi pi-trash',
-        command: () => this.delete(this.pessoaSelecDropdown?.id),
-        disabled: true,
-      },
-    ];
-  }
-
   handleBreadcrumbClick(e: any) {
     if (!e.item.icon) {
       this._breadcrumbItems[this._breadcrumbItems.indexOf(e.item)].disabled =
         true;
     }
-  }
-
-  onDropdownClick($event: any, pessoa: any): void {
-    this.pessoaSelecDropdown = pessoa;
-    this.menuItems = this.createMenuItens();
   }
 
   actionDisable(): boolean {

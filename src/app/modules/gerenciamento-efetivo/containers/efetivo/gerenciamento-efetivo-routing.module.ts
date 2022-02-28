@@ -15,7 +15,7 @@ const routes: Routes = [
     component: EfetivoConsultaContainerComponent,
   },
   {
-    path: 'cadastro/pessoa',
+    path: 'cadastro',
     data: {
       roles: ['ADMINISTRADOR']
     },

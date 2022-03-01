@@ -44,10 +44,12 @@ export class RelatorioService {
     return params;
   }
 
-  gerarRelatorio(codigoUnidade: string): Observable<Blob> {
+  gerarRelatorio(codigoUnidade: string, tipoEfetivo?: any): Observable<Blob> {
+    let params = this.buildHttpParams(tipoEfetivo);
     return this.http.get(
       `${this.endpoint}/relatorios/efetivo/${codigoUnidade}`,
-      { 
+      {
+        params:params,
         reportProgress: true,
         responseType: 'blob' }
     ).pipe(take(1));

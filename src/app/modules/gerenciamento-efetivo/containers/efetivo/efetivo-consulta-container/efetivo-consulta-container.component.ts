@@ -75,8 +75,10 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     this.sharedService.currentMessage.subscribe(() =>{
       if (JSON.parse(sessionStorage.getItem('unidade'))) {
         this.unidadeId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
+        this.nomeUnidade = JSON.parse(sessionStorage.getItem('unidade'))?.sigla
       } else {
         this.unidadeId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id : '0000';
+        this.nomeUnidade = this.userService?.user?.organizacao?.sigla
       }
       this.updateTable({ first: 0, rows: 10 })
     });
@@ -225,7 +227,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   gerarRelatorio() {
     this.loading.start();
     this.subs$.push(
-      this.relatorioService.gerarRelatorio(this.unidadeId).subscribe(
+      this.relatorioService.gerarRelatorio(this.unidadeId,{tipoEfetivo: this.tipoEfetivo}).subscribe(
         (response) => {
           let blob = new Blob([response], { type: 'application/pdf' });
           const url = window.URL.createObjectURL(blob);

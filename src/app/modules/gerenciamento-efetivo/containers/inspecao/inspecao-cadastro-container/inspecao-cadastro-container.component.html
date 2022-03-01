@@ -83,7 +83,10 @@
                 placeholder="Data inspeção"
                 styleClass="flex"
                 dateFormat="dd/mm/yy"
-                (onFocus)="validarData()"
+                (onSelect)="onSelectDataRealizacao($event)"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                yearRange="2019:2100"
               >
               </p-calendar>
               <small
@@ -105,7 +108,10 @@
                 placeholder="Data validade"
                 styleClass="flex"
                 dateFormat="dd/mm/yy"
-                (onFocus)="validarData()"
+                (onSelect)="onSelectDataValidade($event)"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                yearRange="2019:2100"
               >
               </p-calendar>
               <small

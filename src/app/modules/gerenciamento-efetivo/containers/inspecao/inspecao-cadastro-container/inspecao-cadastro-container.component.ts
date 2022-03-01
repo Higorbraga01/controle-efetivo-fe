@@ -1,5 +1,10 @@
-
-import { ClassificacaoInspecao, SubClassificacaoInspecao, FinalidadeInspecao, SubFinalidadeInspecao, JulgamentoJuntaSaude } from './../../../../../models/inspecao.model';
+import {
+  ClassificacaoInspecao,
+  SubClassificacaoInspecao,
+  FinalidadeInspecao,
+  SubFinalidadeInspecao,
+  JulgamentoJuntaSaude,
+} from './../../../../../models/inspecao.model';
 import { JulgamentoInspecaoService } from './../../../../../service/julgamento-inspecao.service';
 import { SubFinalidadeService } from './../../../../../service/sub-finalidade.service';
 import { FinalidadeService } from './../../../../../service/finalidade.service';
@@ -30,13 +35,15 @@ export class InspecaoCadastroContainerComponent implements OnInit {
   public form: FormGroup;
   public inspecao: InspecaoRequest;
   public pessoas: Pessoa[];
-  public classificacoes: ClassificacaoInspecao[]
-  public subClassificacoes: SubClassificacaoInspecao[]
-  public finalidadesInspecao: FinalidadeInspecao[]
-  public subFinalidadesInspecao: SubFinalidadeInspecao[]
-  public julgamentosInspecao: JulgamentoJuntaSaude[]
+  public classificacoes: ClassificacaoInspecao[];
+  public subClassificacoes: SubClassificacaoInspecao[];
+  public finalidadesInspecao: FinalidadeInspecao[];
+  public subFinalidadesInspecao: SubFinalidadeInspecao[];
+  public julgamentosInspecao: JulgamentoJuntaSaude[];
   public tipoInspecao: any[];
   public tiposResultados: any[];
+  public dataValidade: Moment;
+  public dataRealizacao: Moment;
   private unidadeId: string;
 
   constructor(
@@ -57,23 +64,28 @@ export class InspecaoCadastroContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildForm();
-    this.sharedService.currentMessage.subscribe(() =>{
+    this.sharedService.currentMessage.subscribe(() => {
       if (JSON.parse(sessionStorage.getItem('unidade'))) {
         this.unidadeId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
       } else {
-        this.unidadeId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id: '0000';
+        this.unidadeId =
+          this.userService?.user?.organizacao != null
+            ? this.userService?.user?.organizacao?.id
+            : '0000';
       }
       this.resetForms();
       this.pessoaService
-      .getAllSearch({unidadeId: this.unidadeId})
-      .subscribe((res) => (this.pessoas = res.content));
+        .getAllSearch({ unidadeId: this.unidadeId })
+        .subscribe((res) => (this.pessoas = res.content));
       this.classificacaoService
-      .buscarClassificacoes()
-      .subscribe((res) => this.classificacoes = res);
-      this.finalidadeService.buscarFinalidades()
-      .subscribe((res) => this.finalidadesInspecao = res.content);
-      this.julgamentoInspecaoService.buscarJulgamentosInspecao()
-      .subscribe((res) => this.julgamentosInspecao = res);
+        .buscarClassificacoes()
+        .subscribe((res) => (this.classificacoes = res));
+      this.finalidadeService
+        .buscarFinalidades()
+        .subscribe((res) => (this.finalidadesInspecao = res.content));
+      this.julgamentoInspecaoService
+        .buscarJulgamentosInspecao()
+        .subscribe((res) => (this.julgamentosInspecao = res));
     });
   }
 
@@ -83,44 +95,50 @@ export class InspecaoCadastroContainerComponent implements OnInit {
       dataValidade: this.fb.control(null, [Validators.required]),
       pessoaId: this.fb.control(null, [Validators.required]),
       finalidadeInspecaoId: this.fb.control(null, [Validators.required]),
-      subFinalidadeInspecaoId: this.fb.control({value: null, disabled: true }, Validators.required),
+      subFinalidadeInspecaoId: this.fb.control(
+        { value: null, disabled: true },
+        Validators.required
+      ),
       julgamentoJuntaSaudeId: this.fb.control(null, [Validators.required]),
       classificacaoInspecaoId: this.fb.control(null, Validators.required),
-      subClassificacaoInspecaoId: this.fb.control({value: null, disabled: true },Validators.required)
+      subClassificacaoInspecaoId: this.fb.control(
+        { value: null, disabled: true },
+        Validators.required
+      ),
     });
   }
 
-  onSelectClassificacao(event: any){
-    if(event.value){
+  onSelectClassificacao(event: any) {
+    if (event.value) {
       this.subClassificacaoService
-      .buscarSubClassificacoesPorClassificacao(event.value)
-      .subscribe((res) => {
-        this.subClassificacoes = res
-        if(res.length > 0 ){
-          this.form.get('subClassificacaoInspecaoId').enable();
-        }else {
-          this.form.get('subClassificacaoInspecaoId').disable();
-        }
-      });
-    }else {
+        .buscarSubClassificacoesPorClassificacao(event.value)
+        .subscribe((res) => {
+          this.subClassificacoes = res;
+          if (res.length > 0) {
+            this.form.get('subClassificacaoInspecaoId').enable();
+          } else {
+            this.form.get('subClassificacaoInspecaoId').disable();
+          }
+        });
+    } else {
       this.form.get('subClassificacaoInspecaoId').disable();
       this.form.get('subClassificacaoInspecaoId').reset();
     }
   }
 
   onSelectFinalidade(event: any) {
-    if(event.value){
+    if (event.value) {
       this.subFinalidadeService
-      .buscarSubFinalidadesPorFinalidade(event.value)
-      .subscribe((res) => {
-        this.subFinalidadesInspecao = res
-        if(res.length > 0 ){
-          this.form.get('subFinalidadeInspecaoId').enable();
-        }else {
-          this.form.get('subFinalidadeInspecaoId').disable();
-        }
-      });
-    }else {
+        .buscarSubFinalidadesPorFinalidade(event.value)
+        .subscribe((res) => {
+          this.subFinalidadesInspecao = res;
+          if (res.length > 0) {
+            this.form.get('subFinalidadeInspecaoId').enable();
+          } else {
+            this.form.get('subFinalidadeInspecaoId').disable();
+          }
+        });
+    } else {
       this.form.get('subFinalidadeInspecaoId').disable();
       this.form.get('subFinalidadeInspecaoId').reset();
     }
@@ -138,7 +156,8 @@ export class InspecaoCadastroContainerComponent implements OnInit {
       subFinalidadeInspecaoId: this.form.get('subFinalidadeInspecaoId').value,
       julgamentoJuntaSaudeId: this.form.get('julgamentoJuntaSaudeId').value,
       classificacaoInspecaoId: this.form.get('classificacaoInspecaoId').value,
-      subClassificacaoInspecaoId: this.form.get('subClassificacaoInspecaoId').value
+      subClassificacaoInspecaoId: this.form.get('subClassificacaoInspecaoId')
+        .value,
     };
 
     this.loading.start();
@@ -156,33 +175,50 @@ export class InspecaoCadastroContainerComponent implements OnInit {
 
   searchPessoas(event: any): void {
     this.subs$.push(
-      this.pessoaService.getAllSearch({unidadeId: this.unidadeId ,nomePessoa: event.query })
+      this.pessoaService
+        .getAllSearch({ unidadeId: this.unidadeId, nomePessoa: event.query })
         .subscribe((response: { content: any }) => {
-          this.pessoas = response.content.map((pessoas: {id: number ,nome: string, nomeGuerra: string, posto: Posto}) => ({
-            label: pessoas.nome,
-            title: pessoas.posto? pessoas.posto: "CV"  + " "+  pessoas.nomeGuerra,
-            value: pessoas.id
-          }));
+          this.pessoas = response.content.map(
+            (pessoas: {
+              id: number;
+              nome: string;
+              nomeGuerra: string;
+              posto: Posto;
+            }) => ({
+              label: pessoas.nome,
+              title: pessoas.posto
+                ? pessoas.posto
+                : 'CV' + ' ' + pessoas.nomeGuerra,
+              value: pessoas.id,
+            })
+          );
         })
     );
   }
 
-  validarData(): any {
-    console.log(new Date());
-    let dataRealizacao: Moment;
-    let dataValidade: Moment;
-    this.form.get('dataRealizacao').valueChanges.subscribe(value => {
-        dataRealizacao = moment(value)
-       this.form.get('dataValidade').valueChanges.subscribe(value => {
-         dataValidade = moment(value)
-        if(dataValidade.isBefore(dataRealizacao)){
-          this.form.get('dataValidade').setErrors({dataIncorreta: dataValidade})
-          }
-        });
-        if(dataRealizacao.isBefore(dataValidade)){
-          this.form.get('dataValidade').setErrors(null)
-          }
-    });
+  onSelectDataRealizacao(event: any) {
+    this.dataRealizacao = moment(event);
+    if (this.dataRealizacao && this.dataValidade) {
+      if (this.dataRealizacao.isSameOrBefore(this.dataValidade)) {
+        this.form.get('dataValidade').setErrors(null);
+      }
+        if (this.dataValidade.isBefore(this.dataRealizacao)) {
+          this.form
+            .get('dataValidade')
+            .setErrors({ dataIncorreta: this.dataValidade });
+        }
+    }
+  }
+
+  onSelectDataValidade(event: any): any {
+    this.dataValidade = moment(event);
+    if (this.dataValidade) {
+      if (this.dataValidade.isBefore(this.dataRealizacao)) {
+        this.form
+          .get('dataValidade')
+          .setErrors({ dataIncorreta: this.dataValidade });
+      }
+    }
   }
 
   ngOnDestroy(): void {

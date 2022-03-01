@@ -41,6 +41,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   public disabled: boolean = true;
   private unidadeId: string;
   private nomeUnidade: string;
+  private tipoEfetivo: string = "-";
 
   _breadcrumbItems: MenuItem[];
   _home: MenuItem;
@@ -54,13 +55,14 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     public pessoaService: PessoaService,
     public relatorioService: RelatorioService,
     private fb: FormBuilder,
-    private router: Router,
     private sharedService: SharedDataService
   ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
       nomePessoa: this.fb.control(null),
+      ttc: this.fb.control(null),
+      checkbox: this.fb.control(null)
     });
     this.dtString = this.dtAtual.toLocaleDateString('pt-BR', {
       timeZone: 'UTC',
@@ -80,6 +82,21 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     });
   }
 
+  onSelectTipoEfetivo(event: any){
+    if(event.value == true){
+      this.form.get('ttc').setValue("TTC")
+      this.tipoEfetivo = this.form.get('ttc').value
+      this.updateTable({ first: 0, rows: 10})
+    }
+    if(event.value == false){
+      this.form.get('ttc').setValue("-");
+      this.tipoEfetivo = this.form.get('ttc').value
+      this.updateTable({ first: 0, rows: 10})
+    } if(event.value == null) {
+      this.onClear();
+    }
+  }
+
   updateTable(event: LazyLoadEvent): void {
     this.rowsCount = event.rows;
     this.first = event.first;
@@ -89,15 +106,16 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     const size = { size: event.rows };
     const pessoa = { nomePessoa: this.form?.value?.nomePessoa?.value };
     const unidade = { unidadeId: this.unidadeId };
+    const tipoEfetivo = { ttc: this.tipoEfetivo};
     let searchObject = {};
 
     if (event.sortField) {
       const sort = {
         sort: `${event.sortField},${event.sortOrder === 1 ? 'ASC' : 'DESC'}`,
       };
-      searchObject = Object.assign({}, unidade, pessoa, page, size, sort);
+      searchObject = Object.assign({}, unidade, pessoa, tipoEfetivo, page, size, sort);
     } else {
-      searchObject = Object.assign({}, unidade, pessoa, page, size);
+      searchObject = Object.assign({}, unidade, pessoa, tipoEfetivo, page, size);
     }
 
     this.loading.start();
@@ -165,6 +183,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
         .getAllSearch({
           nomePessoa: event.query,
           unidadeId: this.unidadeId,
+          ttc: this.tipoEfetivo
         })
         .subscribe((response: { content: any }) => {
           this.pessoas = response.content.map(
@@ -174,7 +193,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
               posto: Posto;
             }) => ({
               label: pessoas.nome,
-              title: pessoas.posto? pessoas.posto : "CV"+ ' ' + pessoas.nomeGuerra,
+              title: pessoas.posto ? pessoas.posto + ' '+ pessoas.nomeGuerra : "CV " + pessoas.nomeGuerra,
               value: pessoas.nome,
             })
           );

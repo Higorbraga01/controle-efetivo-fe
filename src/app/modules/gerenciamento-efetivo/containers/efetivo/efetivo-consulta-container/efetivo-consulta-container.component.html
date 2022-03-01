@@ -44,6 +44,15 @@
                 </ng-template>
               </p-autoComplete>
             </div>
+              <div>
+                <p-triStateCheckbox
+                label="Efetivo TTC"
+                (onChange)="onSelectTipoEfetivo($event)"
+                formControlName="checkbox"
+                pTooltip="Selecione caso deseje visualizar o efetivo TTC da unidade"
+                >
+              </p-triStateCheckbox>
+              </div>
           </div>
         </form>
         <div class="p-toolbar-group-right">
@@ -74,6 +83,7 @@
             class="p-button-sm"
             label="CADASTRAR PESSOA"
             icon="pi pi-plus"
+            disabled="true"
           ></button>
         </div>
       </p-toolbar>

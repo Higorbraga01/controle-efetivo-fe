@@ -150,7 +150,7 @@ export class InspecaoConsultaContainerComponent implements OnInit {
         .subscribe((response: { content: any }) => {
           this.pessoas = response.content.map((pessoas: { nome: string, nomeGuerra: string, posto: Posto}) => ({
             label: pessoas.nome,
-            title: pessoas.posto? pessoas.posto : "CV" + " "+  pessoas.nomeGuerra,
+            title: pessoas.posto ? pessoas.posto + ' '+ pessoas.nomeGuerra : "CV " + pessoas.nomeGuerra,
             value: pessoas.nome
           }));
         })

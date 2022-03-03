@@ -1,0 +1,22 @@
+.p-card--absolute {
+  position: absolute;
+  width: 24rem;
+  z-index: 999;
+}
+
+.p-card--hidden {
+  visibility: hidden;
+}
+
+.p-card--show {
+  visibility: visible;
+}
+
+.p-card-title--panel-filtro {
+  font-size: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.wrapper {
+  position: relative;
+}

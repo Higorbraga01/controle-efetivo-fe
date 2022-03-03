@@ -112,7 +112,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
       this.nomePessoa = event;
       this.updateTable({first: 0, rows:0})
     }else {
-      this.nomePessoa = null;
+      this.nomePessoa = null
       this.onClear();
     }
   }

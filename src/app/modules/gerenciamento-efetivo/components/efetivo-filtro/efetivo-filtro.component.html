@@ -33,7 +33,7 @@
           [suggestions]="pessoas"
           (completeMethod)="search($event)"
           (onSelect)="updateTable($event)"
-
+          [dropdown]="true"
           appendTo="body"
         >
           <ng-template let-pessoas pTemplate="item">

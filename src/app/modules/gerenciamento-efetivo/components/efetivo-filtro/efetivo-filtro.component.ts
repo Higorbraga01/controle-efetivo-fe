@@ -25,7 +25,7 @@ export class EfetivoFiltroComponent implements OnInit {
 
   ngOnInit(): void {
     this._form = this.fb.group({
-      nomePessoa: this.fb.control(null),
+      nomePessoa: this.fb.control(null, [Validators.required]),
       tipoEfetivo: this.fb.control(null),
     });
   }

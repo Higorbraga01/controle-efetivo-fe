@@ -26,7 +26,6 @@ import { environment } from 'src/environments/environment';
 })
 export class EfetivoConsultaContainerComponent implements OnInit {
   public subs$: Subscription[] = [];
-  public form: FormGroup;
   public pessoas: SelectItem[];
   public totalRecords: number;
   public loadingData = true;
@@ -41,7 +40,11 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   public disabled: boolean = true;
   private unidadeId: string;
   private nomeUnidade: string;
-  private tipoEfetivo: string = "-";
+  private nomePessoa: string;
+  private isTtc: string = "-";
+  private situacao: string[] = ['ATIVO'];
+  private sort = {sort: 'numeroAntiguidade'};
+  public opcoesFiltroEfetivo: any[];
 
   _breadcrumbItems: MenuItem[];
   _home: MenuItem;
@@ -54,16 +57,15 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     public userService: UserService,
     public pessoaService: PessoaService,
     public relatorioService: RelatorioService,
-    private fb: FormBuilder,
     private sharedService: SharedDataService
   ) {}
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      nomePessoa: this.fb.control(null),
-      ttc: this.fb.control(null),
-      checkbox: this.fb.control(null)
-    });
+    this.opcoesFiltroEfetivo = [
+      {name: 'Ativo', value: 1},
+      {name: 'Tarefa', value: 2},
+      {name: 'Civil', value: 3}
+  ];
     this.dtString = this.dtAtual.toLocaleDateString('pt-BR', {
       timeZone: 'UTC',
     });
@@ -72,29 +74,45 @@ export class EfetivoConsultaContainerComponent implements OnInit {
       icon: 'pi pi-home',
       url: environment.FRONT_URL,
     };
-    this.sharedService.currentMessage.subscribe(() =>{
-      if (JSON.parse(sessionStorage.getItem('unidade'))) {
+    this.sharedService.currentMessage.subscribe((message) =>{
+      if (message.length != 0) {
         this.unidadeId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
         this.nomeUnidade = JSON.parse(sessionStorage.getItem('unidade'))?.sigla
+        this.updateTable({ first: 0, rows: 10 });
       } else {
         this.unidadeId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id : '0000';
         this.nomeUnidade = this.userService?.user?.organizacao?.sigla
       }
-      this.updateTable({ first: 0, rows: 10 })
     });
   }
 
-  onSelectTipoEfetivo(event: any){
-    if(event.value == true){
-      this.form.get('ttc').setValue("TTC")
-      this.tipoEfetivo = this.form.get('ttc').value
-      this.updateTable({ first: 0, rows: 10})
+  selectTipoEfetivo(formValue: any){
+    if(formValue == 1){
+      this.situacao = ['ATIVO'];
+      this.isTtc = '-';
+      this.sort = {sort: 'numeroAntiguidade'};
+      this.updateTable({first: this.first, rows:this.rowsCount});
     }
-    if(event.value == false){
-      this.form.get('ttc').setValue("-");
-      this.tipoEfetivo = this.form.get('ttc').value
-      this.updateTable({ first: 0, rows: 10})
-    } if(event.value == null) {
+    if(formValue == 2){
+      this.situacao =  ['INAT'];
+      this.isTtc = 'TTC';
+      this.sort = {sort: 'numeroPosto'};
+      this.updateTable({first: 0, rows:this.rowsCount});
+    }
+    if(formValue == 3) {
+      this.situacao = ['CVL'];
+      this.isTtc = '-';
+      this.sort = {sort: 'numeroAntiguidade'};
+      this.updateTable({first: this.first, rows:this.rowsCount});
+    }
+  }
+
+  pessoaFilter(event: any){
+    if(event){
+      this.nomePessoa = event;
+      this.updateTable({first: 0, rows:0})
+    }else {
+      this.nomePessoa = null;
       this.onClear();
     }
   }
@@ -103,21 +121,20 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     this.rowsCount = event.rows;
     this.first = event.first;
     this.fakeArrayRows = new Array(event.rows).fill({});
-
     const page = { page: event.first / event.rows };
     const size = { size: event.rows };
-    const pessoa = { nomePessoa: this.form?.value?.nomePessoa?.value };
+    const pessoa = { nomePessoa: this.nomePessoa };
     const unidade = { unidadeId: this.unidadeId };
-    const tipoEfetivo = { ttc: this.tipoEfetivo};
+    const situacao= { inAtivo: this.situacao}
+    const tipoEfetivo = { ttc: this.isTtc};
     let searchObject = {};
-
     if (event.sortField) {
       const sort = {
         sort: `${event.sortField},${event.sortOrder === 1 ? 'ASC' : 'DESC'}`,
       };
-      searchObject = Object.assign({}, unidade, pessoa, tipoEfetivo, page, size, sort);
+      searchObject = Object.assign({}, unidade, pessoa,situacao, tipoEfetivo, page, size, this.sort);
     } else {
-      searchObject = Object.assign({}, unidade, pessoa, tipoEfetivo, page, size);
+      searchObject = Object.assign({}, unidade, pessoa,situacao, tipoEfetivo, page, size,this.sort);
     }
 
     this.loading.start();
@@ -180,31 +197,36 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   }
 
   searchPessoas(event: any): void {
-    this.subs$.push(
-      this.pessoaService
-        .getAllSearch({
-          nomePessoa: event.query,
-          unidadeId: this.unidadeId,
-          ttc: this.tipoEfetivo
-        })
-        .subscribe((response: { content: any }) => {
-          this.pessoas = response.content.map(
-            (pessoas: {
-              nome: string;
-              nomeGuerra: string;
-              posto: Posto;
-            }) => ({
-              label: pessoas.nome,
-              title: pessoas.posto ? pessoas.posto + ' '+ pessoas.nomeGuerra : "CV " + pessoas.nomeGuerra,
-              value: pessoas.nome,
-            })
-          );
-        })
-    );
+    if(event){
+      let searchObject = Object.assign({
+        nomePessoa: event.query,
+        unidadeId: this.unidadeId,
+        inAtivo: this.situacao,
+        ttc: this.isTtc}, this.sort);
+      this.subs$.push(
+        this.pessoaService
+          .getAllSearch(searchObject)
+          .subscribe((response: { content: any }) => {
+            console.log(response)
+            this.pessoas = response.content.map(
+              (pessoas: {
+                nome: string;
+                nomeGuerra: string;
+                posto: Posto;
+              }) => ({
+                label: pessoas.nome,
+                title: pessoas.posto ? pessoas.posto + ' '+ pessoas.nomeGuerra : "CV " + pessoas.nomeGuerra,
+                value: pessoas.nome,
+              })
+            );
+          })
+      );
+    } else {
+     this.selectTipoEfetivo(1);
+    }
   }
 
   onClear(): void {
-    this.form.reset();
     this.updateTable({ first: 0, rows: this.rowsCount });
   }
 
@@ -225,9 +247,11 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   }
 
   gerarRelatorio() {
+    let params = {};
+    params = Object.assign({},  {tipoEfetivo: this.isTtc}, {situacao: this.situacao})
     this.loading.start();
     this.subs$.push(
-      this.relatorioService.gerarRelatorio(this.unidadeId,{tipoEfetivo: this.tipoEfetivo}).subscribe(
+      this.relatorioService.gerarRelatorio(this.unidadeId,params).subscribe(
         (response) => {
           let blob = new Blob([response], { type: 'application/pdf' });
           const url = window.URL.createObjectURL(blob);

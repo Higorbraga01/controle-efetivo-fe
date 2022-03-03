@@ -16,45 +16,17 @@
   <div class="l-main-grid">
     <p-card styleClass="mt-3 p-reset">
       <p-toolbar styleClass="mb-2">
-        <form [formGroup]="form">
           <div class="p-toolbar-group-left">
-            <div class="mr-5">
-              <p-autoComplete
-                field="label"
-                [suggestions]="pessoas"
-                (onClear)="searchPessoas({})"
-                emptyMessage="Pessoa não encontrado"
-                (completeMethod)="searchPessoas($event)"
-                (onSelect)="updateTable({ first: 0, rows: 10 })"
-                [dropdown]="true"
-                formControlName="nomePessoa"
-                [minLength]="3"
-                [placeholder]="'Filtrar por Pessoa'"
-                pTooltip="Digite o nome"
-                [size]="40"
-              >
-                <ng-template let-pessoas pTemplate="item">
-                  <div class="dropdown-item-container">
-                    <span style="font-weight: bolder; font-size: 1.2rem">{{
-                      pessoas.label
-                    }}</span>
-                    <br />
-                    <span style="font-size: 1rem">{{ pessoas.title }}</span>
-                  </div>
-                </ng-template>
-              </p-autoComplete>
-            </div>
-              <div>
-                <p-triStateCheckbox
-                label="Efetivo TTC"
-                (onChange)="onSelectTipoEfetivo($event)"
-                formControlName="checkbox"
-                pTooltip="Selecione caso deseje visualizar o efetivo TTC da unidade"
-                >
-              </p-triStateCheckbox>
-              </div>
+              <div class="mr-2">
+              <controle-efetivo-filtro
+              [tiposEfetivo]="opcoesFiltroEfetivo"
+              [pessoas]="pessoas"
+              (formValue)="selectTipoEfetivo($event)"
+              (tipoEfetivo)="searchPessoas($event)"
+              (tableUpdate)="pessoaFilter($event)"
+            ></controle-efetivo-filtro>
           </div>
-        </form>
+          </div>
         <div class="p-toolbar-group-right">
           <button
             style="margin-right: 0.5rem"
@@ -66,7 +38,7 @@
             (click)="gerarRelatorio()"
             [disabled]="actionDisable()"
           ></button>
-          <button
+          <!-- <button
             style="margin-right: 0.5rem"
             pRipple
             pButton
@@ -74,7 +46,7 @@
             label="LIMPAR"
             icon="pi pi-replay"
             (click)="onClear()"
-          ></button>
+          ></button> -->
           <button
             *ngIf="this.userService.user?.roles?.includes('ROLE_ADMINISTRADOR')"
             [routerLink]="'cadastro'"

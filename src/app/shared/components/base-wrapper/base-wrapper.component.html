@@ -32,7 +32,7 @@
           [disabled]="true"
         >
         </p-button>
-        <form class="flex align-items-center" [formGroup]="form">
+        <form class="flex p-input-filled align-items-center" [formGroup]="form">
           <span class="c-header-om mr-2">OM:</span>
           <p-dropdown *ngIf="userService.user?.organizacao"
             [options]="organizacoes"

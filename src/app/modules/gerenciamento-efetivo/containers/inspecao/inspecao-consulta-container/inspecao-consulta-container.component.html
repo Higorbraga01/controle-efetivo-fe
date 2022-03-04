@@ -84,6 +84,7 @@
         styleClass="p-datatable-gridlines p-datatable-striped  p-datatable-sm-custom"
         dataKey="id"
         rowExpandMode="single"
+        sortField="pessoaInspecionada.numeroAntiguidade"
       >
         <ng-template pTemplate="emptymessage">
           <tr>
@@ -92,15 +93,17 @@
         </ng-template>
         <ng-template pTemplate="header">
           <tr>
-            <th class="text-center">Letra</th>
-            <th class="text-center">Resultado</th>
-            <th class="text-center" pSortableColumn="dataRealizacao">
-              Data Realizacao
-              <p-sortIcon field="dataRealizacao"></p-sortIcon>
+            <th class="text-center">Inspecionado</th>
+            <th class="text-center">Finalidade</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">
+              Data Agendamento
             </th>
-            <th class="text-center" pSortableColumn="dataValidade">
+            <th class="text-center">
               Data Validade
-              <p-sortIcon field="dataValidade"></p-sortIcon>
+            </th>
+            <th class="text-center">
+              Local Realização
             </th>
             <th class="text-center">Ações</th>
           </tr>
@@ -108,13 +111,16 @@
         <ng-template pTemplate="body" let-inspecao let-expanded="expanded">
           <tr>
             <td class="text-center">
-              {{ inspecao?.finalidadeInspecao.codigo }}
+              {{ inspecao?.pessoaInspecionada?.postoNomeGuerra }}
             </td>
             <td class="text-center">
-              {{ inspecao?.julgamentoJuntaSaude.descricao }}
+              {{ inspecao?.finalidade?.sigla }}
             </td>
             <td class="text-center">
-              {{ inspecao?.dataRealizacao | date: "dd/MM/yyyy" }}
+              {{ inspecao?.statusInspsau?.descricao }}
+            </td>
+            <td class="text-center">
+              {{ inspecao?.agenda?.dataAgenda | date: "dd/MM/yyyy" }}
             </td>
             <td class="text-center">
               <div
@@ -126,6 +132,9 @@
               >
                 {{ inspecao?.dataValidade | date: "dd/MM/yyyy" }}
               </div>
+            </td>
+            <td class="text-center">
+              {{ inspecao?.organizacao?.sigla}}
             </td>
             <td class="text-center">
               <div class="flex justify-content-center align-items-center">

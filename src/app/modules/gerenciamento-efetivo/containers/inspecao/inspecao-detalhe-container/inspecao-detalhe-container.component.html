@@ -42,14 +42,14 @@
             <label>Inspecionado</label>
           </div>
           <div class="mt-3 mb-3 flex justify-content-center">
-            {{ inspecao?.pessoa.posto ? inspecao?.pessoa.posto : "CV"}}
-            {{ inspecao?.pessoa.tarefaTempoCerto == "TTC"? "R/1" : "" }}
+            {{ inspecao?.pessoaInspecionada.posto ? inspecao?.pessoaInspecionada.posto : "CV"}}
+            {{ inspecao?.pessoaInspecionada.tarefaTempoCerto == "TTC"? "R/1" : "" }}
             {{
-              inspecao?.pessoa.especialidade
-                ? inspecao?.pessoa.especialidade
+              inspecao?.pessoaInspecionada.especialidade
+                ? inspecao?.pessoaInspecionada.especialidade
                 : ""
             }}
-            {{ inspecao?.pessoa.nome }}
+            {{ inspecao?.pessoaInspecionada.nome }}
           </div>
         </div>
         <div class="col-12">
@@ -62,41 +62,20 @@
             <div class="col-2">
               <label>Codigo finalidade</label>
               <div class="mt-2">
-                {{ inspecao?.finalidadeInspecao.codigo }}
+                {{ inspecao?.finalidade.sigla }}
               </div>
             </div>
             <div class="col-10">
               <label>Descrição finalidade </label>
               <div class="mt-2 text-justify">
-                {{ inspecao?.finalidadeInspecao.descricao }}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12">
-            <p-divider align="center">
-              <span class="p-tag">Subfinalidade</span>
-            </p-divider>
-        </div>
-        <div class="col-12">
-          <div class="flex">
-            <div class="col-2">
-              <label>Codigo subfinalidade</label>
-              <div class="mt-2">
-                {{ inspecao?.subFinalidadeInspecao?.codigo? inspecao?.subFinalidadeInspecao?.codigo : "N/A" }}
-              </div>
-            </div>
-            <div class="col-10">
-              <label>Descrição subfinalidade </label>
-              <div class="mt-2 text-justify">
-                {{ inspecao?.subFinalidadeInspecao?.descricao? inspecao?.subFinalidadeInspecao?.descricao: "N/A" }}
+                {{ inspecao?.finalidade.descricao }}
               </div>
             </div>
           </div>
         </div>
         <div class="col-12">
           <p-divider align="center">
-            <span class="p-tag">Classificação</span>
+            <span class="p-tag">Tipo de junta de saude</span>
           </p-divider>
         </div>
         <div class="col-12">
@@ -104,13 +83,13 @@
             <div class="col-2">
               <label>Codigo classificação</label>
               <div class="mt-2">
-                {{ inspecao?.classificacaoInspecao?.codigo? inspecao?.classificacaoInspecao?.codigo: "N/A" }}
+                {{ inspecao?.tipoJunta?.sigla }}
               </div>
             </div>
             <div class="col-10">
               <label>Descrição classificação </label>
               <div class="mt-2 text-justify">
-                {{ inspecao?.classificacaoInspecao?.descricao? inspecao?.classificacaoInspecao?.descricao: "N/A" }}
+                {{ inspecao?.tipoJunta?.nome }}
               </div>
             </div>
           </div>
@@ -125,20 +104,20 @@
             <div class="col-2">
               <label>Codigo subclassificação</label>
               <div class="mt-2">
-                {{ inspecao?.subClassificacaoInspecao?.codigo ? inspecao?.subClassificacaoInspecao?.codigo: "N/A" }}
+                N/A
               </div>
             </div>
             <div class="col-10">
               <label>Descrição subclassificação </label>
               <div class="mt-2 text-justify">
-                {{ inspecao?.subClassificacaoInspecao?.descricao ? inspecao?.subClassificacaoInspecao?.descricao: "N/A" }}
+                N/A
               </div>
             </div>
           </div>
         </div>
         <div class="col-12">
           <p-divider align="center">
-            <span class="p-tag">Resultado</span>
+            <span class="p-tag">Status Inspeção</span>
           </p-divider>
         </div>
         <div class="col-12">
@@ -146,19 +125,19 @@
             <div class="col-2">
               <label>Codigo resultado</label>
               <div class="mt-2">
-                {{ inspecao?.julgamentoJuntaSaude?.codigo }}
+                {{ inspecao?.statusInspsau?.nome }}
               </div>
             </div>
             <div class="col-6">
               <label>Descrição resultado</label>
               <div class="mt-2">
-                {{ inspecao?.julgamentoJuntaSaude?.descricao }}
+                {{ inspecao?.statusInspsau?.descricao }}
               </div>
             </div>
             <div class="col-2">
-              <label>Realizada em</label>
+              <label>Data agendamento</label>
               <div class="mt-2">
-                {{ inspecao?.dataRealizacao | date: "dd/MM/yyyy" }}
+                {{ inspecao?.agenda.dataAgenda| date: "dd/MM/yyyy" }}
               </div>
             </div>
             <div class="col-2">
@@ -170,7 +149,7 @@
                     'dt-valida': hoje.isBefore(inspecao?.dataValidade)
                   }"
                 >
-                  {{ inspecao?.dataValidade | date: "dd/MM/yyyy" }}
+                  {{ inspecao?.dataValidade !=null ? (inspecao?.dataValidade | date: "dd/MM/yyyy"): "N/A" }}
                 </div>
               </div>
             </div>

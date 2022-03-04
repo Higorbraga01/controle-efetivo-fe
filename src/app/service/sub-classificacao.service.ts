@@ -1,9 +1,7 @@
-import { SubClassificacaoInspecao } from './../models/inspecao.model';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { ClassificacaoInspecao } from '../models/inspecao.model';
 
 @Injectable({
   providedIn: 'root'
@@ -43,11 +41,11 @@ export class SubClassificacaoService {
     return params;
   }
 
-  buscarSubClassificacoesPorClassificacao(classificacaoId: number, search?: any): Observable<SubClassificacaoInspecao[]> {
+  buscarSubClassificacoesPorClassificacao(classificacaoId: number, search?: any): Observable<any[]> {
     this.removeEmptyFields(search)
     const params = this.buildHttpParams(search);
     return this.http
-      .get<SubClassificacaoInspecao[]>(`${this.endpoint}/sub-classificacoes-inspecao/${classificacaoId}?${ params }`,)
+      .get<any[]>(`${this.endpoint}/sub-classificacoes-inspecao/${classificacaoId}?${ params }`,)
       .pipe(take(1));
   }
 }

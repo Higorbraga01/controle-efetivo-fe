@@ -1,9 +1,7 @@
-import { SubFinalidadeInspecao } from './../models/inspecao.model';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { SubClassificacaoInspecao } from '../models/inspecao.model';
 
 @Injectable({
   providedIn: 'root'
@@ -42,11 +40,11 @@ export class SubFinalidadeService {
     return params;
   }
 
-  buscarSubFinalidadesPorFinalidade(finalidadeId: number, search?: any): Observable<SubFinalidadeInspecao[]> {
+  buscarSubFinalidadesPorFinalidade(finalidadeId: number, search?: any): Observable<any[]> {
     this.removeEmptyFields(search)
     const params = this.buildHttpParams(search);
     return this.http
-      .get<SubFinalidadeInspecao[]>(`${this.endpoint}/sub-finalidades-inspecao/${finalidadeId}?${ params }`,)
+      .get<any[]>(`${this.endpoint}/sub-finalidades-inspecao/${finalidadeId}?${ params }`,)
       .pipe(take(1));
   }
 }

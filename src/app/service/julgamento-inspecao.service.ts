@@ -1,4 +1,4 @@
-import { JulgamentoJuntaSaude } from './../models/inspecao.model';
+import { TipoJunta } from './../models/inspecao.model';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -41,11 +41,11 @@ export class JulgamentoInspecaoService {
     return params;
   }
 
-  buscarJulgamentosInspecao(search?: any): Observable<JulgamentoJuntaSaude[]> {
+  buscarJulgamentosInspecao(search?: any): Observable<any[]> {
     this.removeEmptyFields(search)
     const params = this.buildHttpParams(search);
     return this.http
-      .get<JulgamentoJuntaSaude[]>(`${this.endpoint}/julgamentos-inspecao?${ params }`,)
+      .get<any[]>(`${this.endpoint}/julgamentos-inspecao?${ params }`,)
       .pipe(take(1));
   }
 }

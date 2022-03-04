@@ -1,15 +1,5 @@
-import {
-  ClassificacaoInspecao,
-  SubClassificacaoInspecao,
-  FinalidadeInspecao,
-  SubFinalidadeInspecao,
-  JulgamentoJuntaSaude,
-} from './../../../../../models/inspecao.model';
-import { JulgamentoInspecaoService } from './../../../../../service/julgamento-inspecao.service';
 import { SubFinalidadeService } from './../../../../../service/sub-finalidade.service';
-import { FinalidadeService } from './../../../../../service/finalidade.service';
 import { SubClassificacaoService } from './../../../../../service/sub-classificacao.service';
-import { ClassificacacaoService } from './../../../../../service/classificacacao.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -35,11 +25,11 @@ export class InspecaoCadastroContainerComponent implements OnInit {
   public form: FormGroup;
   public inspecao: InspecaoRequest;
   public pessoas: Pessoa[];
-  public classificacoes: ClassificacaoInspecao[];
-  public subClassificacoes: SubClassificacaoInspecao[];
-  public finalidadesInspecao: FinalidadeInspecao[];
-  public subFinalidadesInspecao: SubFinalidadeInspecao[];
-  public julgamentosInspecao: JulgamentoJuntaSaude[];
+  public classificacoes: any[];
+  public subClassificacoes: any[];
+  public finalidadesInspecao: any[];
+  public subFinalidadesInspecao: any[];
+  public julgamentosInspecao: any[];
   public tipoInspecao: any[];
   public tiposResultados: any[];
   public dataValidade: Moment;
@@ -51,11 +41,8 @@ export class InspecaoCadastroContainerComponent implements OnInit {
     private fb: FormBuilder,
     private pessoaService: PessoaService,
     private inspecaoService: InspecaoService,
-    private classificacaoService: ClassificacacaoService,
     private subClassificacaoService: SubClassificacaoService,
-    private finalidadeService: FinalidadeService,
     private subFinalidadeService: SubFinalidadeService,
-    private julgamentoInspecaoService: JulgamentoInspecaoService,
     private messageService: MessageService,
     public userService: UserService,
     private sharedService: SharedDataService,
@@ -77,15 +64,6 @@ export class InspecaoCadastroContainerComponent implements OnInit {
       this.pessoaService
         .getAllSearch({ unidadeId: this.unidadeId })
         .subscribe((res) => (this.pessoas = res.content));
-      this.classificacaoService
-        .buscarClassificacoes()
-        .subscribe((res) => (this.classificacoes = res));
-      this.finalidadeService
-        .buscarFinalidades()
-        .subscribe((res) => (this.finalidadesInspecao = res.content));
-      this.julgamentoInspecaoService
-        .buscarJulgamentosInspecao()
-        .subscribe((res) => (this.julgamentosInspecao = res));
     });
   }
 

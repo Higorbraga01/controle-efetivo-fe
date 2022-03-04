@@ -16,38 +16,19 @@
   <div class="l-main-grid">
     <p-card styleClass="mt-3 p-reset">
       <p-toolbar styleClass="mb-2">
-        <form [formGroup]="form">
-          <div class="p-toolbar-group-left">
-            <div class="mr-5">
-              <p-autoComplete
-                field="label"
-                [suggestions]="pessoas"
-                (onClear)="searchPessoas({})"
-                emptyMessage="Pessoa não encontrado"
-                (completeMethod)="searchPessoas($event)"
-                (onSelect)="updateTable({ first: 0, rows: 10 })"
-                [dropdown]="true"
-                formControlName="nomePessoa"
-                [minLength]="3"
-                [placeholder]="'Filtrar Inspeções por pessoa'"
-                pTooltip="Digite o nome"
-                [size]="40"
-              >
-                <ng-template let-pessoas pTemplate="item">
-                  <div class="dropdown-item-container">
-                    <span style="font-weight: bolder; font-size: 1.2rem">{{
-                      pessoas.label
-                    }}</span>
-                    <br />
-                    <span style="font-size: 1rem">{{ pessoas.title }}</span>
-                  </div>
-                </ng-template>
-              </p-autoComplete>
-            </div>
+        <div class="p-toolbar-group-left">
+          <div class="mr-2">
+            <controle-inspecao-filtro
+              [tiposEfetivo]="opcoesFiltroEfetivo"
+              [pessoas]="pessoas"
+              (formValue)="selectTipoEfetivo($event)"
+              (tipoEfetivo)="searchPessoas($event)"
+              (tableUpdate)="pessoaFilter($event)"
+            ></controle-inspecao-filtro>
           </div>
-        </form>
+        </div>
         <div class="p-toolbar-group-right">
-          <button
+          <!-- <button
             style="margin-right: 0.5rem"
             pRipple
             pButton
@@ -64,7 +45,7 @@
             label="CADASTRAR INSPEÇÃO"
             icon="pi pi-plus"
             [disabled]="actionDisable()"
-          ></button>
+          ></button> -->
         </div>
       </p-toolbar>
       <p-table
@@ -96,15 +77,9 @@
             <th class="text-center">Inspecionado</th>
             <th class="text-center">Finalidade</th>
             <th class="text-center">Status</th>
-            <th class="text-center">
-              Data Agendamento
-            </th>
-            <th class="text-center">
-              Data Validade
-            </th>
-            <th class="text-center">
-              Local Realização
-            </th>
+            <th class="text-center">Data Agendamento</th>
+            <th class="text-center">Data Validade</th>
+            <th class="text-center">Local Realização</th>
             <th class="text-center">Ações</th>
           </tr>
         </ng-template>
@@ -134,7 +109,7 @@
               </div>
             </td>
             <td class="text-center">
-              {{ inspecao?.organizacao?.sigla}}
+              {{ inspecao?.organizacao?.sigla }}
             </td>
             <td class="text-center">
               <div class="flex justify-content-center align-items-center">

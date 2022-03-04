@@ -113,6 +113,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
       this.updateTable({first: 0, rows:0})
     }else {
       this.nomePessoa = null
+      this.isTtc = '-'
       this.onClear();
     }
   }

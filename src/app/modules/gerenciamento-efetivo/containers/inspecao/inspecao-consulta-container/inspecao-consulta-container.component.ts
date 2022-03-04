@@ -30,15 +30,22 @@ export class InspecaoConsultaContainerComponent implements OnInit {
   public fakeArrayColumns = new Array(this.NUMCOLUMNS).fill({});
   public fakeArrayRows: any = [];
   public hoje: Moment;
+  public first: number = 0;
   private rowsCount: number;
-  public pessoas: Pessoa[];
+  public pessoas: any;
   public inspecaoList: Inspecao[];
   private unidadeId: string;
+  private nomePessoa: string;
+  private isTtc: string = "-";
+  private situacao: string[] = ['ATIVO'];
+  private sort = {sort: 'pessoaInspecionada.numeroAntiguidade'};
+  public opcoesFiltroEfetivo: any[];
 
   _breadcrumbItems: MenuItem[];
   _home: MenuItem;
 
   _activeTabMenuItem: MenuItem;
+
 
   constructor(
     private loading: LoadingBarService,
@@ -53,6 +60,11 @@ export class InspecaoConsultaContainerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.opcoesFiltroEfetivo = [
+      {name: 'Ativo', value: 1},
+      {name: 'Tarefa', value: 2},
+      {name: 'Civil', value: 3}
+  ];
     this.form = this.fb.group({
       nomePessoa: this.fb.control(null)
     });
@@ -74,38 +86,78 @@ export class InspecaoConsultaContainerComponent implements OnInit {
     });
   }
 
+  selectTipoEfetivo(formValue: any){
+    if(formValue == 1){
+      this.situacao = ['ATIVO'];
+      this.isTtc = '-';
+      this.sort = {sort: 'pessoaInspecionada.numeroAntiguidade'};
+      this.updateTable({first: 0, rows:this.rowsCount});
+    }
+    if(formValue == 2){
+      this.situacao =  ['INAT'];
+      this.isTtc = 'TTC';
+      this.sort = {sort: 'pessoaInspecionada.numeroPosto'};
+      this.updateTable({first: 0, rows:this.rowsCount});
+    }
+    if(formValue == 3) {
+      this.situacao = ['CVL'];
+      this.isTtc = '-';
+      this.sort = {sort: 'pessoaInspecionada.numeroAntiguidade'};
+      this.updateTable({first: 0, rows:this.rowsCount});
+    }
+  }
+
+  pessoaFilter(event: any){
+    if(event){
+      this.nomePessoa = event;
+      this.updateTable({first: 0, rows:0})
+    }else {
+      this.nomePessoa = null
+      this.isTtc = '-'
+      this.onClear();
+    }
+  }
+
   updateTable(event: LazyLoadEvent): void {
     this.rowsCount = event.rows;
+    this.first = event.first;
     this.fakeArrayRows = new Array(event.rows).fill({});
-
-    const page = { page: (event.first / event.rows) };
+    const page = { page: event.first / event.rows };
     const size = { size: event.rows };
-    const pessoa = { nomePessoa: this.form?.value?.nomePessoa?.value };
-    const unidade = { unidadeId: this.unidadeId};
+    const pessoa = { nomePessoa: this.nomePessoa };
+    const unidade = { unidadeId: this.unidadeId };
+    const situacao= { inAtivo: this.situacao}
+    const tipoEfetivo = { ttc: this.isTtc};
     let searchObject = {};
     if (event.sortField) {
-      const sort = { sort: `${event.sortField},${event.sortOrder === 1 ? 'ASC' : 'DESC'}` };
-      searchObject = Object.assign({},unidade, pessoa, page, size, sort);
+      const sort = {
+        sort: `${event.sortField},${event.sortOrder === 1 ? 'ASC' : 'DESC'}`,
+      };
+      searchObject = Object.assign({}, unidade, pessoa,situacao, tipoEfetivo, page, size, this.sort);
     } else {
-      searchObject = Object.assign({},unidade, pessoa,page, size);
+      searchObject = Object.assign({}, unidade, pessoa,situacao, tipoEfetivo, page, size,this.sort);
     }
 
     this.loading.start();
-    const getInspecoes$ =  this.inspecaoService.getAll(searchObject).pipe(share());
+    const getPessoas$ = this.inspecaoService
+      .getAll(searchObject)
+      .pipe(share());
     const isLoading$ = of(
-      timer(200).pipe(mapTo(true), takeUntil(getInspecoes$)),
-      getInspecoes$.pipe(mapTo(false))
+      timer(1000).pipe(mapTo(true), takeUntil(getPessoas$)),
+      getPessoas$.pipe(mapTo(false))
     ).pipe(mergeAll());
 
     this.subs$.push(
-      isLoading$.subscribe(result => {
+      isLoading$.subscribe((result) => {
         this.loadingData = result;
       }),
-      getInspecoes$.subscribe((res: { content: Inspecao[]; totalElements: number; }) => {
-        this.inspecaoList = res.content;
-        this.totalRecords = res.totalElements;
-        this.loading.end();
-      })
+      getPessoas$.subscribe(
+        (res: { content: Inspecao[]; totalElements: number }) => {
+          this.inspecaoList = res.content;
+          this.totalRecords = res.totalElements;
+          this.loading.end();
+        }
+      )
     );
   }
 
@@ -145,17 +197,33 @@ export class InspecaoConsultaContainerComponent implements OnInit {
   }
 
   searchPessoas(event: any): void {
-    this.subs$.push(
-      this.pessoaService.getAllSearch({unidadeId: this.unidadeId ,nomePessoa: event.query })
-        .subscribe((response: { content: any }) => {
-          this.pessoas = response.content.map((pessoas: { nome: string, nomeGuerra: string, posto: Posto}) => ({
-            label: pessoas.nome,
-            title: pessoas.posto ? pessoas.posto + ' '+ pessoas.nomeGuerra : "CV " + pessoas.nomeGuerra,
-            value: pessoas.nome
-          }));
-        })
-    );
-
+    if(event){
+      let searchObject = Object.assign({
+        nomePessoa: event.query,
+        unidadeId: this.unidadeId,
+        inAtivo: this.situacao,
+        ttc: this.isTtc},{sort: 'numeroAntiguidade'});
+      this.subs$.push(
+        this.pessoaService
+          .getAllSearch(searchObject)
+          .subscribe((response: { content: any }) => {
+            console.log(response)
+            this.pessoas = response.content.map(
+              (pessoas: {
+                nome: string;
+                nomeGuerra: string;
+                posto: Posto;
+              }) => ({
+                label: pessoas.nome,
+                title: pessoas.posto ? pessoas.posto + ' '+ pessoas.nomeGuerra : "CV " + pessoas.nomeGuerra,
+                value: pessoas.nome,
+              })
+            );
+          })
+      );
+    } else {
+     this.selectTipoEfetivo(1);
+    }
   }
 
   onClear(): void {

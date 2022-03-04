@@ -1,13 +1,15 @@
+import { SharedDataService } from './../../../../service/shared-data.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SelectItem } from 'primeng/api';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'controle-efetivo-filtro',
-  templateUrl: './efetivo-filtro.component.html',
-  styleUrls: ['./efetivo-filtro.component.scss']
+  selector: 'controle-inspecao-filtro',
+  templateUrl: './inspecao-filtro.component.html',
+  styleUrls: ['./inspecao-filtro.component.scss']
 })
-export class EfetivoFiltroComponent implements OnInit {
+export class InspecaoFiltroComponent implements OnInit {
   _isHidden = true;
   @Input() isButtonDisabled: boolean;
 
@@ -15,7 +17,6 @@ export class EfetivoFiltroComponent implements OnInit {
 
   @Input() tiposEfetivo: any[];
   @Input() pessoas: SelectItem[];
-
 
   @Output() formValue = new EventEmitter();
   @Output() tipoEfetivo = new EventEmitter();
@@ -37,7 +38,6 @@ export class EfetivoFiltroComponent implements OnInit {
   onClear() {
     this._form.reset();
     this.updateTable();
-    this.search();
     this.togglePanelFiltro();
   }
 
@@ -62,4 +62,5 @@ export class EfetivoFiltroComponent implements OnInit {
     }
 
   }
+
 }

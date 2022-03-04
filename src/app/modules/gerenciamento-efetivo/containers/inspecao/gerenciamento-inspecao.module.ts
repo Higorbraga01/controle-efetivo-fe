@@ -1,3 +1,4 @@
+import { InspecaoFiltroComponent } from './../../components/inspecao-filtro/inspecao-filtro.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -39,6 +40,7 @@ import { InspecaoCadastroContainerComponent } from './inspecao-cadastro-containe
     InspecaoConsultaContainerComponent,
     InspecaoDetalheContainerComponent,
     InspecaoCadastroContainerComponent,
+    InspecaoFiltroComponent
   ],
   imports: [
     CommonModule,

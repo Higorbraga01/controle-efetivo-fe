@@ -197,31 +197,27 @@
               </div>
             </div>
             <div class="col-12 flex mt-2 p-0">
-              <div class="col-6">
-                <label>Setores Alocados</label>
+              <div class="col-6" *ngIf="pessoa?.reengajamentos != null">
+                <label>Reengajamentos</label>
                 <div class="mt-2">
                   <p-table
                     styleClass="p-datatable-striped"
-                    [value]="pessoa?.locaisTrabalho"
+                    [value]="pessoa?.reengajamentos"
                     [scrollable]="true"
                     scrollHeight="200px"
                   >
                     <ng-template pTemplate="header">
                       <tr>
-                        <th>Código</th>
-                        <th>Sigla</th>
-                        <th>Nome</th>
-                        <th>Subordinação</th>
-                        <th>Extinto</th>
+                        <th class="text-center">Data Início</th>
+                        <th class="text-center">Data Fim</th>
+                        <th class="text-right">Observação</th>
                       </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-local>
+                    <ng-template pTemplate="body" let-reengajamento>
                       <tr>
-                        <td class="text-xs">{{ local?.codigoLocalTrabalho }}</td>
-                        <td class="text-xs">{{ local?.organizacaoSigla }}</td>
-                        <td class="text-xs">{{ local?.nomeLocalTrabalho }}</td>
-                        <td class="text-xs">{{ local?.siglaLocalSubornidada ? local.siglaLocalSubornidada : "N/A"  }}</td>
-                        <td class="text-xs">{{ local?.situacao }}</td>
+                        <td class="text-center">{{ reengajamento?.idDataInicio  | date: "dd/MM/yyyy"}}</td>
+                        <td class="text-center">{{ reengajamento?.dataFim  | date: "dd/MM/yyyy"}}</td>
+                        <td class="text-left">{{ reengajamento?.observacao}}</td>
                       </tr>
                     </ng-template>
                     <ng-template pTemplate="emptymessage">
@@ -263,8 +259,8 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-inspecao>
                       <tr>
-                        <td class="font-bold text-xs">{{ inspecao?.finalidade?.sigla }}</td>
-                        <td class="text-xs">{{ inspecao?.statusInspsau?.descricao }}</td>
+                        <td class="font-bold ">{{ inspecao?.finalidade?.sigla }}</td>
+                        <td class="">{{ inspecao?.statusInspsau?.descricao }}</td>
                         <td >{{ inspecao?.agenda?.dataAgenda  | date: "dd/MM/yyyy"  }}</td>
                         <td>
                           <div
@@ -285,6 +281,47 @@
                         <td colspan="4" class="justify-content-center">
                           <span>
                             {{ "Nenhuma inspecao encontrada" | uppercase }}
+                          </span>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+              </div>
+            <div class="col-12 flex mt-2 p-0">
+              <div class="col-6">
+                <label>Setores Alocados</label>
+                <div class="mt-2">
+                  <p-table
+                    styleClass="p-datatable-striped"
+                    [value]="pessoa?.locaisTrabalho"
+                    [scrollable]="true"
+                    scrollHeight="200px"
+                  >
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Código</th>
+                        <th>Sigla</th>
+                        <th>Nome</th>
+                        <th>Subordinação</th>
+                        <th>Extinto</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-local>
+                      <tr>
+                        <td class="">{{ local?.codigoLocalTrabalho }}</td>
+                        <td class="">{{ local?.organizacaoSigla }}</td>
+                        <td class="">{{ local?.nomeLocalTrabalho }}</td>
+                        <td class="">{{ local?.siglaLocalSubornidada ? local.siglaLocalSubornidada : "N/A"  }}</td>
+                        <td class="">{{ local?.situacao }}</td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="4" class="justify-content-center">
+                          <span>
+                            {{ "Nenhum local de trabalho encontrado" | uppercase }}
                           </span>
                         </td>
                       </tr>

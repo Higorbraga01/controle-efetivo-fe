@@ -1,12 +1,6 @@
-import {Organizacao} from './organizacao.model';
-import { BaseModel } from './base.model';
 import {BaseSearch} from './base-search';
 import { Inspecao } from './inspecao.model';
-import { Especialidade } from './Especialidade';
-import { Posto } from './Posto';
-import { Quadro } from './Quadro';
 import { Setor } from './Setor';
-import { Unidade } from './Unidade';
 import { LocalTrabalhoPessoa } from './local-trabalho-pessoa.model';
 
 export interface PessoaSearch extends BaseSearch {
@@ -86,5 +80,13 @@ export interface Pessoa {
   locaisTrabalho?:         LocalTrabalhoPessoa[];
   inspecoes?:              Inspecao[];
   setores?:                Setor[];
+  reengajamentos?:         Reengajamento[];
   foto?: string;
+}
+
+export interface Reengajamento {
+  idDataInicio?: Date,
+  dataFim?: Date,
+  numeroDocumento: string,
+  observacao: string
 }

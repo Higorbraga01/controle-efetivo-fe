@@ -86,4 +86,5 @@ export interface Pessoa {
   locaisTrabalho?:         LocalTrabalhoPessoa[];
   inspecoes?:              Inspecao[];
   setores?:                Setor[];
+  foto?: string;
 }

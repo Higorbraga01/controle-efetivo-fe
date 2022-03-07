@@ -96,7 +96,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     if(formValue == 2){
       this.situacao =  ['INAT'];
       this.isTtc = 'TTC';
-      this.sort = {sort: 'numeroPosto'};
+      this.sort = {sort: 'numeroPosto'+ ',' +'dataPromocaoAtual'};
       this.updateTable({first: 0, rows:this.rowsCount});
     }
     if(formValue == 3) {
@@ -114,7 +114,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     }else {
       this.nomePessoa = null
       this.isTtc = '-'
-      this.onClear();
+      this.situacao = ['ATIVO']
     }
   }
 

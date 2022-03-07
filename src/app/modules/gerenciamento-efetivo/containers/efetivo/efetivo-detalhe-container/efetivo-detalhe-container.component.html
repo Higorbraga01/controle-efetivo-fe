@@ -217,11 +217,11 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-local>
                       <tr>
-                        <td class="text-xs">{{ local.codigoLocalTrabalho }}</td>
-                        <td class="text-xs">{{ local.organizacaoSigla }}</td>
-                        <td class="text-xs">{{ local.nomeLocalTrabalho }}</td>
-                        <td class="text-xs">{{ local.siglaLocalSubornidada ? local.siglaLocalSubornidada : "N/A"  }}</td>
-                        <td class="text-xs">{{ local.situacao }}</td>
+                        <td class="text-xs">{{ local?.codigoLocalTrabalho }}</td>
+                        <td class="text-xs">{{ local?.organizacaoSigla }}</td>
+                        <td class="text-xs">{{ local?.nomeLocalTrabalho }}</td>
+                        <td class="text-xs">{{ local?.siglaLocalSubornidada ? local.siglaLocalSubornidada : "N/A"  }}</td>
+                        <td class="text-xs">{{ local?.situacao }}</td>
                       </tr>
                     </ng-template>
                     <ng-template pTemplate="emptymessage">
@@ -247,8 +247,8 @@
                   >
                     <ng-template pTemplate="header">
                       <tr>
-                        <th>Tipo</th>
-                        <th>Resultado</th>
+                        <th>Finalidade</th>
+                        <th>Status</th>
                         <th pSortableColumn="dataRealizacao">
                           Data Realizacao<p-sortIcon
                             field="dataRealizacao"
@@ -263,9 +263,9 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-inspecao>
                       <tr>
-                        <td class="text-xs">{{ inspecao.finalidadeInspecao.codigo }}</td>
-                        <td class="text-xs">{{ inspecao.julgamentoJuntaSaude.descricao }}</td>
-                        <td >{{ inspecao.dataRealizacao }}</td>
+                        <td class="font-bold text-xs">{{ inspecao?.finalidade?.sigla }}</td>
+                        <td class="text-xs">{{ inspecao?.statusInspsau?.descricao }}</td>
+                        <td >{{ inspecao?.agenda?.dataAgenda  | date: "dd/MM/yyyy"  }}</td>
                         <td>
                           <div
                             [ngClass]="{
@@ -275,7 +275,7 @@
                               'dt-valida': hoje.isBefore(inspecao.dataValidade)
                             }"
                           >
-                            {{ inspecao.dataValidade }}
+                            {{ inspecao?.dataValidade ? (inspecao.dataValidade  | date: "dd/MM/yyyy"): "N/A" }}
                           </div>
                         </td>
                       </tr>

@@ -96,7 +96,7 @@ export class InspecaoConsultaContainerComponent implements OnInit {
     if(formValue == 2){
       this.situacao =  ['INAT'];
       this.isTtc = 'TTC';
-      this.sort = {sort: 'pessoaInspecionada.numeroPosto'};
+      this.sort = {sort: 'pessoaInspecionada.numeroPosto'+ ',' +'pessoaInspecionada.dataPromocaoAtual'};
       this.updateTable({first: 0, rows:this.rowsCount});
     }
     if(formValue == 3) {
@@ -114,6 +114,7 @@ export class InspecaoConsultaContainerComponent implements OnInit {
     }else {
       this.nomePessoa = null
       this.isTtc = '-'
+      this.situacao = ['ATIVO']
       this.onClear();
     }
   }
@@ -139,19 +140,19 @@ export class InspecaoConsultaContainerComponent implements OnInit {
     }
 
     this.loading.start();
-    const getPessoas$ = this.inspecaoService
+    const getInspecoes$ = this.inspecaoService
       .getAll(searchObject)
       .pipe(share());
     const isLoading$ = of(
-      timer(1000).pipe(mapTo(true), takeUntil(getPessoas$)),
-      getPessoas$.pipe(mapTo(false))
+      timer(1000).pipe(mapTo(true), takeUntil(getInspecoes$)),
+      getInspecoes$.pipe(mapTo(false))
     ).pipe(mergeAll());
 
     this.subs$.push(
       isLoading$.subscribe((result) => {
         this.loadingData = result;
       }),
-      getPessoas$.subscribe(
+      getInspecoes$.subscribe(
         (res: { content: Inspecao[]; totalElements: number }) => {
           this.inspecaoList = res.content;
           this.totalRecords = res.totalElements;
@@ -207,7 +208,6 @@ export class InspecaoConsultaContainerComponent implements OnInit {
         this.pessoaService
           .getAllSearch(searchObject)
           .subscribe((response: { content: any }) => {
-            console.log(response)
             this.pessoas = response.content.map(
               (pessoas: {
                 nome: string;

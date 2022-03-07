@@ -59,6 +59,7 @@
         [loading]="loadingData"
         [showLoader]="false"
         [rows]="10"
+        rowGroupMode="rowspan" groupRowsBy="pessoaInspecionada.id" sortField="representative.name" sortMode="single" responsiveLayout="scroll"
         [totalRecords]="totalRecords"
         [rowsPerPageOptions]="[10, 20, 30]"
         currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} registros"
@@ -83,10 +84,16 @@
             <th class="text-center">Ações</th>
           </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-inspecao let-expanded="expanded">
+        <ng-template pTemplate="body" let-inspecao let-rowIndex="rowIndex" let-rowgroup="rowgroup" let-rowspan="rowspan">
           <tr>
-            <td class="text-center">
-              {{ inspecao?.pessoaInspecionada?.postoNomeGuerra }}
+            <td class="text-center" *ngIf="rowgroup" [attr.rowspan]="rowspan">
+              <p-avatar
+              [label]=""
+              [image]="inspecao?.pessoaInspecionada?.foto ? 'data:image/jpeg;base64,'+inspecao?.pessoaInspecionada?.foto : null"
+              shape="circle"
+              size="xlarge"
+            ></p-avatar>
+              <div class="font-bold">{{ inspecao?.pessoaInspecionada?.postoNomeGuerra }}</div>
             </td>
             <td class="text-center">
               {{ inspecao?.finalidade?.sigla }}

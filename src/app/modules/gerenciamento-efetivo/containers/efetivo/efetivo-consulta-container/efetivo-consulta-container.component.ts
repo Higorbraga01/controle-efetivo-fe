@@ -208,7 +208,6 @@ export class EfetivoConsultaContainerComponent implements OnInit {
         this.pessoaService
           .getAllSearch(searchObject)
           .subscribe((response: { content: any }) => {
-            console.log(response)
             this.pessoas = response.content.map(
               (pessoas: {
                 nome: string;

@@ -6,7 +6,11 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+
+    "build:controle:dev": "ng build controle-efetivo --build-optimizer=false && mvn clean install -f build/controle-efetivo",
+    "build:controle:hom": "ng build  controle-efetivo --build-optimizer=false --configuration=homolog && mvn clean install -f build/controle-efetivo",
+    "build:controle:prod": "ng build  controle-efetivo --build-optimizer=false --configuration production && mvn clean install -f build/controle-efetivo"
   },
   "private": true,
   "dependencies": {

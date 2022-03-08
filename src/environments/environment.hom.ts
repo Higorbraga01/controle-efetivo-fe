@@ -8,6 +8,7 @@ export const environment = {
   KEYCLOAK_REALM: 'FAB',
   KEYCLOAK_CLIENT_ID: 'controle-efetivo-fe',
 
-  API_URL:
-    'https://api.servicos.homolog.ccarj.intraer/controle-efetivo-api/api'
+  FRONT_URL: 'https://api.servicos.homolog.ccarj.intraer/controle-efetivo',
+  API_URL: 'https://api.servicos.homolog.ccarj.intraer/controle-efetivo-api/api',
+  SHOW_LOGGING_ROUTES: false
 };

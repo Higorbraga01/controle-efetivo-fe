@@ -90,19 +90,19 @@ export class InspecaoConsultaContainerComponent implements OnInit {
     if(formValue == 1){
       this.situacao = ['ATIVO'];
       this.isTtc = '-';
-      this.sort = {sort: 'pessoaInspecionada.numeroAntiguidade'};
+      this.sort = {sort: 'pessoaInspecionada.numeroAntiguidade'+ ','+ 'agenda.dataAgenda'};
       this.updateTable({first: 0, rows:this.rowsCount});
     }
     if(formValue == 2){
       this.situacao =  ['INAT'];
       this.isTtc = 'TTC';
-      this.sort = {sort: 'pessoaInspecionada.numeroPosto'+ ',' +'pessoaInspecionada.dataPromocaoAtual'};
+      this.sort = {sort: 'pessoaInspecionada.numeroPosto'+ ',' +'pessoaInspecionada.dataPromocaoAtual'+ ','+ 'agenda.dataAgenda'};
       this.updateTable({first: 0, rows:this.rowsCount});
     }
     if(formValue == 3) {
       this.situacao = ['CVL'];
       this.isTtc = '-';
-      this.sort = {sort: 'pessoaInspecionada.numeroAntiguidade'};
+      this.sort = {sort: 'pessoaInspecionada.numeroAntiguidade'+ ','+ 'agenda.dataAgenda'};
       this.updateTable({first: 0, rows:this.rowsCount});
     }
   }

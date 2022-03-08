@@ -13,10 +13,6 @@ import { Especialidade } from "src/app/models/Especialidade";
 import { PessoaRequest } from 'src/app/models/pessoa.model';
 import { PessoaService } from 'src/app/service/pessoa.service';
 import { LoadingBarService } from 'src/app/shared/services/loading-bar.service';
-import { PostoService } from 'src/app/service/posto.service';
-import { QuadroService } from 'src/app/service/quadro.service';
-import { EspecialidadeService } from 'src/app/service/especialidade.service';
-import { UnidadeService } from 'src/app/service/unidade.service';
 
 @Component({
   selector: 'app-efetivo-cadastro-container',
@@ -39,10 +35,6 @@ export class EfetivoCadastroContainerComponent implements OnInit {
     private loading: LoadingBarService,
               private fb: FormBuilder,
               private service: PessoaService,
-              private postoService: PostoService,
-              private quadroService: QuadroService,
-              private especialidadeService: EspecialidadeService,
-              private unidadeService: UnidadeService,
               private messageService: MessageService,
               private router: Router
               ) {
@@ -62,10 +54,6 @@ export class EfetivoCadastroContainerComponent implements OnInit {
         nome: "Feminino"
       }
     ]
-    this.postoService.buscarPostos().subscribe(postos => this.postos = postos);
-    this.quadroService.buscarQuadros().subscribe(quadros => this.quadros = quadros);
-    this.especialidadeService.buscarEspecialidades().subscribe(especialidades => this.especialidades = especialidades);
-    this.unidadeService.buscarUnidades().subscribe(unidades => this.unidades = unidades);
   }
 
   buildForm(): void {

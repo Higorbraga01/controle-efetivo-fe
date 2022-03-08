@@ -3,7 +3,6 @@ import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Unidade } from '../models/Unidade';
 
 @Injectable({
   providedIn: 'root'

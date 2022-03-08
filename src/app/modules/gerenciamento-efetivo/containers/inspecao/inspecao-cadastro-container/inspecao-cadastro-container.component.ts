@@ -1,5 +1,3 @@
-import { SubFinalidadeService } from './../../../../../service/sub-finalidade.service';
-import { SubClassificacaoService } from './../../../../../service/sub-classificacao.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -41,8 +39,6 @@ export class InspecaoCadastroContainerComponent implements OnInit {
     private fb: FormBuilder,
     private pessoaService: PessoaService,
     private inspecaoService: InspecaoService,
-    private subClassificacaoService: SubClassificacaoService,
-    private subFinalidadeService: SubFinalidadeService,
     private messageService: MessageService,
     public userService: UserService,
     private sharedService: SharedDataService,
@@ -88,16 +84,6 @@ export class InspecaoCadastroContainerComponent implements OnInit {
 
   onSelectClassificacao(event: any) {
     if (event.value) {
-      this.subClassificacaoService
-        .buscarSubClassificacoesPorClassificacao(event.value)
-        .subscribe((res) => {
-          this.subClassificacoes = res;
-          if (res.length > 0) {
-            this.form.get('subClassificacaoInspecaoId').enable();
-          } else {
-            this.form.get('subClassificacaoInspecaoId').disable();
-          }
-        });
     } else {
       this.form.get('subClassificacaoInspecaoId').disable();
       this.form.get('subClassificacaoInspecaoId').reset();
@@ -106,16 +92,6 @@ export class InspecaoCadastroContainerComponent implements OnInit {
 
   onSelectFinalidade(event: any) {
     if (event.value) {
-      this.subFinalidadeService
-        .buscarSubFinalidadesPorFinalidade(event.value)
-        .subscribe((res) => {
-          this.subFinalidadesInspecao = res;
-          if (res.length > 0) {
-            this.form.get('subFinalidadeInspecaoId').enable();
-          } else {
-            this.form.get('subFinalidadeInspecaoId').disable();
-          }
-        });
     } else {
       this.form.get('subFinalidadeInspecaoId').disable();
       this.form.get('subFinalidadeInspecaoId').reset();

@@ -102,7 +102,7 @@
               {{ inspecao?.statusInspsau?.descricao }}
             </td>
             <td class="text-center">
-              {{ inspecao?.agenda?.dataAgenda | date: "dd/MM/yyyy" }}
+              {{ inspecao?.agenda?.dataAgenda ? (inspecao?.agenda?.dataAgenda | date: "dd/MM/yyyy"): "N/A" }}
             </td>
             <td class="text-center">
               <div
@@ -112,7 +112,7 @@
                 }"
                 class="mt-2"
               >
-                {{ inspecao?.dataValidade | date: "dd/MM/yyyy" }}
+                {{ inspecao?.dataValidade ? (inspecao?.dataValidade | date: "dd/MM/yyyy"): "N/A" }}
               </div>
             </td>
             <td class="text-center">

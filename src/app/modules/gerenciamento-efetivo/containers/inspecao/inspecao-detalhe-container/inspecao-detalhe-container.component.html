@@ -148,7 +148,7 @@
             <div class="col-2">
               <label>Data agendamento</label>
               <div class="mt-2">
-                {{ inspecao?.agenda.dataAgenda | date: "dd/MM/yyyy" }}
+                {{ inspecao?.agenda?.dataAgenda ?(inspecao?.agenda?.dataAgenda | date: "dd/MM/yyyy"): "N/A" }}
               </div>
             </div>
             <div class="col-2">

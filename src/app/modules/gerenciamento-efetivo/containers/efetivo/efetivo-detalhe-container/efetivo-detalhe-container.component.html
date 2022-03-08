@@ -178,9 +178,9 @@
                 </div>
               </div>
               <div class="col-2 mt-2">
-                <label>Sexo</label>
+                <label>Sexo / Tipo sanguíneo</label>
                 <div class="mt-2">
-                  {{ pessoa?.sexo ? pessoa?.sexo : "-" }}
+                  {{ pessoa?.sexo ? (pessoa?.sexo.includes("M") ? "Masculino ": "Feminino ") +" "+  pessoa?.tipoSangueRh : "-" }}
                 </div>
               </div>
               <div class="col-2 mt-2">
@@ -208,15 +208,15 @@
                   >
                     <ng-template pTemplate="header">
                       <tr>
-                        <th class="text-center">Data Início</th>
-                        <th class="text-center">Data Fim</th>
+                        <th style="max-width:100px" class="text-center">Data Início</th>
+                        <th style="max-width:100px" class="text-center">Data Fim</th>
                         <th class="text-right">Observação</th>
                       </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-reengajamento>
                       <tr>
-                        <td class="text-center">{{ reengajamento?.idDataInicio  | date: "dd/MM/yyyy"}}</td>
-                        <td class="text-center">{{ reengajamento?.dataFim  | date: "dd/MM/yyyy"}}</td>
+                        <td style="max-width:100px" class="text-center">{{ reengajamento?.idDataInicio  | date: "dd/MM/yyyy"}}</td>
+                        <td style="max-width:100px" class="text-center">{{ reengajamento?.dataFim  | date: "dd/MM/yyyy"}}</td>
                         <td class="text-left">{{ reengajamento?.observacao}}</td>
                       </tr>
                     </ng-template>
@@ -224,7 +224,7 @@
                       <tr>
                         <td colspan="4" class="justify-content-center">
                           <span>
-                            {{ "Nenhum local de trabalho encontrado" | uppercase }}
+                            {{ "Nenhum reengajamento encontrado" | uppercase }}
                           </span>
                         </td>
                       </tr>
@@ -243,25 +243,21 @@
                   >
                     <ng-template pTemplate="header">
                       <tr>
-                        <th>Finalidade</th>
-                        <th>Status</th>
-                        <th pSortableColumn="dataRealizacao">
-                          Data Realizacao<p-sortIcon
-                            field="dataRealizacao"
-                          ></p-sortIcon>
+                        <th style="max-width:100px">Finalidade</th>
+                        <th style="min-width:300px">Status</th>
+                        <th>
+                          Data Realizacao
                         </th>
-                        <th pSortableColumn="dataValidade">
-                          Data Validade<p-sortIcon
-                            field="dataValidade"
-                          ></p-sortIcon>
+                        <th>
+                          Data Validade
                         </th>
                       </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-inspecao>
                       <tr>
-                        <td class="font-bold ">{{ inspecao?.finalidade?.sigla }}</td>
-                        <td class="">{{ inspecao?.statusInspsau?.descricao }}</td>
-                        <td >{{ inspecao?.agenda?.dataAgenda  | date: "dd/MM/yyyy"  }}</td>
+                        <td style="max-width:100px" class="font-bold ">{{ inspecao?.finalidade?.sigla }}</td>
+                        <td style="min-width:300px" class="text-left">{{ inspecao?.statusInspsau?.descricao }}</td>
+                        <td class="text-right">{{ inspecao?.agenda?.dataAgenda? (inspecao?.agenda?.dataAgenda  | date: "dd/MM/yyyy"): "N/A"  }}</td>
                         <td>
                           <div
                             [ngClass]="{

@@ -38,7 +38,8 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   private rowsCount: number;
   public pessoasList: Pessoa[];
   public disabled: boolean = true;
-  private unidadeId: string;
+  private orgId: string;
+  private orgServicoId: string;
   private nomeUnidade: string;
   private nomePessoa: string;
   private isTtc: string = "-";
@@ -76,11 +77,13 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     };
     this.sharedService.currentMessage.subscribe((message) =>{
       if (message.length != 0) {
-        this.unidadeId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
+        this.orgId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
+        this.orgServicoId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
         this.nomeUnidade = JSON.parse(sessionStorage.getItem('unidade'))?.sigla
         this.updateTable({ first: 0, rows: 10 });
       } else {
-        this.unidadeId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id : '0000';
+        this.orgId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id : '0000';
+        this.orgServicoId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id : '0000';
         this.nomeUnidade = this.userService?.user?.organizacao?.sigla
       }
     });
@@ -125,7 +128,8 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     const page = { page: event.first / event.rows };
     const size = { size: event.rows };
     const pessoa = { nomePessoa: this.nomePessoa };
-    const unidade = { unidadeId: this.unidadeId };
+    const organizacao = { orgId: this.orgId };
+    const organizacaoServico = { orgServicoId: this.orgServicoId };
     const situacao= { inAtivo: this.situacao}
     const tipoEfetivo = { ttc: this.isTtc};
     let searchObject = {};
@@ -133,9 +137,9 @@ export class EfetivoConsultaContainerComponent implements OnInit {
       const sort = {
         sort: `${event.sortField},${event.sortOrder === 1 ? 'ASC' : 'DESC'}`,
       };
-      searchObject = Object.assign({}, unidade, pessoa,situacao, tipoEfetivo, page, size, this.sort);
+      searchObject = Object.assign({}, organizacao,organizacaoServico,pessoa,situacao,tipoEfetivo,page,size,this.sort);
     } else {
-      searchObject = Object.assign({}, unidade, pessoa,situacao, tipoEfetivo, page, size,this.sort);
+      searchObject = Object.assign({}, organizacao,organizacaoServico,pessoa,situacao,tipoEfetivo,page,size,this.sort);
     }
 
     this.loading.start();
@@ -162,33 +166,33 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   }
 
   delete(id: number): void {
-    this.confirmationService.confirm({
-      message: 'Deseja excluir esta pessoa?',
-      accept: () => {
-        this.loading.start();
-        this.subs$.push(
-          this.pessoaService.delete(id).subscribe(
-            () => {
-              this.updateTable({ first: 0, rows: this.rowsCount });
-              this.loading.end();
-              this.messageService.add({
-                severity: 'success',
-                summary: 'Sucesso',
-                detail: 'Pessoa excluida com sucesso',
-                life: 3000,
-              });
-            },
-            (_e: any) =>
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Erro',
-                detail: 'Erro ao excluir pessoa',
-                life: 3000,
-              })
-          )
-        );
-      },
-    });
+    // this.confirmationService.confirm({
+    //   message: 'Deseja excluir esta pessoa?',
+    //   accept: () => {
+    //     this.loading.start();
+    //     this.subs$.push(
+    //       this.pessoaService.delete(id).subscribe(
+    //         () => {
+    //           this.updateTable({ first: 0, rows: this.rowsCount });
+    //           this.loading.end();
+    //           this.messageService.add({
+    //             severity: 'success',
+    //             summary: 'Sucesso',
+    //             detail: 'Pessoa excluida com sucesso',
+    //             life: 3000,
+    //           });
+    //         },
+    //         (_e: any) =>
+    //           this.messageService.add({
+    //             severity: 'error',
+    //             summary: 'Erro',
+    //             detail: 'Erro ao excluir pessoa',
+    //             life: 3000,
+    //           })
+    //       )
+    //     );
+    //   },
+    // });
   }
 
   ngOnDestroy(): void {
@@ -201,9 +205,10 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     if(event){
       let searchObject = Object.assign({
         nomePessoa: event.query,
-        unidadeId: this.unidadeId,
+        orgId: this.orgId,
+        orgServicoId: this.orgServicoId,
         inAtivo: this.situacao,
-        ttc: this.isTtc}, this.sort);
+        ttc: this.isTtc }, this.sort);
       this.subs$.push(
         this.pessoaService
           .getAllSearch(searchObject)
@@ -251,7 +256,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     params = Object.assign({},  {tipoEfetivo: this.isTtc}, {situacao: this.situacao})
     this.loading.start();
     this.subs$.push(
-      this.relatorioService.gerarRelatorio(this.unidadeId,params).subscribe(
+      this.relatorioService.gerarRelatorio(this.orgId,params).subscribe(
         (response) => {
           let blob = new Blob([response], { type: 'application/pdf' });
           const url = window.URL.createObjectURL(blob);

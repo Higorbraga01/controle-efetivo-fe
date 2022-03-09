@@ -44,10 +44,10 @@ export class RelatorioService {
     return params;
   }
 
-  gerarRelatorio(codigoUnidade: string, options: any): Observable<Blob> {
+  gerarRelatorio(organizacaoId: string, options: any): Observable<Blob> {
     let params = this.buildHttpParams(options);
     return this.http.get(
-      `${this.endpoint}/relatorios/efetivo/${codigoUnidade}`,
+      `${this.endpoint}/relatorios/efetivo/${organizacaoId}`,
       {
         params:params,
         reportProgress: true,

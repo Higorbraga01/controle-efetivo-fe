@@ -253,7 +253,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
 
   gerarRelatorio() {
     let params = {};
-    params = Object.assign({},  {tipoEfetivo: this.isTtc}, {situacao: this.situacao})
+    params = Object.assign({},{organizacaoServicoId: this.orgServicoId},  {tipoEfetivo: this.isTtc}, {situacao: this.situacao})
     this.loading.start();
     this.subs$.push(
       this.relatorioService.gerarRelatorio(this.orgId,params).subscribe(

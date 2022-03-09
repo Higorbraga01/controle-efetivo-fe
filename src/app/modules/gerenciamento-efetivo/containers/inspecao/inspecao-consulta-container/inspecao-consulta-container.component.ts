@@ -77,15 +77,15 @@ export class InspecaoConsultaContainerComponent implements OnInit {
       icon: 'pi pi-home',
       url: environment.FRONT_URL,
     };
-    this.sharedService.currentMessage.subscribe(() =>{
-      if (JSON.parse(sessionStorage.getItem('unidade'))) {
+    this.sharedService.currentMessage.subscribe((message) =>{
+      if (message.length != 0) {
         this.orgId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
         this.orgServicoId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
+        this.updateTable({ first: 0, rows: 10 })
       } else {
         this.orgId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id: '0000';
         this.orgServicoId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id: '0000';
       }
-      this.updateTable({ first: 0, rows: 10 })
     });
   }
 

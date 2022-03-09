@@ -79,7 +79,7 @@ export class BaseWrapperComponent implements OnInit, OnDestroy {
           .buscarOrganizacaoPorId(user.organizacao?.id)
           .subscribe((organizacao) => {
             if (sessionStorage.getItem('unidade')) {
-              this.sharedService.changeMessage(sessionStorage.getItem('unidade'))
+              this.sharedService.changeMessage(JSON.parse(sessionStorage.getItem('unidade')))
               this.form
                 .get('unidadeId')
                 .patchValue(JSON.parse(sessionStorage.getItem('unidade')));

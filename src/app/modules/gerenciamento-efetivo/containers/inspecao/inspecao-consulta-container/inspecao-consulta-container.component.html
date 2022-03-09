@@ -88,6 +88,13 @@
           <tr>
             <td class="text-center" *ngIf="rowgroup" [attr.rowspan]="rowspan">
               <p-avatar
+              *ngIf="!inspecao?.pessoaInspecionada?.foto"
+              icon="pi pi-user"
+              shape="circle"
+              size="xlarge"
+            ></p-avatar>
+              <p-avatar
+              *ngIf="inspecao?.pessoaInspecionada?.foto"
               [label]=""
               [image]="inspecao?.pessoaInspecionada?.foto ? 'data:image/jpeg;base64,'+inspecao?.pessoaInspecionada?.foto : null"
               shape="circle"
@@ -146,8 +153,9 @@
                   ></button>
                   <button
                     *ngIf="
-                      this.userService?.user?.roles.includes('ROLE_GERENTE_SPM')
+                      this.userService?.user?.roles.includes('ROLE_ADMINISTRADOR')
                     "
+                    disabled=true
                     pTooltip="Excluir"
                     pButton
                     icon="pi pi-trash"

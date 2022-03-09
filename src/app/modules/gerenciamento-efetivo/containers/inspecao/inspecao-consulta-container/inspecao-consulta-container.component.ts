@@ -34,7 +34,8 @@ export class InspecaoConsultaContainerComponent implements OnInit {
   private rowsCount: number;
   public pessoas: any;
   public inspecaoList: Inspecao[];
-  private unidadeId: string;
+  private orgId: string;
+  private orgServicoId: string;
   private nomePessoa: string;
   private isTtc: string = "-";
   private situacao: string[] = ['ATIVO'];
@@ -78,9 +79,11 @@ export class InspecaoConsultaContainerComponent implements OnInit {
     };
     this.sharedService.currentMessage.subscribe(() =>{
       if (JSON.parse(sessionStorage.getItem('unidade'))) {
-        this.unidadeId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
+        this.orgId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
+        this.orgServicoId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
       } else {
-        this.unidadeId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id: '0000';
+        this.orgId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id: '0000';
+        this.orgServicoId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id: '0000';
       }
       this.updateTable({ first: 0, rows: 10 })
     });
@@ -126,7 +129,8 @@ export class InspecaoConsultaContainerComponent implements OnInit {
     const page = { page: event.first / event.rows };
     const size = { size: event.rows };
     const pessoa = { nomePessoa: this.nomePessoa };
-    const unidade = { unidadeId: this.unidadeId };
+    const organizacao = { orgId: this.orgId };
+    const organizacaoServico = { orgServicoId: this.orgServicoId };
     const situacao= { inAtivo: this.situacao}
     const tipoEfetivo = { ttc: this.isTtc};
     let searchObject = {};
@@ -134,9 +138,9 @@ export class InspecaoConsultaContainerComponent implements OnInit {
       const sort = {
         sort: `${event.sortField},${event.sortOrder === 1 ? 'ASC' : 'DESC'}`,
       };
-      searchObject = Object.assign({}, unidade, pessoa,situacao, tipoEfetivo, page, size, this.sort);
+      searchObject = Object.assign({}, organizacao,organizacaoServico,pessoa,situacao,tipoEfetivo,page,size,this.sort);
     } else {
-      searchObject = Object.assign({}, unidade, pessoa,situacao, tipoEfetivo, page, size,this.sort);
+      searchObject = Object.assign({}, organizacao,organizacaoServico,pessoa,situacao,tipoEfetivo,page,size,this.sort);
     }
 
     this.loading.start();
@@ -163,32 +167,32 @@ export class InspecaoConsultaContainerComponent implements OnInit {
   }
 
   delete(id: number): void {
-    this.confirmationService.confirm({
-      message: 'Deseja excluir esta inspeção?',
-      accept: () => {
-        this.loading.start();
-        this.subs$.push(
-          this.inspecaoService.delete(id)
-            .subscribe(
-              () => {
-                this.loading.end();
-                this.messageService.add({
-                  severity: 'success',
-                  summary: 'Sucesso',
-                  detail: 'Inspeção excluida com sucesso',
-                  life: 3000
-                });
-                this.updateTable({ first: 0, rows: this.rowsCount });
-              },
-              (_e: any) => this.messageService.add({
-                severity: 'error',
-                summary: 'Erro',
-                detail: 'Erro ao excluir inspeção',
-                life: 3000
-              })));
-        this.loading.end();
-      }
-    });
+    // this.confirmationService.confirm({
+    //   message: 'Deseja excluir esta inspeção?',
+    //   accept: () => {
+    //     this.loading.start();
+    //     this.subs$.push(
+    //       this.inspecaoService.delete(id)
+    //         .subscribe(
+    //           () => {
+    //             this.loading.end();
+    //             this.messageService.add({
+    //               severity: 'success',
+    //               summary: 'Sucesso',
+    //               detail: 'Inspeção excluida com sucesso',
+    //               life: 3000
+    //             });
+    //             this.updateTable({ first: 0, rows: this.rowsCount });
+    //           },
+    //           (_e: any) => this.messageService.add({
+    //             severity: 'error',
+    //             summary: 'Erro',
+    //             detail: 'Erro ao excluir inspeção',
+    //             life: 3000
+    //           })));
+    //     this.loading.end();
+    //   }
+    // });
   }
 
   ngOnDestroy(): void {
@@ -201,7 +205,8 @@ export class InspecaoConsultaContainerComponent implements OnInit {
     if(event){
       let searchObject = Object.assign({
         nomePessoa: event.query,
-        unidadeId: this.unidadeId,
+        orgId: this.orgId,
+        orgServicoId: this.orgServicoId,
         inAtivo: this.situacao,
         ttc: this.isTtc},{sort: 'numeroAntiguidade'});
       this.subs$.push(

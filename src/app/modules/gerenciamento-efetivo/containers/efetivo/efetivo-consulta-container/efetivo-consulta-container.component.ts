@@ -76,7 +76,7 @@ export class EfetivoConsultaContainerComponent implements OnInit {
       url: environment.FRONT_URL,
     };
     this.sharedService.currentMessage.subscribe((message) =>{
-      if (message.length != 0) {
+      if (message.id != this.orgId) {
         this.orgId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
         this.orgServicoId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
         this.nomeUnidade = JSON.parse(sessionStorage.getItem('unidade'))?.sigla

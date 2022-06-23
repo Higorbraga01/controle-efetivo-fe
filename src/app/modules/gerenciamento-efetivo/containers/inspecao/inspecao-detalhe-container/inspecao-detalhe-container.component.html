@@ -30,22 +30,26 @@
       </div>
       <div *ngIf="!blocked" class="formgrid grid">
         <div class="col-12">
-          <div class="flex justify-content-center">
-            <label>Inspecionado</label>
-          </div>
-          <div class="mt-3 mb-3 flex justify-content-center">
+          <p-divider align="center">
+            <span class="p-tag">Inspecionado</span>
+          </p-divider>
+        </div>
+        <div class="col-12">
+          <div class="ml-3 mt-3 mb-3 flex">
             <div>
               <p-avatar
-                [label]=""
-                [image]="
-                  inspecao?.pessoaInspecionada?.foto
-                    ? 'data:image/jpeg;base64,' +
-                      inspecao?.pessoaInspecionada?.foto
-                    : null
-                "
-                shape="circle"
-                size="xlarge"
-              ></p-avatar>
+              *ngIf="!inspecao?.pessoaInspecionada?.foto"
+              icon="pi pi-user"
+              shape="circle"
+              size="xlarge"
+            ></p-avatar>
+              <p-avatar
+              *ngIf="inspecao?.pessoaInspecionada?.foto"
+              [label]=""
+              [image]="inspecao?.pessoaInspecionada?.foto ? 'data:image/jpeg;base64,'+inspecao?.pessoaInspecionada?.foto : null"
+              shape="circle"
+              size="xlarge"
+            ></p-avatar>
             </div>
             <div class="flex ml-3 align-items-center">
               {{

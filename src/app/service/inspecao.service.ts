@@ -70,4 +70,9 @@ export class InspecaoService {
     return this.http
       .get<number>(`${this.endpoint}/inspecoes/organizacao/count/${organizacaoId}`,)
   }
+
+  buscarInspecoesVencidasPorOrganizacao(organizacaoId: string): Observable<Pageable<Inspecao>> {
+    return this.http
+      .get<Pageable<Inspecao>>(`${this.endpoint}/inspecoes/vencidas/${organizacaoId}`,)
+  }
 }

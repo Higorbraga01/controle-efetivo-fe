@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Inspecao } from 'src/app/models/inspecao.model';
 import { InspecaoService } from 'src/app/service/inspecao.service';
 import { PessoaService } from 'src/app/service/pessoa.service';
 import { SharedDataService } from 'src/app/service/shared-data.service';
@@ -16,6 +17,9 @@ export class HomeComponent implements OnInit {
   public siglaUnidadeSelecionada: string;
   public totalEfetivoOm: number;
   public totalInspecoesEfetivoOm: number;
+  public inspecoesVencidas: Inspecao[] = [];
+  public loadingData: boolean;
+  public totalRecords: number;
 
   constructor(
     private pessoaService: PessoaService,
@@ -28,59 +32,17 @@ export class HomeComponent implements OnInit {
     this.siglaUnidadeSelecionada = this.userService.user.organizacao.sigla;
     this.pessoaService.countEfetivoOm(this.userService.user.organizacao.id).subscribe(totalEfetivo => this.totalEfetivoOm = totalEfetivo);
     this.inspecaoService.countInspecoesEfetivoOm(this.userService.user.organizacao.id).subscribe(totalInspecoes => this.totalInspecoesEfetivoOm = totalInspecoes);
+    this.inspecaoService.buscarInspecoesVencidasPorOrganizacao(this.userService.user.organizacao.id).subscribe(inspecoes => this.inspecoesVencidas = inspecoes.content);
     this.sharedService.currentMessage.subscribe(message => {
       this.siglaUnidadeSelecionada = message.sigla;
       this.pessoaService.countEfetivoOm(message.id).subscribe(totalChange => this.totalEfetivoOm = totalChange);
       this.inspecaoService.countInspecoesEfetivoOm(message.id).subscribe(totalInspecoesChange => this.totalInspecoesEfetivoOm = totalInspecoesChange);
+      this.inspecaoService.buscarInspecoesVencidasPorOrganizacao(message.id).subscribe(inspecoes => this.inspecoesVencidas = inspecoes.content)
     });
-    this.customers = [
-      {
-        name: 'teste',
-        country: 'teste',
-        company: 'teste',
-        representative: 'teste'
-      },
-      {
-        name: 'teste',
-        country: 'teste',
-        company: 'teste',
-        representative: 'teste'
-      },
-      {
-        name: 'teste',
-        country: 'teste',
-        company: 'teste',
-        representative: 'teste'
-      },
-      {
-        name: 'teste',
-        country: 'teste',
-        company: 'teste',
-        representative: 'teste'
-      },
-      {
-        name: 'teste',
-        country: 'teste',
-        company: 'teste',
-        representative: 'teste'
-      },      {
-        name: 'teste',
-        country: 'teste',
-        company: 'teste',
-        representative: 'teste'
-      },
-      {
-        name: 'teste',
-        country: 'teste',
-        company: 'teste',
-        representative: 'teste'
-      },      {
-        name: 'teste',
-        country: 'teste',
-        company: 'teste',
-        representative: 'teste'
-      }
-    ]
+  }
+
+  updateTable(event: any){
+
   }
 
   showDialog() {

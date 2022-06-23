@@ -1,15 +1,28 @@
+::ng-deep .p-card .p-card-subtitle {
+  font-size: 1rem;
+  font-weight: 300;
+  margin-left: 1rem;
+}
+::ng-deep html label {
+  font-size: 1rem;
+  margin-left: 1rem;
+}
+.p-button {
+  margin-left: 1rem!important;
+}
 :host {
+
     display: block;
-  
+
     section.l-finor-consulta-container {
       header {
         overflow: hidden;
-  
+
         div.l-finor-consulta-container__header {
           background-color: var(--lighter-grey);
           border-bottom: 1px solid var(--light-grey);
           width: 100%;
-  
+
           .l-finor-consulta-container__title-wrapper {
             h2.l-finor-consulta-container__title {
               font-weight: 600;
@@ -22,10 +35,10 @@
           }
         }
       }
-  
+
       section.l-finor-consulta-container__body {
         position: relative;
-  
+
         &::before {
           content: ' ';
           position: absolute;
@@ -37,21 +50,21 @@
           background-color: var(--lighter-grey);
           border-bottom: 1px solid var(--light-grey);
         }
-  
+
         .l-finor-consulta-container__tab-header {
           .l-finor-consulta-container__tab-header-title,
           .l-finor-consulta-container__tab-header-step {
             display: block;
           }
-  
+
           .l-finor-consulta-container__tab-header-step {
             display: block;
             font-size: 0.857143rem;
             line-height: 0.857143rem;
-  
+
             height: 1.29rem;
             width: 1.29rem;
-  
+
             background: var(--primary);
             border-radius: 50%;
             color: var(--white);
@@ -60,4 +73,3 @@
       }
     }
   }
-  

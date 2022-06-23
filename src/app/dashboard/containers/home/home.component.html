@@ -2,14 +2,14 @@
 <div class="l-main-grid">
 <p-card header="Informações Gerências" [subheader]="siglaUnidadeSelecionada" styleClass="p-card-shadow m-5">
     <ng-template pTemplate="header">
-      
+
     </ng-template>
     <div class="grid">
-      <div class="col-3">
+      <div class="col-2">
         <p-card  styleClass="p-card-shadow">
           <div class="flex">
-           <div class="mr-1"> Total de Militares:</div>
-            <div><b> 185</b></div>
+           <div class="mr-1"> Total Efetivo:</div>
+            <div><b>{{totalEfetivoOm}}</b></div>
           </div>
         </p-card>
       </div>
@@ -17,7 +17,7 @@
         <p-card styleClass="p-card-shadow">
           <div class="flex">
            <div class="mr-1"> Total de inspeções cadastradas:</div>
-            <div><b> 5</b></div>
+            <div><b>{{totalInspecoesEfetivoOm}}</b></div>
           </div>
         </p-card>
       </div>
@@ -25,11 +25,11 @@
     <ng-template pTemplate="footer">
       <div class="grid">
         <div class="col-12">
-          <h1>Militares com inspeções vencidas</h1>
+          <label>Militares com inspeções vencidas</label>
         </div>
         <div class="col-12">
      <button class="ml-2" type="button" (click)="showDialog()" pButton icon="pi pi-external-link" label="Mostrar"></button>
-     <p-dialog header="Header" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body" [(visible)]="dialogVisible">
+     <p-dialog header="Lista de militares com inspeções vencidas" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body" [(visible)]="dialogVisible">
          <p-table [value]="customers" [scrollable]="true" scrollHeight="flex">
              <ng-template pTemplate="header">
                  <tr>
@@ -49,7 +49,7 @@
              </ng-template>
          </p-table>
          <ng-template pTemplate="footer">
-             <button type="button" pButton pRipple icon="pi pi-times" (click)="dialogVisible=false" label="Dismiss" class="p-button-text"></button>
+             <button type="button" pButton pRipple icon="pi pi-times" (click)="dialogVisible=false" label="Fechar" class="p-button-text"></button>
          </ng-template>
      </p-dialog>
     </div>

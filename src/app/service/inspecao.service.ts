@@ -65,4 +65,9 @@ export class InspecaoService {
     return this.http
       .get<Inspecao>(`${this.endpoint}/inspecoes/${ id }`,)
   }
+
+  countInspecoesEfetivoOm(organizacaoId: string): Observable<number> {
+    return this.http
+      .get<number>(`${this.endpoint}/inspecoes/organizacao/count/${organizacaoId}`,)
+  }
 }

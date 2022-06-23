@@ -1,0 +1,85 @@
+<div class="wrapper" shrdClickOutside (clickOutside)="_isHidden = true">
+  <button
+    pButton
+    pRipple
+    type="button"
+    icon="pi pi-filter"
+    class="p-button-secondary p-button-text p-button-sm"
+    (click)="togglePanelFiltro()"
+    label="FILTROS"
+  ></button>
+
+  <div
+    class="p-card--absolute"
+    [ngClass]="{ 'p-card--hidden': _isHidden, 'p-card--show': !_isHidden }"
+  >
+    <button
+      pButton
+      type="button"
+      icon="pi pi-times"
+      class="p-button-rounded p-button-secondary p-button-panel-close"
+      (click)="_isHidden = true"
+    ></button>
+    <p-card>
+      <form
+        class="p-grid p-fluid"
+        [formGroup]="_form"
+      >
+        <div class="p-input-filled  p-col-12">
+          <label>Filtrar por pessoa</label>
+          <p-autoComplete
+          field="label"
+          formControlName="nomePessoa"
+          [suggestions]="pessoas"
+          (completeMethod)="search($event)"
+          (onSelect)="updateTable($event)"
+          [dropdown]="true"
+          appendTo="body"
+        >
+          <ng-template let-pessoas pTemplate="item">
+            <div class="dropdown-item-container">
+              <span style="font-weight: bolder; font-size: 1.2rem">{{
+                pessoas.label
+              }}</span>
+              <br />
+              <span style="font-size: 1rem">{{ pessoas.title }}</span>
+            </div>
+          </ng-template>
+        </p-autoComplete>
+        </div>
+        <div class="p-input-filled  p-col-12">
+          <label>Tipo de efetivo</label>
+          <p-dropdown
+            [options]="tiposEfetivo"
+            optionLabel="name"
+            optionValue="value"
+            formControlName="tipoEfetivo"
+            placeholder="Selecione o tipo de efetivo"
+            class="p-inputtext-sm"
+            (onChange)="filterTipoEfetivo($event)"
+          ></p-dropdown>
+        </div>
+        <div class="p-col-6 p-mt-3">
+          <button
+            pButton
+            pRipple
+            type="button"
+            [disabled]="_form.invalid || isButtonDisabled"
+            label="LIMPAR"
+            class="p-button-text"
+            (click)="onClear()"
+          ></button>
+        </div>
+        <div class="p-col-6 p-mt-3">
+          <!-- <button
+            pButton
+            pRipple
+            type="submit"
+            [disabled]="_form.invalid || isButtonDisabled"
+            label="FILTRAR"
+          ></button> -->
+        </div>
+      </form>
+    </p-card>
+  </div>
+</div>

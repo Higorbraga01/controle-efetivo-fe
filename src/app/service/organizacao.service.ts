@@ -1,13 +1,13 @@
+import { Organizacao } from './../models/organizacao.model';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Especialidade } from '../models/Especialidade';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EspecialidadeService {
+export class OrganizacaoService {
   private defaultHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
   });
@@ -41,11 +41,17 @@ export class EspecialidadeService {
     return params;
   }
 
-  buscarEspecialidades(search?: any): Observable<Especialidade[]> {
+  buscarTodasOrganizacoes(search?: any): Observable<Organizacao[]> {
     this.removeEmptyFields(search)
     const params = this.buildHttpParams(search);
     return this.http
-      .get<Especialidade[]>(`${this.endpoint}/especialidades?${ params }`,)
+      .get<Organizacao[]>(`${this.endpoint}/organizacoes`,{
+       params
+      })
       .pipe(take(1));
+  }
+
+  buscarOrganizacaoPorId(organizacaoId: string): Observable<Organizacao> {
+    return this.http.get<Organizacao>(`${this.endpoint}/organizacoes/${organizacaoId}`)
   }
 }

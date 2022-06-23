@@ -26,11 +26,8 @@ import { environment } from 'src/environments/environment';
 })
 export class EfetivoConsultaContainerComponent implements OnInit {
   public subs$: Subscription[] = [];
-  public form: FormGroup;
   public pessoas: SelectItem[];
   public totalRecords: number;
-  public pessoaSelecDropdown: any;
-  public menuItems: MenuItem[];
   public loadingData = true;
   private readonly NUMCOLUMNS = 8;
   public fakeArrayColumns = new Array(this.NUMCOLUMNS).fill({});
@@ -41,8 +38,14 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   private rowsCount: number;
   public pessoasList: Pessoa[];
   public disabled: boolean = true;
-  private unidadeId: string;
+  private orgId: string;
+  private orgServicoId: string;
   private nomeUnidade: string;
+  private nomePessoa: string;
+  private isTtc: string = "-";
+  private situacao: string[] = ['ATIVO'];
+  private sort = {sort: 'numeroAntiguidade'};
+  public opcoesFiltroEfetivo: any[];
 
   _breadcrumbItems: MenuItem[];
   _home: MenuItem;
@@ -55,15 +58,15 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     public userService: UserService,
     public pessoaService: PessoaService,
     public relatorioService: RelatorioService,
-    private fb: FormBuilder,
-    private router: Router,
     private sharedService: SharedDataService
   ) {}
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      nomePessoa: this.fb.control(null),
-    });
+    this.opcoesFiltroEfetivo = [
+      {name: 'Ativo', value: 1},
+      {name: 'Tarefa', value: 2},
+      {name: 'Civil', value: 3}
+  ];
     this.dtString = this.dtAtual.toLocaleDateString('pt-BR', {
       timeZone: 'UTC',
     });
@@ -72,38 +75,71 @@ export class EfetivoConsultaContainerComponent implements OnInit {
       icon: 'pi pi-home',
       url: environment.FRONT_URL,
     };
-    this.sharedService.currentMessage.subscribe(() =>{
-      if (JSON.parse(sessionStorage.getItem('unidade'))) {
-        this.unidadeId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
-        this.nomeUnidade = JSON.parse(
-          sessionStorage.getItem('unidade')
-        )?.siglaUnidade.toLowerCase();
+    this.sharedService.currentMessage.subscribe((message) =>{
+      if (message.id != this.orgId) {
+        this.orgId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
+        this.orgServicoId = JSON.parse(sessionStorage.getItem('unidade'))?.id;
+        this.nomeUnidade = JSON.parse(sessionStorage.getItem('unidade'))?.sigla
+        this.updateTable({ first: 0, rows: 10 });
       } else {
-        this.unidadeId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id.toString(): '0000';
-        this.nomeUnidade = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.siglaUnidade.toLowerCase(): 'não encontrado';
+        this.orgId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id : '0000';
+        this.orgServicoId = this.userService?.user?.organizacao !=null ? this.userService?.user?.organizacao?.id : '0000';
+        this.nomeUnidade = this.userService?.user?.organizacao?.sigla
       }
-      this.updateTable({ first: 0, rows: 10 })
     });
+  }
+
+  selectTipoEfetivo(formValue: any){
+    if(formValue == 1){
+      this.situacao = ['ATIVO'];
+      this.isTtc = '-';
+      this.sort = {sort: 'numeroAntiguidade'};
+      this.updateTable({first: this.first, rows:this.rowsCount});
+    }
+    if(formValue == 2){
+      this.situacao =  ['INAT'];
+      this.isTtc = 'TTC';
+      this.sort = {sort: 'numeroPosto'+ ',' +'dataPromocaoAtual'};
+      this.updateTable({first: 0, rows:this.rowsCount});
+    }
+    if(formValue == 3) {
+      this.situacao = ['CVL'];
+      this.isTtc = '-';
+      this.sort = {sort: 'numeroAntiguidade'};
+      this.updateTable({first: this.first, rows:this.rowsCount});
+    }
+  }
+
+  pessoaFilter(event: any){
+    if(event){
+      this.nomePessoa = event;
+      this.updateTable({first: 0, rows:0})
+    }else {
+      this.nomePessoa = null
+      this.isTtc = '-'
+      this.situacao = ['ATIVO']
+    }
   }
 
   updateTable(event: LazyLoadEvent): void {
     this.rowsCount = event.rows;
     this.first = event.first;
     this.fakeArrayRows = new Array(event.rows).fill({});
-
     const page = { page: event.first / event.rows };
     const size = { size: event.rows };
-    const pessoa = { nomePessoa: this.form?.value?.nomePessoa?.value };
-    const unidade = { unidadeId: this.unidadeId };
-
+    const pessoa = { nomePessoa: this.nomePessoa };
+    const organizacao = { orgId: this.orgId };
+    const organizacaoServico = { orgServicoId: this.orgServicoId };
+    const situacao= { inAtivo: this.situacao}
+    const tipoEfetivo = { ttc: this.isTtc};
     let searchObject = {};
     if (event.sortField) {
       const sort = {
         sort: `${event.sortField},${event.sortOrder === 1 ? 'ASC' : 'DESC'}`,
       };
-      searchObject = Object.assign({}, unidade, pessoa, page, size, sort);
+      searchObject = Object.assign({}, organizacao,organizacaoServico,pessoa,situacao,tipoEfetivo,page,size,this.sort);
     } else {
-      searchObject = Object.assign({}, unidade, pessoa, page, size);
+      searchObject = Object.assign({}, organizacao,organizacaoServico,pessoa,situacao,tipoEfetivo,page,size,this.sort);
     }
 
     this.loading.start();
@@ -130,33 +166,33 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   }
 
   delete(id: number): void {
-    this.confirmationService.confirm({
-      message: 'Deseja excluir esta pessoa?',
-      accept: () => {
-        this.loading.start();
-        this.subs$.push(
-          this.pessoaService.delete(id).subscribe(
-            () => {
-              this.updateTable({ first: 0, rows: this.rowsCount });
-              this.loading.end();
-              this.messageService.add({
-                severity: 'success',
-                summary: 'Sucesso',
-                detail: 'Pessoa excluida com sucesso',
-                life: 3000,
-              });
-            },
-            (_e: any) =>
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Erro',
-                detail: 'Erro ao excluir pessoa',
-                life: 3000,
-              })
-          )
-        );
-      },
-    });
+    // this.confirmationService.confirm({
+    //   message: 'Deseja excluir esta pessoa?',
+    //   accept: () => {
+    //     this.loading.start();
+    //     this.subs$.push(
+    //       this.pessoaService.delete(id).subscribe(
+    //         () => {
+    //           this.updateTable({ first: 0, rows: this.rowsCount });
+    //           this.loading.end();
+    //           this.messageService.add({
+    //             severity: 'success',
+    //             summary: 'Sucesso',
+    //             detail: 'Pessoa excluida com sucesso',
+    //             life: 3000,
+    //           });
+    //         },
+    //         (_e: any) =>
+    //           this.messageService.add({
+    //             severity: 'error',
+    //             summary: 'Erro',
+    //             detail: 'Erro ao excluir pessoa',
+    //             life: 3000,
+    //           })
+    //       )
+    //     );
+    //   },
+    // });
   }
 
   ngOnDestroy(): void {
@@ -166,58 +202,37 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   }
 
   searchPessoas(event: any): void {
-    this.subs$.push(
-      this.pessoaService
-        .getAllSearch({
-          nomePessoa: event.query,
-          unidadeId: this.unidadeId,
-        })
-        .subscribe((response: { content: any }) => {
-          this.pessoas = response.content.map(
-            (pessoas: {
-              nomePessoa: string;
-              nomeGuerra: string;
-              posto: Posto;
-            }) => ({
-              label: pessoas.nomePessoa,
-              title: pessoas.posto.siglaPosto + ' ' + pessoas.nomeGuerra,
-              value: pessoas.nomePessoa,
-            })
-          );
-        })
-    );
+    if(event){
+      let searchObject = Object.assign({
+        nomePessoa: event.query,
+        orgId: this.orgId,
+        orgServicoId: this.orgServicoId,
+        inAtivo: this.situacao,
+        ttc: this.isTtc }, this.sort);
+      this.subs$.push(
+        this.pessoaService
+          .getAllSearch(searchObject)
+          .subscribe((response: { content: any }) => {
+            this.pessoas = response.content.map(
+              (pessoas: {
+                nome: string;
+                nomeGuerra: string;
+                posto: Posto;
+              }) => ({
+                label: pessoas.nome,
+                title: pessoas.posto ? pessoas.posto + ' '+ pessoas.nomeGuerra : "CV " + pessoas.nomeGuerra,
+                value: pessoas.nome,
+              })
+            );
+          })
+      );
+    } else {
+     this.selectTipoEfetivo(1);
+    }
   }
 
   onClear(): void {
-    this.form.reset();
     this.updateTable({ first: 0, rows: this.rowsCount });
-  }
-
-  createMenuItens(): MenuItem[] {
-    return [
-      {
-        label: 'Editar',
-        icon: 'pi pi-pencil',
-        routerLink: ['', 'editar', this.pessoaSelecDropdown?.id],
-        disabled: true,
-      },
-      {
-        label: 'Detalhe Pessoa',
-        icon: 'pi pi-info-circle',
-        routerLink: [
-          '/efetivo/detalhe/',
-          'pessoa',
-          this.pessoaSelecDropdown?.id,
-        ],
-        disabled: this.actionDisable()
-      },
-      {
-        label: 'Excluir',
-        icon: 'pi pi-trash',
-        command: () => this.delete(this.pessoaSelecDropdown?.id),
-        disabled: this.actionDisable(),
-      },
-    ];
   }
 
   handleBreadcrumbClick(e: any) {
@@ -227,14 +242,9 @@ export class EfetivoConsultaContainerComponent implements OnInit {
     }
   }
 
-  onDropdownClick($event: any, pessoa: any): void {
-    this.pessoaSelecDropdown = pessoa;
-    this.menuItems = this.createMenuItens();
-  }
-
   actionDisable(): boolean {
     if (
-      this.userService.user?.roles?.includes('ROLE_ADMINISTRADOR')
+      this.userService.user?.roles?.includes('ROLE_GERENTE_SPM' ||'ROLE_ADMINISTRADOR')
     ) {
       return false;
     }
@@ -242,9 +252,11 @@ export class EfetivoConsultaContainerComponent implements OnInit {
   }
 
   gerarRelatorio() {
+    let params = {};
+    params = Object.assign({},{organizacaoServicoId: this.orgServicoId},  {tipoEfetivo: this.isTtc}, {situacao: this.situacao})
     this.loading.start();
     this.subs$.push(
-      this.relatorioService.gerarRelatorio(this.unidadeId).subscribe(
+      this.relatorioService.gerarRelatorio(this.orgId,params).subscribe(
         (response) => {
           let blob = new Blob([response], { type: 'application/pdf' });
           const url = window.URL.createObjectURL(blob);

@@ -1,20 +1,20 @@
 ::ng-deep .pi-spinner {
     visibility: hidden;
-  
+
   }
-  
+
   :host {
     display: block;
-  
+
     section.l-finor-cadastro-container {
       header {
         overflow: hidden;
-  
+
         div.l-finor-cadastro-container__header {
           background-color: var(--lighter-grey);
           border-bottom: 1px solid var(--light-grey);
           width: 100%;
-  
+
           .l-finor-cadastro-container__title-wrapper {
             span.l-finor-cadastro-container__idf {
               display: inline-block;
@@ -25,7 +25,7 @@
               background-color: var(--light-grey);
               border-radius: 4px;
             }
-  
+
             h2.l-finor-cadastro-container__title {
               font-weight: 600;
               font-size: 2rem;
@@ -33,15 +33,15 @@
               margin: 0;
               padding: 0;
             }
-  
+
             min-height: 4.5rem;
           }
         }
       }
-  
+
       section.l-finor-cadastro-container__body {
         position: relative;
-  
+
         &::before {
           content: ' ';
           position: absolute;
@@ -53,21 +53,21 @@
           background-color: var(--lighter-grey);
           border-bottom: 1px solid var(--light-grey);
         }
-  
+
         .l-finor-cadastro-container__tab-header {
           .l-finor-cadastro-container__tab-header-title,
           .l-finor-cadastro-container__tab-header-step {
             display: block;
           }
-  
+
           .l-finor-cadastro-container__tab-header-step {
             display: block;
             font-size: 0.857143rem;
             line-height: 0.857143rem;
-  
+
             height: 1.29rem;
             width: 1.29rem;
-  
+
             background: var(--primary);
             border-radius: 50%;
             color: var(--white);
@@ -79,7 +79,6 @@
     .dt-vencida {
       font-weight: 700;
       color: #FF5252;
-      text-decoration: line-through;
   }
 
   .dt-proximo-vencimento {

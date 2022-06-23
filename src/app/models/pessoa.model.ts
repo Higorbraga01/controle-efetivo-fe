@@ -1,12 +1,7 @@
-import {OrganizacaoResponse} from './organizacao.model';
-import { BaseModel } from './base.model';
 import {BaseSearch} from './base-search';
 import { Inspecao } from './inspecao.model';
-import { Especialidade } from './Especialidade';
-import { Posto } from './Posto';
-import { Quadro } from './Quadro';
 import { Setor } from './Setor';
-import { Unidade } from './Unidade';
+import { LocalTrabalhoPessoa } from './local-trabalho-pessoa.model';
 
 export interface PessoaSearch extends BaseSearch {
   nrCpf?: string;
@@ -47,28 +42,51 @@ export interface PessoaRequest {
 
 
 export interface Pessoa {
-  id?:                     number;
-  unidade?:                Unidade;
-  nomePessoa?:             string;
-  posto?:                  Posto;
-  nomeGuerra?:             string;
-  inAtivo?:                string;
-  especialidade?:          Especialidade;
-  codigoSubEspecialidade?: number;
-  numeroIdentidade?:       string;
-  siglaOrgaoEspedidor?:    string;
-  numeroCpf?:              string;
-  numeroSaram?:            string;
-  codigoSexo?:             string;
-  quadro?:                 Quadro;
-  dataIncorporacao?:       Date;
-  dataBaixa?:              Date;
-  nomeEmail?:              string;
-  numeroTelefone?:         null;
-  dataNascimento?:         Date;
-  numeroRegistroCnh?:      null;
-  codigoCategoriaCnh?:     null;
-  dataValidadeCnh?:        null;
+  id?:                      string;
+  numeroMatriculaSiape?:    null;
+  cpf?:                     string;
+  nome?:                    string;
+  siglaSituacao?:           string;
+  posto?:                   string;
+  numeroPosto?:             string;
+  numeroAntiguidade?:       string;
+  nomeGuerra?:              string;
+  dataPraca?:               Date;
+  postoNomeGuerra?:         string;
+  quadro?:                  string;
+  especialidade?:           string;
+  nomeEspecialidade?:       string;
+  tarefaTempoCerto?:        string;
+  organizacaoId?:           string;
+  organizacaoSigla?:        string;
+  organizacaoServicoId?:    string;
+  organizacaoServicoSigla?: string;
+  dataNascimento?:          Date;
+  sexo?:                    string;
+  raca?:                    string;
+  primeiraPromocao?:        string;
+  dataPromocaoAtual?:       Date;
+  nomePais?:                string;
+  nomeCidade?:              string;
+  siglaEstado?:             string;
+  identidadeMilitar?:       string;
+  identidadeCivil?:         string;
+  dataEmissaoCivil?:        string;
+  nomeOrgaoEmissorCivil?:   string;
+  numeroPisPasep?:          string;
+  altura?:                  string;
+  peso?:                    string;
+  tipoSangueRh?:            string;
+  locaisTrabalho?:         LocalTrabalhoPessoa[];
   inspecoes?:              Inspecao[];
   setores?:                Setor[];
+  reengajamentos?:         Reengajamento[];
+  foto?: string;
+}
+
+export interface Reengajamento {
+  idDataInicio?: Date,
+  dataFim?: Date,
+  numeroDocumento: string,
+  observacao: string
 }

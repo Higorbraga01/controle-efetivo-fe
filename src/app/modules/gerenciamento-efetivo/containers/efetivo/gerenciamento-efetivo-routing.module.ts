@@ -7,18 +7,27 @@ import { EfetivoDetalheContainerComponent } from './efetivo-detalhe-container/ef
 const routes: Routes = [
   {
     path: '',
+    data: {
+      roles: ['GERENTE_SPM']
+    },
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     component: EfetivoConsultaContainerComponent,
   },
   {
-    path: 'cadastro/pessoa',
+    path: 'cadastro',
+    data: {
+      roles: ['ADMINISTRADOR']
+    },
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     component: EfetivoCadastroContainerComponent,
   },
   {
     path: 'detalhe/pessoa/:id',
+    data: {
+      roles: ['GERENTE_SPM']
+    },
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     component: EfetivoDetalheContainerComponent,

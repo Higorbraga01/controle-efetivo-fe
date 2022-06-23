@@ -1,3 +1,4 @@
+import { InspecaoFiltroComponent } from './../../components/inspecao-filtro/inspecao-filtro.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -32,6 +33,7 @@ import { GerenciamentoInspecaoRoutingModule } from './gerenciamento-inspecao-rou
 import { InspecaoConsultaContainerComponent } from './inspecao-consulta-container/inspecao-consulta-container.component';
 import { InspecaoDetalheContainerComponent } from './inspecao-detalhe-container/inspecao-detalhe-container.component';
 import { InspecaoCadastroContainerComponent } from './inspecao-cadastro-container/inspecao-cadastro-container.component';
+import {AvatarModule} from 'primeng/avatar';
 
 
 @NgModule({
@@ -39,6 +41,7 @@ import { InspecaoCadastroContainerComponent } from './inspecao-cadastro-containe
     InspecaoConsultaContainerComponent,
     InspecaoDetalheContainerComponent,
     InspecaoCadastroContainerComponent,
+    InspecaoFiltroComponent
   ],
   imports: [
     CommonModule,
@@ -69,7 +72,8 @@ import { InspecaoCadastroContainerComponent } from './inspecao-cadastro-containe
     TabMenuModule,
     BreadcrumbModule,
     RadioButtonModule,
-    InputMaskModule
+    InputMaskModule,
+    AvatarModule
   ],
   providers: [ConfirmationService],
 })

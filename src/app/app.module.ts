@@ -45,7 +45,7 @@ const authProvider = authProviderBuilder({
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' },
     authProvider,
-    { provide: 'API_ENDPOINT', useValue: environment.BASE_API_URL },
+    { provide: 'API_ENDPOINT', useValue: environment.API_URL },
   ],
   bootstrap: [AppComponent]
 })

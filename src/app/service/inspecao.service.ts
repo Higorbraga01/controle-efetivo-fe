@@ -52,7 +52,7 @@ export class InspecaoService {
     this.removeEmptyFields(search)
     const params = this.buildHttpParams(search);
     return this.http
-      .get<Pageable<Inspecao>>(`${this.endpoint}/inspecoes?${ params }`,)
+      .get<Pageable<Inspecao>>(`${this.endpoint}/inspecoes`,{ params })
       .pipe(take(1));
   }
 
@@ -60,7 +60,7 @@ export class InspecaoService {
     return this.http
       .delete<any>(`${this.endpoint}/inspecoes/${ id }`,)
   }
-  
+
   findByID(id: number): Observable<Inspecao> {
     return this.http
       .get<Inspecao>(`${this.endpoint}/inspecoes/${ id }`,)

@@ -1,5 +1,8 @@
 export const environment = {
-  production: true,
+  production: false,
+  homolog: true,
+  development: false,
+  version: '1.0.0',
 
   KEYCLOAK_URL: 'https://auth.homolog.ccarj.intraer/auth/',
   KEYCLOAK_REALM: 'FAB',

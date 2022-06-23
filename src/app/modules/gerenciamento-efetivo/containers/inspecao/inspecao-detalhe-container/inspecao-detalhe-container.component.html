@@ -4,15 +4,7 @@
       <div class="l-main-grid">
         <div class="col-12 xl-10 col-offset-1"></div>
         <div
-          class="
-            l-finor-cadastro-container__title-wrapper
-            col-12
-            xl-10
-            flex
-            align-items-center
-            justify-content-between
-            mb-3
-          "
+          class="l-finor-cadastro-container__title-wrapper col-12 xl-10 flex align-items-center justify-content-between mb-3"
         >
           <div>
             <h2 class="l-finor-cadastro-container__title ml-3">
@@ -38,41 +30,132 @@
       </div>
       <div *ngIf="!blocked" class="formgrid grid">
         <div class="col-12">
-          <div class="flex justify-content-center">
-            <label>Dados do inspecionado</label>
-          </div>
-          <div class="mt-3 mb-3 flex justify-content-center">
-            {{ inspecao?.pessoa.posto.siglaPosto }}
-            {{ inspecao?.pessoa.dataBaixa ? "R/1" : "" }}
-            {{
-              inspecao?.pessoa.especialidade.siglaEspecialidade
-                ? inspecao?.pessoa.especialidade.siglaEspecialidade
-                : "-"
-            }}
-            {{ inspecao?.pessoa.nomePessoa }}
+          <p-divider align="center">
+            <span class="p-tag">Inspecionado</span>
+          </p-divider>
+        </div>
+        <div class="col-12">
+          <div class="ml-3 mt-3 mb-3 flex">
+            <div>
+              <p-avatar
+              *ngIf="!inspecao?.pessoaInspecionada?.foto"
+              icon="pi pi-user"
+              shape="circle"
+              size="xlarge"
+            ></p-avatar>
+              <p-avatar
+              *ngIf="inspecao?.pessoaInspecionada?.foto"
+              [label]=""
+              [image]="inspecao?.pessoaInspecionada?.foto ? 'data:image/jpeg;base64,'+inspecao?.pessoaInspecionada?.foto : null"
+              shape="circle"
+              size="xlarge"
+            ></p-avatar>
+            </div>
+            <div class="flex ml-3 align-items-center">
+              {{
+                inspecao?.pessoaInspecionada.posto
+                  ? inspecao?.pessoaInspecionada.posto
+                  : "CV"
+              }}
+              {{
+                inspecao?.pessoaInspecionada.tarefaTempoCerto == "TTC"
+                  ? "R/1"
+                  : ""
+              }}
+              {{
+                inspecao?.pessoaInspecionada.especialidade
+                  ? inspecao?.pessoaInspecionada.especialidade
+                  : ""
+              }}
+              {{ inspecao?.pessoaInspecionada.nome }}
+            </div>
           </div>
         </div>
         <div class="col-12">
-          <div class="flex justify-content-around">
-            <div class="col-3">
-              <label>Letra Inspeção</label>
+          <p-divider align="center">
+            <span class="p-tag">Finalidade</span>
+          </p-divider>
+        </div>
+        <div class="col-12">
+          <div class="flex">
+            <div class="col-2">
+              <label>Codigo finalidade</label>
               <div class="mt-2">
-                {{ inspecao?.finalidadeInspecao.codigo }}
+                {{ inspecao?.finalidade.sigla }}
               </div>
             </div>
-            <div class="col-2 mt-2">
-              <label>Resultado Inspeção</label>
-              <div class="mt-2">
-                {{ inspecao?.julgamentoJuntaSaude.codigo }}
+            <div class="col-10">
+              <label>Descrição finalidade </label>
+              <div class="mt-2 text-justify">
+                {{ inspecao?.finalidade.descricao }}
               </div>
             </div>
-            <div class="col-2 mt-2">
-              <label>Realizada em</label>
+          </div>
+        </div>
+        <div class="col-12">
+          <p-divider align="center">
+            <span class="p-tag">Tipo de junta de saude</span>
+          </p-divider>
+        </div>
+        <div class="col-12">
+          <div class="flex">
+            <div class="col-2">
+              <label>Codigo classificação</label>
               <div class="mt-2">
-                {{ inspecao?.dataRealizacao | date: "dd/MM/yyyy" }}
+                {{ inspecao?.tipoJunta?.sigla }}
               </div>
             </div>
-            <div class="col-2 mt-2">
+            <div class="col-10">
+              <label>Descrição classificação </label>
+              <div class="mt-2 text-justify">
+                {{ inspecao?.tipoJunta?.nome }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <p-divider align="center">
+            <span class="p-tag">Subclassificação</span>
+          </p-divider>
+        </div>
+        <div class="col-12">
+          <div class="flex">
+            <div class="col-2">
+              <label>Codigo subclassificação</label>
+              <div class="mt-2">N/A</div>
+            </div>
+            <div class="col-10">
+              <label>Descrição subclassificação </label>
+              <div class="mt-2 text-justify">N/A</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <p-divider align="center">
+            <span class="p-tag">Status Inspeção</span>
+          </p-divider>
+        </div>
+        <div class="col-12">
+          <div class="flex">
+            <div class="col-2">
+              <label>Codigo resultado</label>
+              <div class="mt-2">
+                {{ inspecao?.statusInspsau?.nome }}
+              </div>
+            </div>
+            <div class="col-6">
+              <label>Descrição resultado</label>
+              <div class="mt-2">
+                {{ inspecao?.statusInspsau?.descricao }}
+              </div>
+            </div>
+            <div class="col-2">
+              <label>Data agendamento</label>
+              <div class="mt-2">
+                {{ inspecao?.agenda?.dataAgenda ?(inspecao?.agenda?.dataAgenda | date: "dd/MM/yyyy"): "N/A" }}
+              </div>
+            </div>
+            <div class="col-2">
               <label>Data de Validade</label>
               <div class="mt-2">
                 <div
@@ -81,7 +164,11 @@
                     'dt-valida': hoje.isBefore(inspecao?.dataValidade)
                   }"
                 >
-                  {{ inspecao?.dataValidade | date: "dd/MM/yyyy" }}
+                  {{
+                    inspecao?.dataValidade != null
+                      ? (inspecao?.dataValidade | date: "dd/MM/yyyy")
+                      : "N/A"
+                  }}
                 </div>
               </div>
             </div>

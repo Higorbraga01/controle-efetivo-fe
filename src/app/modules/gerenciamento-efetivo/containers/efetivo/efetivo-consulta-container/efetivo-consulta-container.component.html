@@ -10,54 +10,35 @@
             (onItemClick)="handleBreadcrumbClick($event)"
           ></p-breadcrumb>
         </div>
+      </div>
     </div>
-  </div>
   </header>
   <div class="l-main-grid">
     <p-card styleClass="mt-3 p-reset">
       <p-toolbar styleClass="mb-2">
-        <form [formGroup]="form">
           <div class="p-toolbar-group-left">
-            <div class="mr-5">
-              <p-autoComplete
-                field="label"
-                [suggestions]="pessoas"
-                (onClear)="searchPessoas({})"
-                emptyMessage="Pessoa não encontrado"
-                (completeMethod)="searchPessoas($event)"
-                (onSelect)="updateTable({ first: 0, rows: 10 })"
-                [dropdown]="true"
-                formControlName="nomePessoa"
-                [minLength]="3"
-                [placeholder]="'Filtrar por Pessoa'"
-                pTooltip="Digite o nome"
-                [size]="40"
-              >
-                <ng-template let-pessoas pTemplate="item">
-                  <div class="dropdown-item-container">
-                    <span style="font-weight: bolder; font-size: 1.2rem">{{
-                      pessoas.label
-                    }}</span>
-                    <br />
-                    <span style="font-size: 1rem">{{ pessoas.title }}</span>
-                  </div>
-                </ng-template>
-              </p-autoComplete>
-            </div>
+              <div class="mr-2">
+              <controle-efetivo-filtro
+              [tiposEfetivo]="opcoesFiltroEfetivo"
+              [pessoas]="pessoas"
+              (formValue)="selectTipoEfetivo($event)"
+              (tipoEfetivo)="searchPessoas($event)"
+              (tableUpdate)="pessoaFilter($event)"
+            ></controle-efetivo-filtro>
           </div>
-        </form>
+          </div>
         <div class="p-toolbar-group-right">
           <button
-          style="margin-right: 0.5rem"
-          pRipple
-          pButton
-          class="p-button-sm"
-          label="GERAR LISTA DO EFETIVO"
-          icon="pi pi-download"
-          (click)="gerarRelatorio()"
-          [disabled]="actionDisable()"
-        ></button>
-          <button
+            style="margin-right: 0.5rem"
+            pRipple
+            pButton
+            class="p-button-sm"
+            label="GERAR LISTA DO EFETIVO"
+            icon="pi pi-download"
+            (click)="gerarRelatorio()"
+            [disabled]="actionDisable()"
+          ></button>
+          <!-- <button
             style="margin-right: 0.5rem"
             pRipple
             pButton
@@ -65,22 +46,24 @@
             label="LIMPAR"
             icon="pi pi-replay"
             (click)="onClear()"
-          ></button>
-          <button
-            [routerLink]="'cadastro/pessoa'"
+          ></button> -->
+          <!-- <button
+            *ngIf="this.userService.user?.roles?.includes('ROLE_ADMINISTRADOR')"
+            [routerLink]="'cadastro'"
             pButton
             pRipple
             class="p-button-sm"
             label="CADASTRAR PESSOA"
             icon="pi pi-plus"
-            [disabled]="actionDisable()"
-          ></button>
+            disabled="true"
+          ></button> -->
         </div>
       </p-toolbar>
       <p-table
         #tablepessoa
         [value]="pessoasList"
         [(first)]="first"
+        sortField="numeroAntiguidade"
         (onLazyLoad)="updateTable($event)"
         [lazy]="true"
         [showCurrentPageReport]="true"
@@ -103,7 +86,7 @@
         <ng-template pTemplate="header">
           <tr>
             <th class="text-center">Posto / Quadro / Especialidade / Nome</th>
-            <th class="text-center">Saram / Cpf </th>
+            <th class="text-center">Saram / Cpf</th>
             <th class="text-center" pSortableColumn="dataNascimento">
               Dt Nasc
               <p-sortIcon field="dataNascimento"></p-sortIcon>
@@ -112,69 +95,111 @@
               Dt Praça
               <p-sortIcon field="dataIncorporacao"></p-sortIcon>
             </th>
-            <th class="text-center">
-              Nr Identidade
-            </th>
-            <th class="text-center">
-              Email
-            </th>
-            <th class="text-center">
-              Setores
-            </th>
+            <th class="text-center">Nr Identidade</th>
+            <th class="text-center">Setores</th>
             <th class="text-center">Ações</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-pessoa let-expanded="expanded">
           <tr>
             <td class="text-left">
-              <b> 
-              {{ pessoa?.posto?.siglaPosto }}
+              <b>
+                {{ pessoa?.posto }}
               </b>
-              {{ pessoa?.dataBaixa != null ? "R/1" : ""}}
-              {{ 
-                pessoa?.quadro == null ? " ":
-                pessoa?.quadro?.siglaQuadro.includes("QSS") || pessoa?.quadro?.siglaQuadro.includes("QSD") ? pessoa?.quadro?.siglaQuadro+ " "+ pessoa?.especialidade?.siglaEspecialidade.substring(4,7):
-                pessoa?.especialidade?.siglaAbreviada == null ? pessoa?.quadro?.siglaQuadro:
-                pessoa?.quadro?.siglaQuadro+ " " +pessoa?.especialidade?.siglaAbreviada
+              {{ pessoa?.dataBaixa != null ? "R/1" : "" }}
+              {{
+                pessoa?.quadro == null
+                  ? " "
+                  : pessoa?.quadro + " " + pessoa?.especialidade
               }}
-              {{ pessoa?.nomePessoa }} 
-              (<b>{{ pessoa?.nomeGuerra }}</b>)
+              {{ pessoa?.nome }}
+              (<b>{{ pessoa?.nomeGuerra }}</b
+              >)
             </td>
             <td class="text-justify">
-              (<b>{{ pessoa?.numeroSaram == null ? "-": pessoa.numeroSaram }}</b>)
-              {{ pessoa.numeroCpf == null ? "" : pessoa?.numeroCpf?.substring(0,3)+"."+ pessoa?.numeroCpf?.substring(3,6)+"."+ pessoa?.numeroCpf?.substring(6,9)+"-"+ pessoa?.numeroCpf?.substring(9,11) }}
+              (<b>{{ pessoa?.id == null ? "-" : pessoa.id }}</b
+              >)
+              {{
+                pessoa.cpf == null
+                  ? ""
+                  : pessoa?.cpf?.substring(0, 3) +
+                    "." +
+                    pessoa?.cpf?.substring(3, 6) +
+                    "." +
+                    pessoa?.cpf?.substring(6, 9) +
+                    "-" +
+                    pessoa?.cpf?.substring(9, 11)
+              }}
             </td>
             <td class="text-center">
               {{ pessoa?.dataNascimento | date: "dd/MM/yyyy" }}
             </td>
             <td class="text-center">
               {{
-                pessoa?.dataIncorporacao
-                  ? (pessoa?.dataIncorporacao | date: "dd/MM/yyyy")
+                pessoa?.dataPraca
+                  ? (pessoa?.dataPraca | date: "dd/MM/yyyy")
                   : "-"
               }}
             </td>
             <td class="text-center">
-              {{ pessoa?.numeroIdentidade ? pessoa?.numeroIdentidade+ " ( "+ (pessoa?.siglaOrgaoEspedidor ? pessoa?.siglaOrgaoEspedidor: "-" ) +" )" : "-" }}
+              {{
+                pessoa?.identidadeMilitar
+                  ? pessoa?.identidadeMilitar
+                    ? pessoa?.identidadeMilitar + " COMAER"
+                    : ""
+                  : "-"
+              }}
             </td>
             <td class="text-center">
-              {{ pessoa?.nomeEmail ? pessoa?.nomeEmail : "-" }}
+              <button
+                type="button"
+                pButton
+                pRipple
+                [pRowToggler]="pessoa"
+                class="p-button-text p-button-rounded p-button-plain"
+                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+              ></button>
             </td>
             <td class="text-center">
-              <button type="button" pButton pRipple [pRowToggler]="pessoa" 
-              class="p-button-text p-button-rounded p-button-plain" 
-              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'">
-            </button>
-            </td>
-            <td class="text-center">
-              <div class="align-items-center">
-                <p-splitButton
-                  label="Ações"
-                  [model]="menuItems"
-                  (onDropdownClick)="onDropdownClick($event, pessoa)"
-                  appendTo="body"
-                >
-                </p-splitButton>
+              <div class="flex justify-content-center align-items-center">
+                <a style="cursor: pointer">
+                  <button
+                    *ngIf="
+                      this.userService?.user?.roles.includes('ROLE_GERENTE_SPM')
+                    "
+                    pTooltip="Detalhar"
+                    pButton
+                    icon="pi pi-info-circle"
+                    routerLink="/efetivo/detalhe/pessoa/{{ pessoa.id }}"
+                    class="p-button-raised p-button-text primary mr-2"
+                  ></button>
+                  <button
+                    *ngIf="
+                      this.userService?.user?.roles.includes(
+                        'ROLE_ADMINISTRADOR'
+                      )
+                    "
+                    disabled="true"
+                    pTooltip="Editar"
+                    pButton
+                    icon="pi pi-pencil"
+                    routerLink=""
+                    class="p-button-raised p-button-text p-button-success mr-2"
+                  ></button>
+                  <button
+                    *ngIf="
+                      this.userService?.user?.roles.includes(
+                        'ROLE_ADMINISTRADOR'
+                      )
+                    "
+                    disabled="true"
+                    pTooltip="Excluir"
+                    pButton
+                    icon="pi pi-trash"
+                    class="p-button-raised p-button-text p-button-danger"
+                    (click)="delete(pessoa.id)"
+                  ></button>
+                </a>
               </div>
             </td>
           </tr>
@@ -182,22 +207,26 @@
 
         <ng-template pTemplate="rowexpansion" let-pessoa>
           <tr>
-              <td class="text-center">-</td>
-              <td class="text-center">-</td>
-              <td class="text-center">-</td>
-              <td class="text-center">-</td>
-              <td class="text-center">-</td>
-              <td class="text-center">-</td>
-              <td class="text-center">
-                <ng-template ngFor let-setor [ngForOf]="pessoa?.setores" let-i="index">
-                  <div class="table-setor-sigla">
-                    {{ setor.siglaSetor}}
-                  </div>
-                  </ng-template>
-              </td>
-              <td class="text-center">-</td>
+            <td class="text-center">-</td>
+            <td class="text-center">-</td>
+            <td class="text-center">-</td>
+            <td class="text-center">-</td>
+            <td class="text-center">-</td>
+            <td class="text-center">
+              <ng-template
+                ngFor
+                let-local
+                [ngForOf]="pessoa?.locaisTrabalho"
+                let-i="index"
+              >
+                <div class="table-setor-sigla">
+                  {{ local.organizacaoSigla }}
+                </div>
+              </ng-template>
+            </td>
+            <td class="text-center">-</td>
           </tr>
-      </ng-template>
+        </ng-template>
         <ng-template pTemplate="loadingbody">
           <tr *ngFor="let row of fakeArrayRows">
             <td *ngFor="let col of fakeArrayColumns">

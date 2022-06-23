@@ -2,14 +2,6 @@
   visibility: hidden;
 }
 
-$gutter: 0.714286rem !default;
-
-.l-main-grid {
-  max-width: 1024px !important;
-  margin: calc(#{$gutter} * -1) auto;
-  padding: 0 $gutter;
-}
-
 :host {
   display: block;
 
@@ -86,7 +78,6 @@ $gutter: 0.714286rem !default;
   .dt-vencida {
     font-weight: 700;
     color: #ff5252;
-    text-decoration: line-through;
   }
 
   .dt-proximo-vencimento {

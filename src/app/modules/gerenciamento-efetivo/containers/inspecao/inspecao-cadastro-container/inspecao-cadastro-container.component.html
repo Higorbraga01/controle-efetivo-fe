@@ -4,15 +4,7 @@
       <div class="grid l-main-grid">
         <div class="col-12 xl-10"></div>
         <div
-          class="
-            l-finor-cadastro-container__title-wrapper
-            col-12
-            xl-10
-            flex
-            align-items-center
-            justify-content-between
-            mb-3
-          "
+          class="l-finor-cadastro-container__title-wrapper col-12 xl-10 flex align-items-center justify-content-between mb-3"
         >
           <div>
             <h2 class="l-finor-cadastro-container__title ml-3">
@@ -61,7 +53,7 @@
                 [minLength]="3"
                 [placeholder]="'Seleciona uma pesssoa'"
                 pTooltip="Digite o nome"
-                [size]="100"
+                styleClass="flex"
               >
                 <ng-template let-pessoas pTemplate="item">
                   <div class="dropdown-item-container">
@@ -74,17 +66,16 @@
                 </ng-template>
               </p-autoComplete>
               <small
-              class="p-invalid"
-              *ngIf="
-                form.get('pessoaId').invalid &&
-                form.get('pessoaId').touched
-              "
-            >
-              Selecione uma pessoa
-            </small>
+                class="p-invalid"
+                *ngIf="
+                  form.get('pessoaId').invalid && form.get('pessoaId').touched
+                "
+              >
+                Selecione uma pessoa
+              </small>
             </div>
-            </div>
-            <div class="md:col-3">
+          </div>
+          <div class="md:col-3">
             <div class="p-input-filled">
               <label>Data Inspeção *</label>
               <p-calendar
@@ -92,6 +83,10 @@
                 placeholder="Data inspeção"
                 styleClass="flex"
                 dateFormat="dd/mm/yy"
+                (onSelect)="onSelectDataRealizacao($event)"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                yearRange="2019:2100"
               >
               </p-calendar>
               <small
@@ -104,8 +99,8 @@
                 Selecione uma data
               </small>
             </div>
-            </div>
-            <div class="md:col-3">
+          </div>
+          <div class="md:col-3">
             <div class="p-input-filled">
               <label>Data Validade *</label>
               <p-calendar
@@ -113,34 +108,210 @@
                 placeholder="Data validade"
                 styleClass="flex"
                 dateFormat="dd/mm/yy"
+                (onSelect)="onSelectDataValidade($event)"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                yearRange="2019:2100"
               >
               </p-calendar>
+              <small
+              class="p-invalid p-0 mt-0"
+              *ngIf="
+                form.get('dataValidade').getError('dataIncorreta')
+              "
+            >
+              A data de validade não pode ser menor que data da inspeção
+              </small>
               <small
                 class="p-invalid p-0 mt-0"
                 *ngIf="
                   form.get('dataValidade').invalid &&
-                  form.get('dataValidade').touched
+                  form.get('dataValidade').touched &&
+                  !form.get('dataValidade').getError('dataIncorreta')
                 "
               >
                 Selecione uma data
               </small>
             </div>
           </div>
+          <div class="md:col-6">
+            <div class="p-input-filled">
+              <label>Classificação do inspecionado*</label>
+              <p-dropdown
+                [options]="classificacoes"
+                [filter]="true"
+                filterBy="descricao"
+                [showClear]="true"
+                emptyFilterMessage="Nenhuma classificação encontrada"
+                formControlName="classificacaoInspecaoId"
+                (onChange)="onSelectClassificacao($event)"
+                optionValue="id"
+                optionLabel="descricao"
+                placeholder="classificação do inspecionado"
+                styleClass="flex"
+                appendTo="body"
+              >
+                <ng-template let-classificacao pTemplate="item">
+                  <div class="dropdown-item-container" style="white-space: normal; width: 589px;">
+                    <span style="font-weight: bolder; font-size: 1.2rem">{{
+                      classificacao.codigo
+                    }}</span>
+                    <br />
+                    <span style="font-size: 1rem">{{
+                      classificacao.descricao
+                    }}</span>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+              <small
+                class="p-invalid"
+                *ngIf="
+                  form.get('classificacaoInspecaoId').invalid &&
+                  form.get('classificacaoInspecaoId').touched
+                "
+              >
+                Selecione uma classificação
+              </small>
+            </div>
+            <div class="p-input-filled">
+              <label>Subclassificação do inspecionado (caso possua)</label>
+              <p-dropdown
+                [options]="subClassificacoes"
+                [filter]="true"
+                filterBy="descricao"
+                [showClear]="true"
+                emptyFilterMessage="Nenhuma subclassificacao encontrada"
+                formControlName="subClassificacaoInspecaoId"
+                optionValue="id"
+                optionLabel="descricao"
+                placeholder="subclassificacao do inspecionado"
+                styleClass="flex"
+                appendTo="body"
+              >
+              <ng-template let-subclassificacao pTemplate="item">
+                <div class="dropdown-item-container" style="white-space: normal; width: 589px;">
+                  <span style="font-weight: bolder; font-size: 1.2rem">{{
+                    subclassificacao.codigo
+                  }}</span>
+                  <br />
+                  <span style="font-size: 1.0rem;">{{
+                    subclassificacao.descricao
+                  }}</span>
+                </div>
+              </ng-template>
+              </p-dropdown>
+              <small
+                class="p-invalid"
+                *ngIf="
+                  form.get('subClassificacaoInspecaoId').invalid &&
+                  form.get('subClassificacaoInspecaoId').touched
+                "
+              >
+                Selecione uma subclassificação
+              </small>
+            </div>
+          </div>
           <div class="md:col-3">
             <div class="p-input-filled">
-              <label>Tipo de Inspeção *</label>
+              <label>Finalidade da Inspeção *</label>
               <p-dropdown
-                [options]="tipoInspecao"
+                [options]="finalidadesInspecao"
                 [filter]="true"
-                filterBy="letra"
+                filterBy="descricao"
                 [showClear]="true"
-                emptyFilterMessage="Nenhuma especialidade encontrada"
-                formControlName="julgamentoJuntaSaudeId"
-                optionValue="letra"
-                optionLabel="letra"
-                placeholder="Letra"
+                emptyFilterMessage="nenhuma finalidade encontrada"
+                (onChange)="onSelectFinalidade($event)"
+                formControlName="finalidadeInspecaoId"
+                optionValue="id"
+                optionLabel="descricao"
+                placeholder="finalidade inspeção"
                 styleClass="flex"
               >
+              <ng-template let-finalidade pTemplate="item">
+                <div class="dropdown-item-container" style="white-space: normal; width: 200px;">
+                  <span style="font-weight: bolder; font-size: 1.2rem">{{
+                    finalidade.codigo
+                  }}</span>
+                  <br />
+                  <span style="font-size: 1.0rem;">{{
+                    finalidade.descricao
+                  }}</span>
+                </div>
+              </ng-template>
+              </p-dropdown>
+              <small
+                class="p-invalid"
+                *ngIf="
+                  form.get('finalidadeInspecaoId').invalid &&
+                  form.get('finalidadeInspecaoId').touched
+                "
+              >
+                Selecione o tipo de inspeção
+              </small>
+            </div>
+            <div class="p-input-filled">
+              <label>Subfinalidade da Inspeção (caso possua) </label>
+              <p-dropdown
+                [options]="subFinalidadesInspecao"
+                [filter]="true"
+                filterBy="descricao"
+                [showClear]="true"
+                emptyFilterMessage="nenhuma subfinaldiade encontrada"
+                formControlName="subFinalidadeInspecaoId"
+                optionValue="id"
+                optionLabel="descricao"
+                placeholder="selecione uma subfinalidade"
+                styleClass="flex"
+              >
+              <ng-template let-subfinalidade pTemplate="item">
+                <div class="dropdown-item-container" style="white-space: normal; width: 200px;">
+                  <span style="font-weight: bolder; font-size: 1.2rem">{{
+                    subfinalidade.codigo
+                  }}</span>
+                  <br />
+                  <span style="font-size: 1.0rem;">{{
+                    subfinalidade.descricao
+                  }}</span>
+                </div>
+              </ng-template>
+              </p-dropdown>
+              <small
+                class="p-invalid"
+                *ngIf="
+                  form.get('subFinalidadeInspecaoId').invalid &&
+                  form.get('subFinalidadeInspecaoId').touched
+                "
+              >
+                Selecione o tipo de inspeção
+              </small>
+            </div>
+          </div>
+          <div class="md:col-3">
+            <div class="p-input-filled">
+              <label>Resultado Inspeção *</label>
+              <p-dropdown
+                [options]="julgamentosInspecao"
+                [filter]="true"
+                filterBy="descricao"
+                [showClear]="true"
+                emptyFilterMessage="nenhum resultado encontrado"
+                formControlName="julgamentoJuntaSaudeId"
+                optionValue="id"
+                optionLabel="descricao"
+                placeholder="selecione o julgamento da junta de saude"
+                styleClass="flex"
+              >
+              <ng-template let-julgamento pTemplate="item">
+                <div class="dropdown-item-container" style="white-space: normal; width: 200px;">
+                  <span style="font-weight: bolder; font-size: 1.2rem">{{
+                    julgamento.codigo
+                  }}</span>
+                  <br />
+                  <span style="font-size: 1.0rem;">{{
+                    julgamento.descricao
+                  }}</span>
+                </div>
+              </ng-template>
               </p-dropdown>
               <small
                 class="p-invalid"
@@ -149,36 +320,9 @@
                   form.get('julgamentoJuntaSaudeId').touched
                 "
               >
-                Selecione o tipo de inspeção
+                Selecione o resultado
               </small>
             </div>
-            </div>
-            <div class="md:col-3">
-            <div class="p-input-filled">
-                <label>Resultado Inspeção *</label>
-                <p-dropdown
-                  [options]="tiposResultados"
-                  [filter]="true"
-                  filterBy="tipo"
-                  [showClear]="true"
-                  emptyFilterMessage="Nenhuma especialidade encontrada"
-                  formControlName="finalidadeInspecaoId"
-                  optionValue="tipo"
-                  optionLabel="tipo"
-                  placeholder="Resultado"
-                  styleClass="flex"
-                >
-                </p-dropdown>
-                <small
-                  class="p-invalid"
-                  *ngIf="
-                    form.get('finalidadeInspecaoId').invalid &&
-                    form.get('finalidadeInspecaoId').touched
-                  "
-                >
-                  Selecione o resultado
-                </small>
-              </div>
           </div>
         </form>
       </p-card>

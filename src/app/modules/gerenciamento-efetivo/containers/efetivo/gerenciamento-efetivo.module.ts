@@ -32,6 +32,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { ConfirmationService } from 'primeng/api';
 import { EfetivoDetalheContainerComponent } from './efetivo-detalhe-container/efetivo-detalhe-container.component';
 import {InputMaskModule} from 'primeng/inputmask';
+import { EfetivoFiltroComponent } from '../../components/efetivo-filtro/efetivo-filtro.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import {InputMaskModule} from 'primeng/inputmask';
     EfetivoConsultaContainerComponent,
     EfetivoCadastroContainerComponent,
     EfetivoDetalheContainerComponent,
+    EfetivoFiltroComponent
   ],
   imports: [
     CommonModule,

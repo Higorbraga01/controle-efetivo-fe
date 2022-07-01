@@ -27,3 +27,9 @@ export interface OrganizacaoSearch extends BaseSearch{
   nome?: string;
   sigla?: string;
 }
+
+export interface QuadroSinotico {
+  siglaPosto?: string;
+  situacao?: string;
+  quantidade?: number;
+}

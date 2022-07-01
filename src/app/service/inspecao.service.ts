@@ -71,8 +71,12 @@ export class InspecaoService {
       .get<number>(`${this.endpoint}/inspecoes/organizacao/count/${organizacaoId}`,)
   }
 
-  buscarInspecoesVencidasPorOrganizacao(organizacaoId: string): Observable<Pageable<Inspecao>> {
+  buscarInspecoesVencidasPorOrganizacao(orgid:string,search:any): Observable<Pageable<Inspecao>> {
+    this.removeEmptyFields(search)
+    const params = this.buildHttpParams(search);
     return this.http
-      .get<Pageable<Inspecao>>(`${this.endpoint}/inspecoes/vencidas/${organizacaoId}`,)
+      .get<Pageable<Inspecao>>(`${this.endpoint}/inspecoes/vencidas/${orgid}`,{
+        params
+      })
   }
 }

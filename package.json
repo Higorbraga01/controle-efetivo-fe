@@ -7,7 +7,6 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-
     "build:controle:dev": "ng build controle-efetivo --build-optimizer=false && mvn clean install -f build/controle-efetivo",
     "build:controle:hom": "ng build  controle-efetivo --build-optimizer=false --configuration=homolog && mvn clean install -f build/controle-efetivo",
     "build:controle:prod": "ng build  controle-efetivo --build-optimizer=false --configuration production && mvn clean install -f build/controle-efetivo"
@@ -23,6 +22,7 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
+    "chart.js": "^3.8.0",
     "keycloak-angular": "^9.1.0",
     "keycloak-js": "^10.0.2",
     "moment": "^2.29.1",

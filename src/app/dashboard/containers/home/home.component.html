@@ -5,94 +5,26 @@
 
     </ng-template>
     <div class="grid">
-      <div class="col-2">
+      <div class="col-3">
         <p-card  styleClass="p-card-shadow">
-          <div class="flex">
-           <div class="mr-1"> Total Efetivo:</div>
+          <div class="text-center">
+           <div class=""> Total Efetivo</div>
             <div><b>{{totalEfetivoOm}}</b></div>
           </div>
         </p-card>
       </div>
-      <div class="col-3">
+      <div class="col-5">
         <p-card styleClass="p-card-shadow">
-          <div class="flex">
-           <div class="mr-1"> Total de inspeções cadastradas:</div>
+          <div class=" text-center">
+           <div class=""> Total de inspeções cadastradas</div>
             <div><b>{{totalInspecoesEfetivoOm}}</b></div>
           </div>
         </p-card>
       </div>
     </div>
-    <ng-template pTemplate="footer">
-      <div class="grid">
-        <div class="col-12">
-          <label>Militares com inspeções vencidas</label>
-        </div>
-        <div class="col-12">
-     <button class="ml-2" type="button" (click)="showDialog()" pButton icon="pi pi-external-link" label="Mostrar"></button>
-     <p-dialog header="Lista de militares com inspeções vencidas" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body" [(visible)]="dialogVisible">
-      <p-table
-        #tableInspecao
-        [value]="inspecoesVencidas"
-        (onLazyLoad)="updateTable($event)"
-        [lazy]="true"
-        [rowHover]="true"
-        [showCurrentPageReport]="true"
-        [paginator]="true"
-        [loading]="loadingData"
-        [showLoader]="false"
-        [rows]="10"
-        rowGroupMode="rowspan" groupRowsBy="pessoaInspecionada.id" responsiveLayout="scroll"
-        [totalRecords]="totalRecords"
-        [rowsPerPageOptions]="[10, 20, 30]"
-        currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} registros"
-        styleClass="p-datatable-gridlines p-datatable-striped  p-datatable-sm-custom"
-        dataKey="id"
-        rowExpandMode="single"
-        sortField="pessoaInspecionada.numeroAntiguidade"
-      >
-        <ng-template pTemplate="emptymessage">
-          <tr>
-            <td [attr.colspan]="8">Nenhum dado encontrado</td>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="header">
-          <tr>
-            <th class="text-center">Inspecionado</th>
-            <th class="text-center">Finalidade</th>
-            <th class="text-center">Data Agendamento</th>
-            <th class="text-center">Data Validade</th>
-            <th class="text-center">Organizacao</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-inspecao let-rowIndex="rowIndex" let-rowgroup="rowgroup" let-rowspan="rowspan">
-          <tr>
-            <td class="text-center" *ngIf="rowgroup" [attr.rowspan]="rowspan">
-              <div class="font-bold">{{ inspecao?.pessoaInspecionada?.postoNomeGuerra }}</div>
-            </td>
-            <td class="text-center">
-              {{ inspecao?.finalidade?.sigla }}
-            </td>
-            <td class="text-center">
-              {{ inspecao?.agenda?.dataAgenda ? (inspecao?.agenda?.dataAgenda | date: "dd/MM/yyyy"): "N/A" }}
-            </td>
-            <td class="text-center">
-              <div>
-                {{ inspecao?.dataValidade ? (inspecao?.dataValidade | date: "dd/MM/yyyy"): "N/A" }}
-              </div>
-            </td>
-            <td class="text-center">
-              {{ inspecao?.organizacao?.sigla }}
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-         <ng-template pTemplate="footer">
-             <button type="button" pButton pRipple icon="pi pi-times" (click)="dialogVisible=false" label="Fechar" class="p-button-text"></button>
-         </ng-template>
-     </p-dialog>
+    <div class="col-8">
+      <p-chart type="bar" [data]="data" [options]="chartOptions"></p-chart>
     </div>
-    </div>
-    </ng-template>
 </p-card>
 </div>
 </section>

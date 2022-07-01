@@ -7,7 +7,7 @@ import {CardModule} from 'primeng/card';
 import {DialogModule} from 'primeng/dialog';
 import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
-
+import {ChartModule} from 'primeng/chart';
 
 
 @NgModule({
@@ -19,8 +19,9 @@ import {ButtonModule} from 'primeng/button';
     CardModule,
     DialogModule,
     TableModule,
-    ButtonModule
-    
+    ButtonModule,
+    ChartModule
+
   ]
 })
 export class DashboardModule { }

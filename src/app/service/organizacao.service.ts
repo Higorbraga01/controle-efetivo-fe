@@ -1,4 +1,4 @@
-import { Organizacao } from './../models/organizacao.model';
+import { Organizacao, QuadroSinotico } from './../models/organizacao.model';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -53,5 +53,9 @@ export class OrganizacaoService {
 
   buscarOrganizacaoPorId(organizacaoId: string): Observable<Organizacao> {
     return this.http.get<Organizacao>(`${this.endpoint}/organizacoes/${organizacaoId}`)
+  }
+
+  carregarQuadroSiniticoPorOrganizacao(organizacaoId: string): Observable<QuadroSinotico[]> {
+    return this.http.get<QuadroSinotico[]>(`${this.endpoint}/organizacoes/quadro-sinotico/${organizacaoId}`)
   }
 }

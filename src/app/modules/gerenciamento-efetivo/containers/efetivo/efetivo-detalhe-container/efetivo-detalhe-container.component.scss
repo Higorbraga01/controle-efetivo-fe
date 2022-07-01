@@ -3,6 +3,15 @@
 
   }
 
+
+::ng-deep .p-card .p-card-content {
+  padding: 0;
+}
+
+.field.grid, .formgrid.grid {
+  margin-top: 10px;
+}
+
   :host {
     display: block;
 

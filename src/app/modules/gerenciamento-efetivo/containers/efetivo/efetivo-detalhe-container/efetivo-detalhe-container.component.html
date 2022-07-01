@@ -32,301 +32,321 @@
         </div>
       </header>
       <div class="l-main-grid">
-        <p-card styleClass="mt-3 p-reset">
+        <p-card styleClass="mt-3">
           <div *ngIf="blocked"  class="custom-skeleton p-p-4">
             <p-skeleton width="100%" height="640px"></p-skeleton>
           </div>
-          <div *ngIf="!blocked" class="formgrid grid">
-            <div class="col-2">
-              <label>Posto</label>
-              <div class="mt-2">
-                {{ pessoa?.posto? pessoa?.posto: "-" }}
-                {{ pessoa?.tarefaTempoCerto == "TTC" ? "R/1" : "" }}
+          <p-tabView styleClass="tabview-custom">
+            <p-tabPanel>
+                <ng-template pTemplate = "header">
+                    <i class="pi pi-user mr-2"></i>
+                    <span>Dados pessoais</span>
+                </ng-template>
+                <div *ngIf="!blocked" class="formgrid grid">
+                  <div class="col-2">
+                    <label>Posto</label>
+                    <div >
+                      {{ pessoa?.posto? pessoa?.posto: "-" }}
+                      {{ pessoa?.tarefaTempoCerto == "TTC" ? "R/1" : "" }}
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <label>Quadro</label>
+                    <div >
+                      {{
+                        pessoa?.quadro ? pessoa?.quadro : "-"
+                      }}
+                    </div>
+                  </div>
+                  <div class="col-2 mt-2">
+                    <label>Especialidade</label>
+                    <div >
+                      {{
+                        pessoa?.especialidade
+                          ? pessoa?.especialidade
+                          : "-"
+                      }}
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <label>Nome completo</label>
+                    <div >
+                      {{ pessoa?.nome }}
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <label>Nome de guerra</label>
+                    <div >
+                      {{ pessoa?.nomeGuerra }}
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <label>Origem</label>
+                    <div >
+                      {{ pessoa?.nomePais }}
+                    </div>
+                  </div>
+                  <div class="col-2 mt-2">
+                    <label>Data Praça</label>
+                    <div >
+                      {{ pessoa?.dataPraca ? (pessoa?.dataPraca | date: "dd/MM/yyyy"): "-" }}
+                    </div>
+                  </div>
+                  <div class="col-2 mt-2">
+                    <label>Data Nascimento</label>
+                    <div >
+                      {{ pessoa?.dataNascimento | date: "dd/MM/yyyy" }}
+                    </div>
+                  </div>
+                  <div class="col-2 mt-2">
+                    <label>Primeira Promoção</label>
+                    <div >
+                      {{pessoa?.primeiraPromocao ? pessoa?.primeiraPromocao : "Não disponivel" }}
+                    </div>
+                  </div>
+                  <div class="col-2 mt-2">
+                    <label>Promoção Atual</label>
+                    <div >
+                      {{pessoa?.dataPromocaoAtual ? (pessoa?.dataPromocaoAtual | date: "dd/MM/yyyy"): "Não disponivel" }}
+                    </div>
+                  </div>
+                  <div class="col-2 mt-2">
+                    <label>Unidade</label>
+                    <div >
+                      {{ pessoa?.organizacaoSigla }}
+                    </div>
+                  </div>
+                  <div class="col-2 mt-2">
+                    <label>Unidade Serviço</label>
+                    <div >
+                      {{ pessoa?.organizacaoServicoSigla }}
+                    </div>
+                  </div>
+                  <div class="col-12 flex mt-2 p-0">
+                    <div class="col-2 mt-2">
+                      <label>Identidade Militar</label>
+                      <div >
+                        {{ pessoa?.identidadeMilitar ? pessoa?.identidadeMilitar : "-" }}
+                      </div>
+                    </div>
+                    <div class="col-2 mt-2">
+                      <label>Identidade Civil</label>
+                      <div >
+                        {{ pessoa?.identidadeCivil ? pessoa?.identidadeCivil : "-" }}
+                      </div>
+                    </div>
+                    <div class="col-2 mt-2">
+                      <label>Orgão Expedidor</label>
+                      <div >
+                        {{
+                          pessoa?.nomeOrgaoEmissorCivil ? pessoa?.nomeOrgaoEmissorCivil : "Não disponivel"
+                        }}
+                      </div>
+                    </div>
+                    <div class="col-2 mt-2">
+                      <label>Data emissão</label>
+                      <div >
+                        {{pessoa?.dataEmissaoCivil ? (pessoa?.dataEmissaoCivil | date: "dd/MM/yyyy"): "Não disponivel" }}
+                      </div>
+                    </div>
+                    <div class="col-2 mt-2">
+                      <label>Saram</label>
+                      <div >
+                        {{ pessoa?.id ? pessoa?.id : "-" }}
+                      </div>
+                    </div>
+                    <div class="col-2 mt-2">
+                      <label>Cpf</label>
+                      <div >
+                        {{ pessoa?.cpf ? pessoa?.cpf : "-" }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 flex mt-2 p-0">
+                    <div class="col-2 mt-2">
+                      <label>PIS/PASEP</label>
+                      <div >
+                        {{ pessoa?.numeroPisPasep ? pessoa?.numeroPisPasep : "Não disponivel" }}
+                      </div>
+                    </div>
+                    <div class="col-2 mt-2">
+                      <label>Matricula Siape</label>
+                      <div >
+                        {{ pessoa?.numeroMatriculaSiape ? pessoa?.numeroMatriculaSiape : "Não disponivel" }}
+                      </div>
+                    </div>
+                    <div class="col-2 mt-2">
+                      <label>Situação</label>
+                      <div >
+                        {{
+                          pessoa?.siglaSituacao ? pessoa?.siglaSituacao : "-"
+                        }}
+                      </div>
+                    </div>
+                    <div class="col-2 mt-2">
+                      <label>Sexo / Tipo sanguíneo</label>
+                      <div >
+                        {{ pessoa?.sexo ? (pessoa?.sexo.includes("M") ? "Masculino ": "Feminino ") +" "+  pessoa?.tipoSangueRh : "-" }}
+                      </div>
+                    </div>
+                    <div class="col-2 mt-2">
+                      <label>Raça</label>
+                      <div >
+                        {{ pessoa?.raca ? pessoa?.raca : "Não disponivel" }}
+                      </div>
+                    </div>
+                    <div class="col-2 mt-2">
+                      <label>Local de Nascimento</label>
+                      <div >
+                        {{ pessoa?.nomeCidade ? pessoa?.nomeCidade +" "+ pessoa?.siglaEstado: "Não disponivel" }}
+                      </div>
+                    </div>
+                  </div>
               </div>
-            </div>
-            <div class="col-2">
-              <label>Quadro</label>
-              <div class="mt-2">
-                {{
-                  pessoa?.quadro ? pessoa?.quadro : "-"
-                }}
-              </div>
-            </div>
-            <div class="col-2 mt-2">
-              <label>Especialidade</label>
-              <div class="mt-2">
-                {{
-                  pessoa?.especialidade
-                    ? pessoa?.especialidade
-                    : "-"
-                }}
-              </div>
-            </div>
-            <div class="col-2">
-              <label>Nome completo</label>
-              <div class="mt-2">
-                {{ pessoa?.nome }}
-              </div>
-            </div>
-            <div class="col-2">
-              <label>Nome de guerra</label>
-              <div class="mt-2">
-                {{ pessoa?.nomeGuerra }}
-              </div>
-            </div>
-            <div class="col-2">
-              <label>Origem</label>
-              <div class="mt-2">
-                {{ pessoa?.nomePais }}
-              </div>
-            </div>
-            <div class="col-2 mt-2">
-              <label>Data Praça</label>
-              <div class="mt-2">
-                {{ pessoa?.dataPraca ? (pessoa?.dataPraca | date: "dd/MM/yyyy"): "-" }}
-              </div>
-            </div>
-            <div class="col-2 mt-2">
-              <label>Data Nascimento</label>
-              <div class="mt-2">
-                {{ pessoa?.dataNascimento | date: "dd/MM/yyyy" }}
-              </div>
-            </div>
-            <div class="col-2 mt-2">
-              <label>Primeira Promoção</label>
-              <div class="mt-2">
-                {{pessoa?.primeiraPromocao ? pessoa?.primeiraPromocao : "Não disponivel" }}
-              </div>
-            </div>
-            <div class="col-2 mt-2">
-              <label>Promoção Atual</label>
-              <div class="mt-2">
-                {{pessoa?.dataPromocaoAtual ? (pessoa?.dataPromocaoAtual | date: "dd/MM/yyyy"): "Não disponivel" }}
-              </div>
-            </div>
-            <div class="col-2 mt-2">
-              <label>Unidade</label>
-              <div class="mt-2">
-                {{ pessoa?.organizacaoSigla }}
-              </div>
-            </div>
-            <div class="col-2 mt-2">
-              <label>Unidade Serviço</label>
-              <div class="mt-2">
-                {{ pessoa?.organizacaoServicoSigla }}
-              </div>
-            </div>
-            <div class="col-12 flex mt-2 p-0">
-              <div class="col-2 mt-2">
-                <label>Identidade Militar</label>
-                <div class="mt-2">
-                  {{ pessoa?.identidadeMilitar ? pessoa?.identidadeMilitar : "-" }}
+            </p-tabPanel>
+            <p-tabPanel header="Header II"  *ngIf="pessoa?.reengajamentos != null">
+                <ng-template pTemplate = "header">
+                    <i class="pi pi-calendar mr-2"></i>
+                    <span>Reengajamentos</span>
+                </ng-template>
+                <div class="col-12 flex mt-2 p-0">
+                  <div class="col-12">
+                    <div>
+                      <p-table
+                        styleClass="p-datatable-striped"
+                        [value]="pessoa?.reengajamentos"
+                      >
+                        <ng-template pTemplate="header">
+                          <tr>
+                            <th style="max-width:100px" class="text-center">Data Início</th>
+                            <th style="max-width:100px" class="text-center">Data Fim</th>
+                            <th>Observação</th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-reengajamento>
+                          <tr>
+                            <td style="max-width:100px" class="text-center">{{ reengajamento?.idDataInicio  | date: "dd/MM/yyyy"}}</td>
+                            <td style="max-width:100px" class="text-center">{{ reengajamento?.dataFim  | date: "dd/MM/yyyy"}}</td>
+                            <td >{{ reengajamento?.observacao}}</td>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                          <tr>
+                            <td colspan="4" class="justify-content-center">
+                              <span>
+                                {{ "Nenhum reengajamento encontrado" | uppercase }}
+                              </span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                  </div>
+            </p-tabPanel>
+            <p-tabPanel header="Header III">
+                <ng-template pTemplate = "header">
+                    <i class="pi pi-search mr-2"></i>
+                    <span>Inspeções</span>
+                </ng-template>
+                <div class="col-12 flex mt-2 p-0">
+                <div class="col-12">
+                  <div>
+                    <p-table
+                      styleClass="p-datatable-striped"
+                      [value]="pessoa?.inspecoes"
+                    >
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th style="max-width:100px">Finalidade</th>
+                          <th style="min-width:300px">Status</th>
+                          <th>
+                            Data Realizacao
+                          </th>
+                          <th>
+                            Data Validade
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-inspecao>
+                        <tr>
+                          <td style="max-width:100px" class="font-bold ">{{ inspecao?.finalidade?.sigla }}</td>
+                          <td style="min-width:300px" class="text-left">{{ inspecao?.statusInspsau?.descricao }}</td>
+                          <td >{{ inspecao?.agenda?.dataAgenda? (inspecao?.agenda?.dataAgenda  | date: "dd/MM/yyyy"): "N/A"  }}</td>
+                          <td>
+                            <div
+                              [ngClass]="{
+                                'dt-vencida': hoje.isSameOrAfter(
+                                  inspecao.dataValidade
+                                ),
+                                'dt-valida': hoje.isBefore(inspecao.dataValidade)
+                              }"
+                            >
+                              {{ inspecao?.dataValidade ? (inspecao.dataValidade  | date: "dd/MM/yyyy"): "Não disponivel" }}
+                            </div>
+                          </td>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="emptymessage">
+                        <tr>
+                          <td colspan="4" class="justify-content-center">
+                            <span>
+                              {{ "Nenhuma inspecao encontrada" | uppercase }}
+                            </span>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+                </div>
+            </p-tabPanel>
+            <p-tabPanel header="Header IV">
+              <ng-template pTemplate = "header">
+                  <i class="pi pi-folder mr-2"></i>
+                  <span>Setores</span>
+              </ng-template>
+              <div class="col-12 flex mt-2 p-0">
+                <div class="col-12">
+                  <!-- <label>Setores Alocados</label> -->
+                  <div>
+                    <p-table
+                      styleClass="p-datatable-striped"
+                      [value]="pessoa?.locaisTrabalho"
+                    >
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th>Código</th>
+                          <th>Sigla</th>
+                          <th>Nome</th>
+                          <th>Subordinação</th>
+                          <th>Extinto</th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-local>
+                        <tr>
+                          <td class="">{{ local?.codigoLocalTrabalho }}</td>
+                          <td class="">{{ local?.organizacaoSigla }}</td>
+                          <td class="">{{ local?.nomeLocalTrabalho }}</td>
+                          <td class="">{{ local?.siglaLocalSubornidada ? local.siglaLocalSubornidada : "N/A"  }}</td>
+                          <td class="">{{ local?.situacao }}</td>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="emptymessage">
+                        <tr>
+                          <td colspan="4" class="justify-content-center">
+                            <span>
+                              {{ "Nenhum local de trabalho encontrado" | uppercase }}
+                            </span>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
                 </div>
               </div>
-              <div class="col-2 mt-2">
-                <label>Identidade Civil</label>
-                <div class="mt-2">
-                  {{ pessoa?.identidadeCivil ? pessoa?.identidadeCivil : "-" }}
-                </div>
-              </div>
-              <div class="col-2 mt-2">
-                <label>Orgão Expedidor</label>
-                <div class="mt-2">
-                  {{
-                    pessoa?.nomeOrgaoEmissorCivil ? pessoa?.nomeOrgaoEmissorCivil : "Não disponivel"
-                  }}
-                </div>
-              </div>
-              <div class="col-2 mt-2">
-                <label>Data emissão</label>
-                <div class="mt-2">
-                  {{pessoa?.dataEmissaoCivil ? (pessoa?.dataEmissaoCivil | date: "dd/MM/yyyy"): "Não disponivel" }}
-                </div>
-              </div>
-              <div class="col-2 mt-2">
-                <label>Saram</label>
-                <div class="mt-2">
-                  {{ pessoa?.id ? pessoa?.id : "-" }}
-                </div>
-              </div>
-              <div class="col-2 mt-2">
-                <label>Cpf</label>
-                <div class="mt-2">
-                  {{ pessoa?.cpf ? pessoa?.cpf : "-" }}
-                </div>
-              </div>
-            </div>
-            <div class="col-12 flex mt-2 p-0">
-              <div class="col-2 mt-2">
-                <label>PIS/PASEP</label>
-                <div class="mt-2">
-                  {{ pessoa?.numeroPisPasep ? pessoa?.numeroPisPasep : "Não disponivel" }}
-                </div>
-              </div>
-              <div class="col-2 mt-2">
-                <label>Matricula Siape</label>
-                <div class="mt-2">
-                  {{ pessoa?.numeroMatriculaSiape ? pessoa?.numeroMatriculaSiape : "Não disponivel" }}
-                </div>
-              </div>
-              <div class="col-2 mt-2">
-                <label>Situação</label>
-                <div class="mt-2">
-                  {{
-                    pessoa?.siglaSituacao ? pessoa?.siglaSituacao : "-"
-                  }}
-                </div>
-              </div>
-              <div class="col-2 mt-2">
-                <label>Sexo / Tipo sanguíneo</label>
-                <div class="mt-2">
-                  {{ pessoa?.sexo ? (pessoa?.sexo.includes("M") ? "Masculino ": "Feminino ") +" "+  pessoa?.tipoSangueRh : "-" }}
-                </div>
-              </div>
-              <div class="col-2 mt-2">
-                <label>Raça</label>
-                <div class="mt-2">
-                  {{ pessoa?.raca ? pessoa?.raca : "Não disponivel" }}
-                </div>
-              </div>
-              <div class="col-2 mt-2">
-                <label>Local de Nascimento</label>
-                <div class="mt-2">
-                  {{ pessoa?.nomeCidade ? pessoa?.nomeCidade +" "+ pessoa?.siglaEstado: "Não disponivel" }}
-                </div>
-              </div>
-            </div>
-            <div class="col-12 flex mt-2 p-0">
-              <div class="col-6" *ngIf="pessoa?.reengajamentos != null">
-                <label>Reengajamentos</label>
-                <div class="mt-2">
-                  <p-table
-                    styleClass="p-datatable-striped"
-                    [value]="pessoa?.reengajamentos"
-                    [scrollable]="true"
-                    scrollHeight="200px"
-                  >
-                    <ng-template pTemplate="header">
-                      <tr>
-                        <th style="max-width:100px" class="text-center">Data Início</th>
-                        <th style="max-width:100px" class="text-center">Data Fim</th>
-                        <th class="text-right">Observação</th>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-reengajamento>
-                      <tr>
-                        <td style="max-width:100px" class="text-center">{{ reengajamento?.idDataInicio  | date: "dd/MM/yyyy"}}</td>
-                        <td style="max-width:100px" class="text-center">{{ reengajamento?.dataFim  | date: "dd/MM/yyyy"}}</td>
-                        <td class="text-left">{{ reengajamento?.observacao}}</td>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="emptymessage">
-                      <tr>
-                        <td colspan="4" class="justify-content-center">
-                          <span>
-                            {{ "Nenhum reengajamento encontrado" | uppercase }}
-                          </span>
-                        </td>
-                      </tr>
-                    </ng-template>
-                  </p-table>
-                </div>
-              </div>
-              <div class="col-6">
-                <label>Inpeções realizadas</label>
-                <div class="mt-2">
-                  <p-table
-                    styleClass="p-datatable-striped"
-                    [value]="pessoa?.inspecoes"
-                    [scrollable]="true"
-                    scrollHeight="200px"
-                  >
-                    <ng-template pTemplate="header">
-                      <tr>
-                        <th style="max-width:100px">Finalidade</th>
-                        <th style="min-width:300px">Status</th>
-                        <th>
-                          Data Realizacao
-                        </th>
-                        <th>
-                          Data Validade
-                        </th>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-inspecao>
-                      <tr>
-                        <td style="max-width:100px" class="font-bold ">{{ inspecao?.finalidade?.sigla }}</td>
-                        <td style="min-width:300px" class="text-left">{{ inspecao?.statusInspsau?.descricao }}</td>
-                        <td class="text-right">{{ inspecao?.agenda?.dataAgenda? (inspecao?.agenda?.dataAgenda  | date: "dd/MM/yyyy"): "N/A"  }}</td>
-                        <td>
-                          <div
-                            [ngClass]="{
-                              'dt-vencida': hoje.isSameOrAfter(
-                                inspecao.dataValidade
-                              ),
-                              'dt-valida': hoje.isBefore(inspecao.dataValidade)
-                            }"
-                          >
-                            {{ inspecao?.dataValidade ? (inspecao.dataValidade  | date: "dd/MM/yyyy"): "Não disponivel" }}
-                          </div>
-                        </td>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="emptymessage">
-                      <tr>
-                        <td colspan="4" class="justify-content-center">
-                          <span>
-                            {{ "Nenhuma inspecao encontrada" | uppercase }}
-                          </span>
-                        </td>
-                      </tr>
-                    </ng-template>
-                  </p-table>
-                </div>
-              </div>
-              </div>
-            <div class="col-12 flex mt-2 p-0">
-              <div class="col-6">
-                <label>Setores Alocados</label>
-                <div class="mt-2">
-                  <p-table
-                    styleClass="p-datatable-striped"
-                    [value]="pessoa?.locaisTrabalho"
-                    [scrollable]="true"
-                    scrollHeight="200px"
-                  >
-                    <ng-template pTemplate="header">
-                      <tr>
-                        <th>Código</th>
-                        <th>Sigla</th>
-                        <th>Nome</th>
-                        <th>Subordinação</th>
-                        <th>Extinto</th>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-local>
-                      <tr>
-                        <td class="">{{ local?.codigoLocalTrabalho }}</td>
-                        <td class="">{{ local?.organizacaoSigla }}</td>
-                        <td class="">{{ local?.nomeLocalTrabalho }}</td>
-                        <td class="">{{ local?.siglaLocalSubornidada ? local.siglaLocalSubornidada : "N/A"  }}</td>
-                        <td class="">{{ local?.situacao }}</td>
-                      </tr>
-                    </ng-template>
-                    <ng-template pTemplate="emptymessage">
-                      <tr>
-                        <td colspan="4" class="justify-content-center">
-                          <span>
-                            {{ "Nenhum local de trabalho encontrado" | uppercase }}
-                          </span>
-                        </td>
-                      </tr>
-                    </ng-template>
-                  </p-table>
-                </div>
-              </div>
-            </div>
-        </div>
+              </p-tabPanel>
+        </p-tabView>
         </p-card>
       </div>
     </section>

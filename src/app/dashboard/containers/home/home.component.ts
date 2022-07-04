@@ -30,10 +30,7 @@ export class HomeComponent implements OnInit {
   public orgId: string;
   private sort = {sort: 'pessoaInspecionada.numeroPosto,pessoaInspecionada.numeroAntiguidade'};
   public data: any;
-  public dataset: { labels: string[]; datasets: { data: number[]; backgroundColor: string[]; hoverBackgroundColor: string[]; }[]; };
   public chartOptions: any;
-  public labels: string[];
-  public datatest: number[];
 
 
   constructor(
@@ -52,7 +49,7 @@ export class HomeComponent implements OnInit {
     this.inspecaoService.countInspecoesEfetivoOm(this.orgId).subscribe(totalInspecoes => this.totalInspecoesEfetivoOm = totalInspecoes);
     this.organizacaoService.carregarQuadroSiniticoPorOrganizacao(this.orgId).subscribe(res =>this.gerarChart(res));
     this.sharedService.currentMessage.subscribe(message => {
-      if(message.id) {
+      if(message.id && message.id != this.orgId) {
         this.orgId = message.id;
         this.siglaUnidadeSelecionada = message.sigla;
         this.pessoaService.countEfetivoOm(message.id).subscribe(totalChange => this.totalEfetivoOm = totalChange);
